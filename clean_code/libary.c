@@ -157,6 +157,8 @@ static char *Status_of_book(Bookstatus status)
 }
 void List_book_function(Libary *libary)
 {
+    if(libary->Bookcount == 0) 
+        printf("Empty");
     for ( int i= 0 ; i <= libary->Bookcount-1 ;i++)
     {
         printf("%3d %10s %10s %s\n",libary->Books_lib[i].ID_book,libary->Books_lib[i].Tittle,libary->Books_lib[i].Arthour,Status_of_book(libary->Books_lib[i].Status));
@@ -250,6 +252,8 @@ void Remove_user_fucnction(Libary *libary)
 }
 void List_user_fucntion(Libary *libary)
 {
+      if(libary->Usercount == 0) 
+        printf("Empty");
     for (int i= 0; i< libary->Usercount ;i++)
     {
         printf("%3d %20s %3d %3d \n",libary->user_libary[i].ID_user,libary->user_libary[i].Name_User,libary->user_libary[i].Borrowedbook,libary->user_libary[i].Borrowedcount);
@@ -372,6 +376,8 @@ void Return_book_fucntion(Libary *libary)
 }
 void List_borrow_book_fucntion(Libary *libary)
 {
+    if(libary->Bookcount == 0) 
+        printf("Empty");
     for ( int i= 0 ; i <= libary->Bookcount-1 ;i++)
     {
 
