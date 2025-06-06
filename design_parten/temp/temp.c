@@ -8,7 +8,7 @@ void init_temp()
 }
 float data_temp()
 {
-    return 20.5;
+    return 300.00;
 }
 
 sensor createmp(){
