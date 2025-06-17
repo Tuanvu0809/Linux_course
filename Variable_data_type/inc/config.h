@@ -35,9 +35,7 @@
         MODE Mode_sys;
     }SETTING;
  
-    STATUS init_pump();
-    void Set_for_auto(SETTING *mode);
-    void Set_for_manual(SETTING *mode);
+
 
 
     
