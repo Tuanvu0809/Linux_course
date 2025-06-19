@@ -1,37 +1,33 @@
 Smart Plant Watering System - SPWS
 
-
 🎯 MỤC TIÊU CHƯƠNG TRÌNH
 Thiết kế một hệ thống tưới cây tự động thông minh sử dụng cảm biến độ ẩm và nhiệt độ để tự động điều khiển bơm tưới nước. Người dùng có thể chuyển đổi giữa chế độ tự động và thủ công, đồng thời có thể kích hoạt tưới bằng nút bấm mô phỏng. Mọi trạng thái đều được in ra console để mô phỏng hoạt động của hệ thống nhúng.
 
 📁 TỔNG QUAN CÁC FILE
-Tên file	Vai trò
-main.c	Chương trình chính, vòng lặp hệ thống.
-config.h	Định nghĩa cấu hình, trạng thái, dữ liệu toàn cục.
-sensors.c/h	Mô phỏng đọc giá trị cảm biến độ ẩm và nhiệt độ.
-actuators.c/h	Điều khiển bơm và đèn LED trạng thái.
-buttons.c/h	Xử lý nút chuyển chế độ và nút tưới thủ công.
-watering_logic.c/h	Điều khiển logic tưới nước trong chế độ tự động.
+Tên file Vai trò
+main.c Chương trình chính, vòng lặp hệ thống.
+config.h Định nghĩa cấu hình, trạng thái, dữ liệu toàn cục.
+sensors.c/h Mô phỏng đọc giá trị cảm biến độ ẩm và nhiệt độ.
+actuators.c/h Điều khiển bơm và đèn LED trạng thái.
+buttons.c/h Xử lý nút chuyển chế độ và nút tưới thủ công.
+watering_logic.c/h Điều khiển logic tưới nước trong chế độ tự động.
 
 🧱 CẤU TRÚC DỮ LIỆU
-c
 Sao chép
 Chỉnh sửa
 typedef struct{
-    int Temperrature;
-    int Moisture;
+int Temperature;
+int Moisture;
 }data;
 
 Giữ giá trị độ ẩm đất và nhiệt độ không khí.
 
-
-
 typedef struct{
-    int moisture_min;
-    int moisture_max;
-    int times;
-    int check; 
-    MODE Mode_sys;
+int moisture_min;
+int moisture_max;
+int times;
+int check;
+MODE Mode_sys;
 }SETTING;
 Giữ các tham số cấu hình hệ thống và chế độ hoạt động.
 
@@ -48,7 +44,6 @@ Vào vòng lặp vô hạn để xử lý:
 Mô phỏng nhấn nút chuyển chế độ hoặc tưới thủ công ngẫu nhiên.
 
 Xử lý logic tưới nếu đang ở chế độ tự động/ chế độ tay.
-
 
 Sensors.c
 Hàm Read_sensors() mô phỏng giá trị cảm biến:
@@ -70,8 +65,6 @@ trạng thái bình thường: Tất cả Led tắt.
 trạng thái tưới: Led xanh sáng.
 trạng thái độ ẩm thấp: led vàng sáng.
 trạng thái hư hỏng : led đỏ sáng.( chưa có trường hợp này).
-
-
 
 buttons.c
 Set_for_auto():
@@ -96,7 +89,6 @@ Bật bơm.
 Tắt bơm.
 
 Mỗi lần đọc, cập nhật giá trị cảm biến và in trạng thái ra console.
-
 
 ✅ TÍNH NĂNG ĐÃ HOÀN THÀNH
 Đọc cảm biến mô phỏng (sử dụng random).

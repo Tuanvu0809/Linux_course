@@ -18,7 +18,7 @@ static int readMoisture(){
 void Read_TEMP_MOISTURE(){
     // read Temp and Moisture
 
-    sensor.Temperrature= 20;
+    sensor.Temperature = 20;
     sensor.Moisture = rand() % 100;
 
     // display 

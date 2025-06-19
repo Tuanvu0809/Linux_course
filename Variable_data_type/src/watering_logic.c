@@ -53,11 +53,11 @@ void Handle_Auto(SETTING *current)
             led = LED_NORMAL;
             pump=PUMP_OFF;
         }   
+       
             printf("%2ds  Status Pump:  ",i);
             Pump_operator();
-            printf(" Status led:  ");
+            printf(" Status for led:  ");
             Turn_led(led);
-          
             printf("\n");
 
     }
@@ -67,6 +67,8 @@ void Handle_Auto(SETTING *current)
 void Handle_Manual(SETTING *current)
 {
         /*check current not equal NULL*/
+    if(current == NULL )    return;
+
     if(current->Mode_sys != MODE_MANUAL) return;
     printf("  Status Pump:  ");
     Pump_operator();

@@ -23,7 +23,7 @@
     }LED_STATUS;
 
     typedef struct{
-        int Temperrature;
+        int Temperature;
         int Moisture;
     }data;
 

@@ -16,7 +16,7 @@ void Set_for_auto(SETTING *mode)
    
         printf("\n----AUTO-----\n");
         Read_TEMP_MOISTURE();
-        printf("TEMP = %d C || mois = %d \n", sensor.Temperrature,sensor.Moisture);
+        printf("TEMP = %d C || Moisture = %d \n", sensor.Temperature,sensor.Moisture);
 
         if(sensor.Moisture<mode->moisture_min){
             led = LED_LOW_MOISTURE_ALERT;
@@ -35,7 +35,7 @@ void Set_for_manual(SETTING *mode)
   
         printf("\n---Manual----\n");
         Read_TEMP_MOISTURE();
-        printf("TEMP = %d C || mois = %d ", sensor.Temperrature,sensor.Moisture);
+        printf("TEMP = %d C || Moisture = %d ", sensor.Temperature,sensor.Moisture);
         
         if(sensor.Moisture<mode->moisture_min){
             led = LED_LOW_MOISTURE_ALERT;
