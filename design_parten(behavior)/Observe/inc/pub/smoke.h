@@ -1,7 +1,7 @@
 #ifndef SMOKE_H
 #define SMOKE_H
 
-    #include "../pulisher.h"
+    #include "publisher.h"
 
     typedef enum{
         havesmoke=0,
