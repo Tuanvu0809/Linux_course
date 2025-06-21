@@ -10,7 +10,7 @@ int main()
         return 1;
     }
 
-    log_message(LOG_ERROR,"Important");
+    log_message(LOG_ERROR,"Important ok");
     log_message(LOG_DEBUG,"not seen");
     log_message(LOG_CRITICAL,"hi_lo");
     log_message(LOG_ALERT,"%s %s %s","test more","ok","excellent");
