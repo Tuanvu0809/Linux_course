@@ -2,8 +2,8 @@
 #include "..\inc\config.h"
 
 
-static void Status_mois(LED_STATUS led){
-    printf(" Status mesage: ");
+static void Status_moisture(LED_STATUS led){
+    printf(" Status message: ");
     switch(led){
         case LED_NORMAL:
             printf(" Normal");
@@ -56,6 +56,6 @@ void Turn_led(LED_STATUS led){
             break;
     }
 
-    Status_mois(led);
+    Status_moisture(led);
     
 }

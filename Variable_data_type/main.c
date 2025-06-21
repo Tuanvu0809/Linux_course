@@ -41,17 +41,17 @@ int main()
 
         switch (mode.Mode_sys)
         {
-        case MODE_AUTO:
-            Set_for_auto(&mode);
-            break;
-        case MODE_MANUAL:
-            Set_for_manual(&mode);
-            break;
-        case EXIT_CHOICE:
-            printf("Exit\n");
-            break;
-        default:
-            break;
+            case MODE_AUTO:
+                Set_for_auto(&mode);
+                break;
+            case MODE_MANUAL:
+                Set_for_manual(&mode);
+                break;
+            case EXIT_CHOICE:
+                printf("Exit\n");
+                break;
+            default:
+                break;
         }
 
     }while(mode.Mode_sys != EXIT_CHOICE);

@@ -12,11 +12,10 @@
 extern data sensor;
 extern LED_STATUS led;
 extern STATUS pump;
+
 void Pump_operator();
 void Turn_led(LED_STATUS led);
 void Read_TEMP_MOISTURE();
-
-
 
 void init_For_Auto(SETTING *want)
 {
