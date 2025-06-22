@@ -1,0 +1,12 @@
+[22-06-2025 11:20:04] [ERROR] [main.c:14] - Auto test
+[22-06-2025 11:20:04] [ERROR] [main.c:14] - Auto test
+[22-06-2025 11:20:04] [DEBUG] [main.c:15] - not seen
+[22-06-2025 11:20:04] [DEBUG] [main.c:15] - not seen
+[22-06-2025 11:20:04] [CRITICAL] [main.c:16] - hi_lo
+[22-06-2025 11:20:04] [CRITICAL] [main.c:16] - hi_lo
+[22-06-2025 11:20:04] [ALERT] [main.c:17] - test more ok excellent
+[22-06-2025 11:20:04] [ALERT] [main.c:17] - test more ok excellent
+[22-06-2025 11:20:04] [ERROR] [main.c:22] - seen
+[22-06-2025 11:20:04] [ERROR] [main.c:22] - seen
+[22-06-2025 11:20:04] [EMERGENCY] [main.c:23] -  NEED
+[22-06-2025 11:20:04] [EMERGENCY] [main.c:23] -  NEED
