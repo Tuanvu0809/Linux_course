@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "inc\log.h"
-#include <direct.h>
 
 int main()
 {
