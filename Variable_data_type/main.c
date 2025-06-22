@@ -37,7 +37,7 @@ int main()
     do {
 
         printf("\n Select mode: ");
-        scanf("%d",&mode.Mode_sys);
+        scanf("%d",(int*) &mode.Mode_sys);
 
         switch (mode.Mode_sys)
         {
