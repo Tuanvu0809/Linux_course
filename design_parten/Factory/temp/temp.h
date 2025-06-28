@@ -6,7 +6,7 @@
     
     void init_temp();
     float data_temp();
-    sensor createmp();
+    sensor creat_temp();
 
 
 #endif

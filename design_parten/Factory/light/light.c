@@ -12,7 +12,7 @@ float data_light()
     return 25;
 }
 
-sensor creatlight(){
+sensor creat_light(){
     sensor creat;
     creat.init = init_light;
     creat.data = data_light;

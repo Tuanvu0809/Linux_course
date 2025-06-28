@@ -13,10 +13,10 @@ sensor* CreatSensor(sensor_type type)
     switch(type)
     {
         case temp:
-            *sen = createmp();
+            *sen = creat_temp();
             break;
         case light:
-            *sen = creatlight();
+            *sen = creat_light();
             break;
         default:
             free(sen);

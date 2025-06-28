@@ -5,7 +5,7 @@
         
     void init_light();
     float data_light();
-    sensor creatlight();
+    sensor creat_light();
 
 
 

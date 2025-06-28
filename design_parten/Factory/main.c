@@ -5,10 +5,10 @@
 
 int main()
 {
-    sensor *Temperature_sensor = CreatSensor(temp) ;
+   
     printf("program: \n");
 
-    
+     sensor *Temperature_sensor = CreatSensor(temp) ;
     if(Temperature_sensor != NULL)
     {
         Temperature_sensor->init();
