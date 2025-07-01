@@ -92,9 +92,7 @@ File: nếu Handle_log mở thành công.
             void Log_close();
 
             #define log_message(level, ...) \
-            Logger_log_handle(level, __FILE__, __LINE__, VA_ARGS)
-
-            void Logger_log_handle(Log_level set, const char *file, const int line, const char *avr ,...);
+            Logger_log_handle(level, __FILE__, __LINE__, VA_ARGS)       void Logger_log_handle(Log_level set, const char *file, const int line, const char *avr ,...);
 
             #endif
 
