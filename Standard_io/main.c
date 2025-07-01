@@ -13,13 +13,12 @@ int main()
     log_message(LOG_ERROR,"Auto test");
     log_message(LOG_DEBUG,"not seen");
     log_message(LOG_CRITICAL,"hi_lo");
-    log_message(LOG_ALERT,"%s %s %s","test more","ok","excellent");
-
+    log_message(LOG_ALERT,"%s %s %s","test arg","ok","excellent");
 
     Set_log_level(LOG_WARNING); 
     log_message(LOG_NOTICE,"cant seen");
     log_message(LOG_ERROR, "seen");
-    log_message(LOG_EMERGENCY," NEED");
+    log_message(LOG_EMERGENCY,"Test happy");
 
     Log_close();
 

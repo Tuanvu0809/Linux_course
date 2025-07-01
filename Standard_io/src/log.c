@@ -88,11 +88,4 @@ void Logger_log_handle(Log_level set, const char *file, const int line, const ch
     fputs(log_line,Handle_log);
     fflush(output);
 
-    if (Handle_log) {
-        fputs(log_line, Handle_log);
-        fflush(Handle_log);
-    }
-
-
-
 }

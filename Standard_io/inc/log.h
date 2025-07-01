@@ -1,6 +1,6 @@
 #ifndef LOG_H
 #define LOG_H
-
+    /*Enum status log*/
     typedef enum{
         LOG_EMERGENCY,
         LOG_ALERT,
@@ -12,7 +12,7 @@
         LOG_DEBUG
     }Log_level;
 
-
+    /*fuction Creat*/
     int Log_init(Log_level current_level , const char *File);
     void Set_log_level(Log_level Set);
     void Log_close();
