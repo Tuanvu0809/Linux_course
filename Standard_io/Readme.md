@@ -92,7 +92,7 @@ File: nếu Handle_log mở thành công.
             void Log_close();
 
             #define log_message(level, ...) \
-            Logger_log_handle(level, **FILE**, **LINE**, **VA_ARGS**)
+            Logger_log_handle(level, __FILE__, __LINE__, VA_ARGS)
 
             void Logger_log_handle(Log_level set, const char *file, const int line, const char *avr ,...);
 
@@ -105,6 +105,6 @@ Cho phép tùy chọn cấp độ log.
 
 Ghi log vào file và/hoặc màn hình.
 
-Có hỗ trợ định dạng chuỗi và thông tin vị trí lỗi (**FILE**, **LINE**).
+Có hỗ trợ định dạng chuỗi và thông tin vị trí lỗi (**FILE**, **LINE**,).
 
 Hữu ích cho debugging và ghi nhật ký trong các chương trình nhúng hoặc ứng dụng lớn.
