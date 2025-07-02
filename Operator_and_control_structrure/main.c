@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "inc/led_driver.h"
+#include "test/test.h"
 
 
 int main()
@@ -34,25 +35,8 @@ int main()
     
     /*Set all pixel is green*/
     led_fill(0,255,0);
-    bool check_is_green = true;
-    for(int i=0;i<led_get_pixel_count();i++)
-    {
-        if(Buffer[i]!= 0x0000FF00 )
-        {
-            printf("Buffer[%d] not green",i);
-            check_is_green = false;
-        }
-    }
+    test_led_all( Buffer, 0x0000FF00);
 
-    /*Check flag*/
-    if(check_is_green == true)
-    {
-        printf("All green !! \n");
-    }
-    else {
-        printf("fail\n");
-    }
-    
     /*Free memory*/
     led_shutdown();
    

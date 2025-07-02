@@ -6,7 +6,7 @@
 
 void initlib(Libary *libary)
 {
-    libary->Bookcount = 0;
+    libary->Book_count = 0;
     libary->Usercount = 0; 
 }
 static char* Fault(ErrorCode Fault)
@@ -53,19 +53,19 @@ static bool Check_ID(int ID)
 {
     return ID > 0;
 }
-static bool Check_Tittle_arthour(char *tittle_or_authour)
+static bool Check_Tittle_author(char *tittle_or_author)
 {
-    return (tittle_or_authour != NULL) && (strlen(tittle_or_authour) >0) ;
+    return (tittle_or_author != NULL) && (strlen(tittle_or_author) >0) ;
 }
-static ErrorCode Fault_add_book(Libary *libary,int  ID,char *Tittle, char * arthour)
+static ErrorCode Fault_add_book(Libary *libary,int  ID,char *Tittle, char * author)
 {
     if( Check_ID(ID) == false  )
         return ERROR_INVALID_ID;
-    if( Check_Tittle_arthour(Tittle) == false || Check_Tittle_arthour(arthour) == false)
+    if( Check_Tittle_author(Tittle) == false || Check_Tittle_author(author) == false)
         return ERROR_INVALID_NAME;
-    if(libary->Bookcount >= Max_book )
+    if(libary->Book_count >= Max_book )
         return ERROR_LIBRARY_FULL;
-    for (int i = 0; i<= libary->Bookcount; i++)
+    for (int i = 0; i<= libary->Book_count; i++)
     {
         if(ID == libary[i].Books_lib->ID_book)  
             return ERROR_INVALID_ID;
@@ -74,17 +74,17 @@ static ErrorCode Fault_add_book(Libary *libary,int  ID,char *Tittle, char * arth
 
     newbook->ID_book = ID;
 
-    strncpy(newbook->Tittle,Tittle,Max_tittle_arthour - 1);
-    newbook->Tittle[Max_tittle_arthour - 1] ='\0';
+    strncpy(newbook->Tittle,Tittle,Max_tittle_author - 1);
+    newbook->Tittle[Max_tittle_author - 1] ='\0';
 
-    strncpy(newbook->Arthour,arthour, Max_tittle_arthour - 1);
-    newbook->Arthour[Max_tittle_arthour - 1] = '\0';
+    strncpy(newbook->Author,author, Max_tittle_author - 1);
+    newbook->Author[Max_tittle_author - 1] = '\0';
 
     newbook->Status = Available;
 
-    libary->Books_lib[libary->Bookcount] = *newbook;
+    libary->Books_lib[libary->Book_count] = *newbook;
 
-    libary->Bookcount ++ ;
+    libary->Book_count ++ ;
 
     return SUCCESS;
 
@@ -95,21 +95,21 @@ static ErrorCode Fault_add_book(Libary *libary,int  ID,char *Tittle, char * arth
 void Add_book_function(Libary *libary)
 {
     int ID_new;
-    char Tittle_new[Max_tittle_arthour];
-    char Arthour_new[Max_tittle_arthour];
+    char Tittle_new[Max_tittle_author];
+    char Author_new[Max_tittle_author];
 
     printf("Enter ID: ");
     scanf("%d", &ID_new);
     getchar();
 
-    printf("Enter titile: ");
-    fgets(Tittle_new,Max_tittle_arthour,stdin);
+    printf("Enter title: ");
+    fgets(Tittle_new,Max_tittle_author,stdin);
     Tittle_new[strcspn(Tittle_new,"\n")] = 0;
 
-     printf("Enter arthour: ");
-    fgets(Arthour_new,Max_tittle_arthour,stdin);
-    Arthour_new[strcspn(Arthour_new,"\n")] = 0;
-    ErrorCode fault_add = Fault_add_book(libary,ID_new,Tittle_new,Arthour_new);
+     printf("Enter author: ");
+    fgets(Author_new,Max_tittle_author,stdin);
+    Author_new[strcspn(Author_new,"\n")] = 0;
+    ErrorCode fault_add = Fault_add_book(libary,ID_new,Tittle_new,Author_new);
     printf("%s\n", Fault(fault_add) );
     
 
@@ -118,7 +118,7 @@ static ErrorCode Fault_remove_book(Libary *libary, int ID_remove){
     if(Check_ID(ID_remove) == false)
         return ERROR_INVALID_ID;
     int find = -1;
-    for( int i=0; i<= libary->Bookcount ; i++ )
+    for( int i=0; i<= libary->Book_count ; i++ )
     {
         if(ID_remove == libary->Books_lib[i].ID_book)
             find = i;
@@ -127,11 +127,11 @@ static ErrorCode Fault_remove_book(Libary *libary, int ID_remove){
     if(find == -1 )
         return ERROR_BOOK_NOT_FOUND;
 
-    for( int i = find; i <= libary->Bookcount - 1; i++ ){
+    for( int i = find; i <= libary->Book_count - 1; i++ ){
         libary->Books_lib[i]    =   libary->Books_lib[i+1];
 
     }
-    libary->Bookcount --;
+    libary->Book_count --;
     
     return SUCCESS;
 
@@ -150,18 +150,18 @@ void Remove_book_function(Libary *libary)
 
     
 }
-static char *Status_of_book(Bookstatus status)
+static char *Status_of_book(Book_status status)
 {
     if(status == Available )    return "Available";
     return "Borrower";
 }
 void List_book_function(Libary *libary)
 {
-    if(libary->Bookcount == 0) 
+    if(libary->Book_count == 0) 
         printf("Empty");
-    for ( int i= 0 ; i <= libary->Bookcount-1 ;i++)
+    for ( int i= 0 ; i <= libary->Book_count-1 ;i++)
     {
-        printf("%3d %10s %10s %s\n",libary->Books_lib[i].ID_book,libary->Books_lib[i].Tittle,libary->Books_lib[i].Arthour,Status_of_book(libary->Books_lib[i].Status));
+        printf("%3d %10s %10s %s\n",libary->Books_lib[i].ID_book,libary->Books_lib[i].Tittle,libary->Books_lib[i].Author,Status_of_book(libary->Books_lib[i].Status));
 
     }
 }
@@ -236,7 +236,7 @@ static ErrorCode Fault_remove_user(Libary *libary, int ID)
     
 
 }
-void Remove_user_fucnction(Libary *libary)
+void Remove_user_function(Libary *libary)
 {
     int ID_need_remove;
 
@@ -247,16 +247,14 @@ void Remove_user_fucnction(Libary *libary)
     ErrorCode fault_remove_user = Fault_remove_user(libary,ID_need_remove);
 
     Fault(fault_remove_user);
- 
-
 }
-void List_user_fucntion(Libary *libary)
+void List_user_function(Libary *libary)
 {
-      if(libary->Usercount == 0) 
+    if(libary->Usercount == 0) 
         printf("Empty");
     for (int i= 0; i< libary->Usercount ;i++)
     {
-        printf("%3d %20s %3d %3d \n",libary->user_libary[i].ID_user,libary->user_libary[i].Name_User,libary->user_libary[i].Borrowedbook,libary->user_libary[i].Borrowedcount);
+        printf("%3d %20s %3d %3d \n",libary->user_libary[i].ID_user,libary->user_libary[i].Name_User,libary->user_libary[i].Borrowed_book,libary->user_libary[i].Borrowed_count);
     }
 }
 static ErrorCode Fault_borrowed_book(Libary *libary, int ID_book, int ID_user)
@@ -265,7 +263,7 @@ static ErrorCode Fault_borrowed_book(Libary *libary, int ID_book, int ID_user)
         return ERROR_INVALID_ID;
 
     int index_id_book = -1;
-    for ( int i = 0; i<=libary->Bookcount;i++ )
+    for ( int i = 0; i<=libary->Book_count;i++ )
     {
         if(ID_book == libary->Books_lib[i].ID_book){
             index_id_book = i;
@@ -288,27 +286,23 @@ static ErrorCode Fault_borrowed_book(Libary *libary, int ID_book, int ID_user)
         return ERROR_USER_NOT_FOUND;
     
     libary->Books_lib[index_id_book].Status = Borrower;
-    libary->user_libary[index_id_user].Borrowedbook[libary->user_libary[index_id_user].Borrowedcount] = index_id_book;
-    libary->user_libary[index_id_user].Borrowedcount ++;
-
+    libary->user_libary[index_id_user].Borrowed_book[libary->user_libary[index_id_user].Borrowed_count] = index_id_book;
+    libary->user_libary[index_id_user].Borrowed_count ++;
     return SUCCESS;
 
 }
-void Borrowed_book_fucntion(Libary *libary)
+void Borrowed_book_function(Libary *libary)
 {
     int Id_book;
     int Id_user;
 
-    
     printf("Enter ID book:");
     scanf("%d", &Id_book);
     getchar();
 
-    
     printf("Enter ID useruser:");
     scanf("%d", &Id_user);
     getchar();
-
 
     ErrorCode fault_borrowed_book = Fault_borrowed_book(libary,Id_book,Id_user);
 
@@ -321,7 +315,7 @@ static ErrorCode Fault_return_book(Libary *libary, int ID_book, int ID_user)
         return ERROR_INVALID_ID;
 
     int index_id_book = -1;
-    for ( int i = 0; i<=libary->Bookcount;i++ )
+    for ( int i = 0; i<=libary->Book_count;i++ )
     {
         if(ID_book == libary->Books_lib[i].ID_book){
             index_id_book = i;
@@ -345,25 +339,22 @@ static ErrorCode Fault_return_book(Libary *libary, int ID_book, int ID_user)
     
     libary->Books_lib[index_id_book].Status = Available;
  
-    for( int i = index_id_book; i <= libary->Bookcount - 1; i++ ){
+    for( int i = index_id_book; i <= libary->Book_count - 1; i++ ){
         libary->user_libary[i]   =   libary->user_libary[i+1];
     }
-    libary->user_libary->Borrowedcount --;
-
+    libary->user_libary->Borrowed_count --;
     
     return SUCCESS;
 
 }
-void Return_book_fucntion(Libary *libary)
+void Return_book_function(Libary *libary)
 {
     int Id_book;
     int Id_user;
-
     
     printf("Enter ID book:");
     scanf("%d", &Id_book);
     getchar();
-
     
     printf("Enter ID useruser:");
     scanf("%d", &Id_user);
@@ -372,17 +363,15 @@ void Return_book_fucntion(Libary *libary)
     ErrorCode fault_return_book= Fault_return_book(libary,Id_book,Id_user);
 
     Fault(fault_return_book);
-
 }
-void List_borrow_book_fucntion(Libary *libary)
+void List_borrow_book_function(Libary *libary)
 {
-    if(libary->Bookcount == 0) 
+    if(libary->Book_count == 0) 
         printf("Empty");
-    for ( int i= 0 ; i <= libary->Bookcount-1 ;i++)
+    for ( int i= 0 ; i <= libary->Book_count-1 ;i++)
     {
-
         if(libary->Books_lib[i].Status == Borrower){
-             printf("%3d %10s %10s %s\n",libary->Books_lib[i].ID_book,libary->Books_lib[i].Tittle,libary->Books_lib[i].Arthour,Status_of_book(libary->Books_lib[i].Status));
+            printf("%3d %10s %10s %s\n",libary->Books_lib[i].ID_book,libary->Books_lib[i].Tittle,libary->Books_lib[i].Author,Status_of_book(libary->Books_lib[i].Status));
         }    
     }
      

@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -g
 TARGET = pixel
-SRCS = main.c src\led_driver.c
+SRCS = main.c src\led_driver.c test\test.c
 
 all: $(TARGET)
 

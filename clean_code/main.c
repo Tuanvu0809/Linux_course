@@ -1,17 +1,13 @@
 #include <stdio.h>
 #include "libary.h"
 
-
-
 int main()
 {
     choice your_choice;
-    Libary libary;
-    initlib(&libary);
+    Libary library;
+    initlib(&library);
     printMenu();
     
-    
-
     do{
         printf("Enter choice: ");
         scanf("%d",&your_choice);
@@ -25,31 +21,31 @@ int main()
                 Exit_function();
                 break;
             case Add_book:
-                Add_book_function(&libary);
+                Add_book_function(&library);
                 break;
             case Remove_book:
-                Remove_book_function(&libary);
+                Remove_book_function(&library);
                 break;
             case List_book:
-                List_book_function(&libary);
+                List_book_function(&library);
                 break;
             case Add_user: 
-                Add_user_function(&libary);
+                Add_user_function(&library);
                 break;    
             case Remove_user:
-                Remove_user_fucnction(&libary);
+                Remove_user_function(&library);
                 break;
             case List_User:
-                List_user_fucntion(&libary); 
+                List_user_function(&library); 
                 break;
             case Borrowed_book: 
-                Borrowed_book_fucntion(&libary);
+                Borrowed_book_function(&library);
                 break;
             case Return_book:
-                Remove_book_function(&libary);
+                Remove_book_function(&library);
                 break;
             case List_Borrow_book:
-                List_borrow_book_fucntion(&libary);
+                List_borrow_book_function(&library);
                 break;
             default:
                 printf("Invalid choice. Please try again.\n");
@@ -58,12 +54,5 @@ int main()
 
     }while(your_choice != Exit);
 
-
-    
-
-
-
-
     return 0;
-
 }

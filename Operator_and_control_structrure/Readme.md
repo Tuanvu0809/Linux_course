@@ -9,6 +9,7 @@ Chương trình điều khiển LED Pixel (R-G-B)
 - Main.c
 - src / led_driver.c
 - inc/ led_driver.h
+- test
 
 2. Thư viện led_drver.h
 

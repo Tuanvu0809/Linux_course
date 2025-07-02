@@ -1,12 +1,12 @@
 #ifndef LIBARY_H
 #define LIBARY_H
-    #define Max_tittle_arthour     100
+    #define Max_tittle_author     100
     #define Max_name         100
     #define Max_borrowed     1000
     #define Max_book         100
     #define Max_user        100
 
-/*enum*/
+    /*enum*/
     /*case*/
     typedef enum{
         Exit =0 ,
@@ -22,12 +22,10 @@
         Menu,
     }choice;
 
-    
-
     typedef enum{
         Available,
         Borrower,
-    }Bookstatus;
+    }Book_status;
 
 
     // Error codes
@@ -47,61 +45,48 @@
     /*libary*/
     typedef struct{
         int ID_book;
-        char Tittle[Max_tittle_arthour];
-        char Arthour[Max_tittle_arthour];
-        Bookstatus Status;
+        char Tittle[Max_tittle_author];
+        char Author[Max_tittle_author];
+        Book_status Status;
     }Book;
 
     /*user*/
     typedef struct{
         int ID_user;
         char Name_User[Max_name];
-        int Borrowedbook[Max_borrowed];
-        int Borrowedcount;
+        int Borrowed_book[Max_borrowed];
+        int Borrowed_count;
     }User;
 
     /*libary*/
     typedef struct{
         Book Books_lib[Max_book];
-        int Bookcount;
+        int Book_count;
         User user_libary[Max_user];
         int Usercount;
    }Libary;
-
-
-
-
+   /*Fuction Creat*/
     void initlib(Libary *libary);
-
-
     void printMenu() ;
     void Add_book_function(Libary *libary);
     void Remove_book_function(Libary *libary);
     void List_book_function(Libary *libary);
     void Add_user_function(Libary *libary);
-    void Remove_user_fucnction(Libary *libary);
-    void List_user_fucntion(Libary *libary);
-    void Borrowed_book_fucntion(Libary *libary);
-    void Return_book_fucntion(Libary *libary);
-    void List_borrow_book_fucntion(Libary *libary);
-
-
-   
+    void Remove_user_function(Libary *libary);
+    void List_user_function(Libary *libary);
+    void Borrowed_book_function(Libary *libary);
+    void Return_book_function(Libary *libary);
+    void List_borrow_book_function(Libary *libary);
     void Exit_function();
 
-
-   static char *Status_of_book(Bookstatus status);
-   static ErrorCode Fault_add_book(Libary *libary,int ID,char *Tittle, char * arthour);
+   static char *Status_of_book(Book_status status);
+   static ErrorCode Fault_add_book(Libary *libary,int ID,char *Tittle, char * author);
    static ErrorCode Fault_remove_user(Libary *libary, int ID);
    static ErrorCode Fault_borrowed_book(Libary *libary, int ID_book, int ID_user);
    static ErrorCode Fault_return_book(Libary *libary, int ID_book, int ID_user);
-
    static char* Fault(ErrorCode Fault);
    static ErrorCode Fault_remove_book(Libary *libary, int ID_remove);
    static ErrorCode Fault_borrowed_book(Libary *libary, int ID_book, int ID_user);
-
-
-
 
 
 

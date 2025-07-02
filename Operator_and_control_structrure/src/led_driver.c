@@ -58,6 +58,7 @@ size_t led_get_pixel_count(){
 
 /*Check status of led */
 void led_printf_index(size_t index){
+        
         if(Led_arr == NULL || (index >= led_get_pixel_count() || index <0)) return;
 
         printf("Pixel  %2d = 0x%p\n",index,Led_arr[index]);
