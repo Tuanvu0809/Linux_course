@@ -26,7 +26,6 @@ void choose_fuction (Choice already_choice)
     } 
 }
 
-
 int main()
 {
 
@@ -35,8 +34,6 @@ int main()
     {
         printf("fail library\n");
     }
-    /**/
-   // library = Libary_manage();
     print_menu();
     Choice Your_choice;
 
@@ -45,10 +42,5 @@ int main()
         scanf("%d",&Your_choice);
         choose_fuction(Your_choice);
     }while( Your_choice != Exit);
-
-
-
-
-
     return 0;
 }
