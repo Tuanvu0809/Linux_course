@@ -1,58 +1,54 @@
 #include <stdio.h>
-#include "libary.h"
+#include "inc/Library.h"
+
+Choice_fuction action[]=
+{
+    {Add_book, Add_that_book},
+    {Exit     ,Exit_library},
+    {Menu , print_menu},
+    {Remove_book, Remove_that_book},
+    {List_book,List_that_book},
+    {Borrowed_book,Borrowed_that_book},
+    {Add_user , Add_user_for},
+    {List_User, List_user_for},
+    {List_Borrow_book,List_borrow_that_book},
+    {Return_book,Return_that_book},
+};
+void choose_fuction (Choice already_choice)
+{
+    for(int i=0 ;i < (sizeof(action)/sizeof(action[0]));i++)
+    {
+         if( action[i].choose == already_choice)
+        {
+            action[i].Function_use();
+            return;
+        }
+    } 
+}
+
 
 int main()
 {
-    choice your_choice;
-    Libary library;
-    initlib(&library);
-    printMenu();
-    
-    do{
-        printf("Enter choice: ");
-        scanf("%d",&your_choice);
 
-        switch (your_choice)
-        {
-            case Menu:
-                printMenu();
-                break;
-            case Exit:
-                Exit_function();
-                break;
-            case Add_book:
-                Add_book_function(&library);
-                break;
-            case Remove_book:
-                Remove_book_function(&library);
-                break;
-            case List_book:
-                List_book_function(&library);
-                break;
-            case Add_user: 
-                Add_user_function(&library);
-                break;    
-            case Remove_user:
-                Remove_user_function(&library);
-                break;
-            case List_User:
-                List_user_function(&library); 
-                break;
-            case Borrowed_book: 
-                Borrowed_book_function(&library);
-                break;
-            case Return_book:
-                Remove_book_function(&library);
-                break;
-            case List_Borrow_book:
-                List_borrow_book_function(&library);
-                break;
-            default:
-                printf("Invalid choice. Please try again.\n");
-        
-        }
+    /*Initialize Library*/
+    if(Init_library() == -1)
+    {
+        printf("fail library\n");
+    }
+    /**/
+   // library = Libary_manage();
+    print_menu();
+    Choice Your_choice;
 
-    }while(your_choice != Exit);
+    do {
+        printf("\n Enter Your Choice :");
+        scanf("%d",&Your_choice);
+        choose_fuction(Your_choice);
+    }while( Your_choice != Exit);
+
+
+
+
 
     return 0;
 }

@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -g
-TARGET = thuvien
-SRCS = main.c libary.c
+TARGET = Library
+SRCS = main.c src\Library.c
 
 all: $(TARGET)
 
@@ -10,3 +10,4 @@ $(TARGET): $(SRCS)
 
 clean:
 	del $(TARGET).exe
+
