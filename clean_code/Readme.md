@@ -8,19 +8,22 @@
 - Thêm / Xóa người dùng
 - Mượn / Trả sách
 - Hiển thị:
+
   - Danh sách tất cả sách
   - Danh sách tất cả người dùng
   - Danh sách sách đang được mượn
   - Kiểm tra hợp lệ đầu vào và xử lý lỗi
+
     🧱 Cấu trúc thư mục
-    LibrarySystem/
-    ├── src/ # Các file mã nguồn (.c)
-    │ └── Library.c # Triển khai logic chính
-    ├── inc/ # Các file tiêu đề (.h)
-    │ └── Library.h # Khai báo struct và hàm
-    ├── main.c # Hàm main, giao diện menu chính
-    ├── Makefile # (tuỳ chọn) Tự động biên dịch
-    └── README.md # Tài liệu dự án
+
+        LibrarySystem/
+        ├── src/ # Các file mã nguồn (.c)
+        │ └── Library.c # Triển khai logic chính
+        ├── inc/ # Các file tiêu đề (.h)
+        │ └── Library.h # Khai báo struct và hàm
+        ├── main.c # Hàm main, giao diện menu chính
+        ├── Makefile # (tuỳ chọn) Tự động biên dịch
+        └── README.md # Tài liệu dự án
 
 ## Các chức năng:
 
