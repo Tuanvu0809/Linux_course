@@ -56,7 +56,5 @@ int main()
 
     }while(mode.Mode_sys != EXIT_CHOICE);
 
-
-
     return 0;
 }    

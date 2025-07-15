@@ -1,9 +1,11 @@
-Smart Plant Watering System - SPWS
+# Smart Plant Watering System - SPWS
 
-🎯 MỤC TIÊU CHƯƠNG TRÌNH
+## 🎯 MỤC TIÊU CHƯƠNG TRÌNH
+
 Thiết kế một hệ thống tưới cây tự động thông minh sử dụng cảm biến độ ẩm và nhiệt độ để tự động điều khiển bơm tưới nước. Người dùng có thể chuyển đổi giữa chế độ tự động và thủ công, đồng thời có thể kích hoạt tưới bằng nút bấm mô phỏng. Mọi trạng thái đều được in ra console để mô phỏng hoạt động của hệ thống nhúng.
 
-📁 TỔNG QUAN CÁC FILE
+## 📁 TỔNG QUAN CÁC FILE
+
 Tên file Vai trò
 main.c Chương trình chính, vòng lặp hệ thống.
 config.h Định nghĩa cấu hình, trạng thái, dữ liệu toàn cục.
@@ -12,27 +14,29 @@ actuators.c/h Điều khiển bơm và đèn LED trạng thái.
 buttons.c/h Xử lý nút chuyển chế độ và nút tưới thủ công.
 watering_logic.c/h Điều khiển logic tưới nước trong chế độ tự động.
 
-🧱 CẤU TRÚC DỮ LIỆU
-Sao chép
-Chỉnh sửa
-typedef struct{
-int Temperature;
-int Moisture;
-}data;
+## 🧱 CẤU TRÚC DỮ LIỆU
+
+    typedef struct{
+    int Temperature;
+    int Moisture;
+    }data;
 
 Giữ giá trị độ ẩm đất và nhiệt độ không khí.
 
-typedef struct{
-int moisture_min;
-int moisture_max;
-int times;
-int check;
-MODE Mode_sys;
-}SETTING;
+    typedef struct{
+    int moisture_min;
+    int moisture_max;
+    int times;
+    int check;
+    MODE Mode_sys;
+    }SETTING;
+
 Giữ các tham số cấu hình hệ thống và chế độ hoạt động.
 
-⚙️ MÔ TẢ CHỨC NĂNG CHÍNH
-main.c
+## ⚙️ MÔ TẢ CHỨC NĂNG CHÍNH
+
+### main.c
+
 Khởi tạo hệ thống (khởi tạo bơm và cập nhật trạng thái led ).
 
 Thiết lập thông số mặc định (ngưỡng độ ẩm, thời gian tưới .... ).
@@ -45,7 +49,8 @@ Mô phỏng nhấn nút chuyển chế độ hoặc tưới thủ công ngẫu n
 
 Xử lý logic tưới nếu đang ở chế độ tự động/ chế độ tay.
 
-Sensors.c
+### Sensors.c
+
 Hàm Read_sensors() mô phỏng giá trị cảm biến:
 
 Độ ẩm đất từ 0% - 100%.
@@ -54,10 +59,11 @@ Nhiệt độ không khí từ 20°C - 35°C.
 
 Giá trị được in ra console.
 
-actuators.c
+### actuators.c
+
 turn_pump_on() và turn_pump_off() để mô phỏng điều khiển bơm.
 
-led.c
+### led.c
 
 Turn_led(LED_STATUS led) để cập nhập tình trạng led.
 
@@ -66,7 +72,8 @@ trạng thái tưới: Led xanh sáng.
 trạng thái độ ẩm thấp: led vàng sáng.
 trạng thái hư hỏng : led đỏ sáng.( chưa có trường hợp này).
 
-buttons.c
+### buttons.c
+
 Set_for_auto():
 
 Chuyển đổi giữa MODE_AUTO và MODE_MANUAL.
@@ -90,7 +97,8 @@ Tắt bơm.
 
 Mỗi lần đọc, cập nhật giá trị cảm biến và in trạng thái ra console.
 
-✅ TÍNH NĂNG ĐÃ HOÀN THÀNH
+## ✅ TÍNH NĂNG ĐÃ HOÀN THÀNH
+
 Đọc cảm biến mô phỏng (sử dụng random).
 
 Sử dụng hàm scanf để điều chỉnh giá trị/ thực tế sẽ sửa dụng Interrupt và nút nhấn để chuyển đổi .

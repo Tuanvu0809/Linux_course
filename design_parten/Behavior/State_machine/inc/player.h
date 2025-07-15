@@ -2,7 +2,7 @@
 #define PLAYER_H
 
 typedef struct Music_player;
-// typedef struct Player_state;
+typedef struct Player_state;
 
 typedef struct Player_state
 {

@@ -27,7 +27,7 @@
 
 ## Các chức năng:
 
-===== HỆ THỐNG QUẢN LÝ THƯ VIỆN =====
+=====**HỆ THỐNG QUẢN LÝ THƯ VIỆN** =====
 
 1.  Thêm sách mới
 2.  Xóa sách
@@ -143,7 +143,7 @@ Lặp lại cho đến khi người dùng chọn Exit.
 
             void choose_fuction(Choice already_choice);
 
-    Duyệt qua mảng ánh xạ action[] để tìm đúng hàm xử lý.
+Duyệt qua mảng ánh xạ action[] để tìm đúng hàm xử lý.
 
 Nếu lựa chọn chưa được hỗ trợ, in ra thông báo.
 

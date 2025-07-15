@@ -3,19 +3,19 @@
 #include <string.h>
 #include <stdlib.h>
 
+static Library *manage = NULL;
+extern ErrorCode Fault_display;
 
-static  Library *manage = NULL ;
+int Init_library()
+{
 
-int Init_library(){
+    manage = (Library *)malloc(sizeof(Library));
 
-    manage = (Library* ) malloc(sizeof(Library));
-
-    if(manage == NULL)
+    if (manage == NULL)
         return -1;
-    else{
-        // manage->Book_at_library = NULL;
+    else
+    {
         manage->Store_book = 0;
-        // manage->person_user = NULL;
         manage->person_users = 0;
         printf("Library init success");
     }
@@ -28,7 +28,8 @@ Library *Libary_manage()
     return manage;
 }
 
-void print_menu(){
+void print_menu()
+{
 
     printf("\n===== LIBRARY MANAGEMENT SYSTEM =====\n");
     printf("1. Add new book\n");
@@ -44,345 +45,350 @@ void print_menu(){
     printf("0. Exit\n");
 }
 /*Logic Fuction*/
-static char* Fault(ErrorCode Fault)
+char *Fault(ErrorCode Fault)
 {
-    switch (Fault) {
-        case SUCCESS: 
-            return "Success\n";
-        case ERROR_INVALID_ID: 
-            return "Invalid ID\n";
-        case ERROR_INVALID_NAME: 
-            return "Invalid name\n";
-        case ERROR_LIBRARY_FULL: 
-            return "Library is full\n";
-        case ERROR_BOOK_NOT_FOUND: 
-            return "Book not found\n";
-        case ERROR_USER_NOT_FOUND: 
-            return "User not found\n";
-        case ERROR_BOOK_ALREADY_BORROWED: 
-            return "Book already borrowed\n";
-        case ERROR_BOOK_NOT_BORROWED: 
-            return "Book not borrowed by this user\n";
-        case Empty: 
-            return "user not borrowed\n";
-        default: 
-            return "Unknown error\n";
+    switch (Fault)
+    {
+    case SUCCESS:
+        return "Success\n";
+    case ERROR_INVALID_ID:
+        return "Invalid ID\n";
+    case ERROR_INVALID_NAME:
+        return "Invalid name\n";
+    case ERROR_LIBRARY_FULL:
+        return "Library is full\n";
+    case ERROR_BOOK_NOT_FOUND:
+        return "Book not found\n";
+    case ERROR_USER_NOT_FOUND:
+        return "User not found\n";
+    case ERROR_BOOK_ALREADY_BORROWED:
+        return "Book already borrowed\n";
+    case ERROR_BOOK_NOT_BORROWED:
+        return "Book not borrowed by this user\n";
+    case Empty:
+        return "Empty book \n";
+    default:
+        return "Unknown error\n";
     }
-
 }
 static ErrorCode Can_add_book()
 {
-    if(manage->Store_book >= BOOK_CAN_STORE)
+    if (manage->Store_book >= BOOK_CAN_STORE)
         return ERROR_LIBRARY_FULL;
-    
+
     Book book_want_add;
-    
+
     printf("\nEnter ID: ");
-    if (scanf("%d", &book_want_add.id) == 1) {
-         if((book_want_add.id<0) || (book_want_add.id> BOOK_CAN_STORE))
+    if (scanf("%d", &book_want_add.id) == 1)
+    {
+        if ((book_want_add.id < 0) || (book_want_add.id > BOOK_CAN_STORE))
             return ERROR_INVALID_ID;
-    } else {
-    
+    }
+    else
+    {
+
         int c;
-        while ((c = getchar()) != '\n' && c != EOF);
+        while ((c = getchar()) != '\n' && c != EOF)
+            ;
         return ERROR_INVALID_ID;
     }
     getchar();
 
-    printf("\nEnter title: " );
-    fgets(book_want_add.title,MAX_LENGTH_TITLE, stdin);
-    book_want_add.title[strcspn(book_want_add.title,"\n")] = 0;
-    
-    printf("\nEnter author: " );
-    fgets(book_want_add.author,MAX_LENGTH_AUTHOR, stdin);
-    book_want_add.author[strcspn(book_want_add.author,"\n")] = 0;
+    printf("\nEnter title: ");
+    fgets(book_want_add.title, MAX_LENGTH_TITLE, stdin);
+    book_want_add.title[strcspn(book_want_add.title, "\n")] = 0;
 
-    for(int i= 0; i < manage->Store_book ;i++)
+    printf("\nEnter author: ");
+    fgets(book_want_add.author, MAX_LENGTH_AUTHOR, stdin);
+    book_want_add.author[strcspn(book_want_add.author, "\n")] = 0;
+
+    for (int i = 0; i < manage->Store_book; i++)
     {
-        if((book_want_add.id == manage->Book_at_library[i].id) )  
+        if ((book_want_add.id == manage->Book_at_library[i].id))
             return ERROR_INVALID_ID;
-        if((strcmp(book_want_add.title,manage->Book_at_library[i].title)==0) && (strcmp(book_want_add.author,manage->Book_at_library[i].author) ==0) )
+        if ((strcmp(book_want_add.title, manage->Book_at_library[i].title) == 0) && (strcmp(book_want_add.author, manage->Book_at_library[i].author) == 0))
             return ERROR_INVALID_NAME;
     }
 
     book_want_add.status = Available;
-    manage->Book_at_library[manage->Store_book ++] = book_want_add;
+    manage->Book_at_library[manage->Store_book++] = book_want_add;
     return SUCCESS;
-
 }
 static ErrorCode Can_remove_book()
 {
     int id;
     printf("\nEnter ID: ");
-    if (scanf("%d", &id ) == 1) {
-        if((id<0) || (id> BOOK_CAN_STORE))
-            return ERROR_INVALID_ID;   
+    if (scanf("%d", &id) == 1)
+    {
+        if ((id < 0) || (id > BOOK_CAN_STORE))
+            return ERROR_INVALID_ID;
     }
-     else {
+    else
+    {
         int c;
-        while ((c = getchar()) != '\n' && c != EOF);
+        while ((c = getchar()) != '\n' && c != EOF)
+            ;
         return ERROR_INVALID_ID;
     }
     getchar();
 
-    for(int i= 0; i < manage->Store_book ;i++)
+    for (int i = 0; i < manage->Store_book; i++)
     {
-        if(id == manage->Book_at_library[i].id ){
+        if (id == manage->Book_at_library[i].id)
+        {
 
-        for( int j = i; j <= manage->Store_book -1 ; j++ ){
+            for (int j = i; j <= manage->Store_book - 1; j++)
+            {
 
-            manage->Book_at_library[j] = manage->Book_at_library[j+1];
-           }
-           manage->Store_book --;
+                manage->Book_at_library[j] = manage->Book_at_library[j + 1];
+            }
+            manage->Store_book--;
             return SUCCESS;
-       } 
-           
+        }
     }
     return ERROR_BOOK_NOT_FOUND;
-
 }
 static ErrorCode Can_add_user()
 {
-    if(manage->person_users >= PERSON_USER_MAX)
+    if (manage->person_users >= PERSON_USER_MAX)
         return ERROR_USER_FULL;
     Person person_want_add;
     printf("\nEnter ID: ");
-    if (scanf("%d", &person_want_add.id) == 1) {
-         if((person_want_add.id<0) || (person_want_add.id> PERSON_USER_MAX))
+    if (scanf("%d", &person_want_add.id) == 1)
+    {
+        if ((person_want_add.id < 0) || (person_want_add.id > PERSON_USER_MAX))
             return ERROR_INVALID_ID;
-    } else {
-    
+    }
+    else
+    {
+
         int c;
-        while ((c = getchar()) != '\n' && c != EOF);
+        while ((c = getchar()) != '\n' && c != EOF)
+            ;
         return ERROR_INVALID_ID;
     }
     getchar();
 
-    printf("\nEnter name: " );
-    fgets(person_want_add.name,MAX_LENGTH_NAME, stdin);
-    person_want_add.name[strcspn(person_want_add.name,"\n")] = 0;
+    printf("\nEnter name: ");
+    fgets(person_want_add.name, MAX_LENGTH_NAME, stdin);
+    person_want_add.name[strcspn(person_want_add.name, "\n")] = 0;
 
-    for(int i= 0; i < manage->Store_book ;i++)
+    for (int i = 0; i < manage->Store_book; i++)
     {
-        if((person_want_add.id == manage->person_user[i].id) )  
+        if ((person_want_add.id == manage->person_user[i].id))
             return ERROR_INVALID_ID;
-        if((strcmp(person_want_add.name,manage->person_user[i].name)==0))
+        if ((strcmp(person_want_add.name, manage->person_user[i].name) == 0))
             return ERROR_INVALID_NAME;
     }
 
     person_want_add.nums_book = 0;
     manage->person_user[manage->person_users] = person_want_add;
 
-    return SUCCESS;  
-    
+    return SUCCESS;
 }
 
 static ErrorCode Can_return_book()
 {
-     int ID_name;
-     int pos_per =-1;
-     int pos_book= -1;
+    int ID_name;
+    int pos_per = -1;
+    int pos_book = -1;
     printf("\nEnter ID name: ");
-    if (scanf("%d", &ID_name) == 1) {
-         if((ID_name<0) || (ID_name> PERSON_USER_MAX))
+    if (scanf("%d", &ID_name) == 1)
+    {
+        if ((ID_name < 0) || (ID_name > PERSON_USER_MAX))
             return ERROR_INVALID_ID;
-    } else {
+    }
+    else
+    {
         int c;
-        while ((c = getchar()) != '\n' && c != EOF);
+        while ((c = getchar()) != '\n' && c != EOF)
+            ;
         return ERROR_INVALID_ID;
     }
 
     int ID_book;
-     printf("\nEnter ID book: ");
-    if (scanf("%d", &ID_book) == 1) {
-         if((ID_book<0) || (ID_book> BOOK_CAN_STORE))
+    printf("\nEnter ID book: ");
+    if (scanf("%d", &ID_book) == 1)
+    {
+        if ((ID_book < 0) || (ID_book > BOOK_CAN_STORE))
             return ERROR_INVALID_ID;
-    } else {
+    }
+    else
+    {
         int c;
-        while ((c = getchar()) != '\n' && c != EOF);
+        while ((c = getchar()) != '\n' && c != EOF)
+            ;
         return ERROR_INVALID_ID;
     }
 
-    for(int i=0;i<manage->person_users;i++)
+    for (int i = 0; i < manage->person_users; i++)
     {
-        if(ID_name == manage->person_user[i].id){
+        if (ID_name == manage->person_user[i].id)
+        {
             pos_per = i;
             break;
-
-        } 
-        if(i == manage->person_users )   return ERROR_USER_NOT_FOUND;
+        }
+        if (i == manage->person_users)
+            return ERROR_USER_NOT_FOUND;
     }
-    
-    for(int i= 0; i <= manage->Store_book ;i++)
-   {
-        if(manage->Book_at_library[i].id == ID_book)
+
+    for (int i = 0; i <= manage->Store_book; i++)
+    {
+        if (manage->Book_at_library[i].id == ID_book)
         {
             pos_book = i;
             break;
         }
-   }
-    if (pos_per == -1) return ERROR_USER_NOT_FOUND;
-    if (pos_book == -1) return ERROR_BOOK_NOT_FOUND;
+    }
+    if (pos_per == -1)
+        return ERROR_USER_NOT_FOUND;
+    if (pos_book == -1)
+        return ERROR_BOOK_NOT_FOUND;
 
-   if(manage->Book_at_library[pos_book].status == Available )
+    if (manage->Book_at_library[pos_book].status == Available)
         return ERROR_BOOK_NOT_BORROWED;
     else
         manage->Book_at_library[pos_book].status = Available;
 
-    if(manage->person_user[pos_per].nums_book == 0){
+    if (manage->person_user[pos_per].nums_book == 0)
+    {
         return Empty;
-    }   
-    else{
-        manage->person_user[pos_per].nums_book --; 
+    }
+    else
+    {
+        manage->person_user[pos_per].nums_book--;
     }
 
-   
-
-
-   return SUCCESS;
-    
+    return SUCCESS;
 }
 static ErrorCode Can_borrowed_book()
 {
-     int ID_name;
-       int pos_per =-1;
-     int pos_book= -1;
+    int ID_name;
+    int pos_per = -1;
+    int pos_book = -1;
     printf("\nEnter ID name: ");
-    if (scanf("%d", &ID_name) == 1) {
-         if((ID_name<0) || (ID_name> PERSON_USER_MAX))
-            return ERROR_INVALID_ID;
-    } else {
-        int c;
-        while ((c = getchar()) != '\n' && c != EOF);
-        return ERROR_INVALID_ID;
-    }
-
-     int ID_book;
-     printf("\nEnter ID book: ");
-    if (scanf("%d", &ID_book) == 1) {
-         if((ID_book<0) || (ID_book> BOOK_CAN_STORE))
-            return ERROR_INVALID_ID;
-    } else {
-        int c;
-        while ((c = getchar()) != '\n' && c != EOF);
-        return ERROR_INVALID_ID;
-    }
-
-    for(int i=0;i< manage->person_users;i++)
+    if (scanf("%d", &ID_name) == 1)
     {
-        if(ID_name == manage->person_user[i].id){
+        if ((ID_name < 0) || (ID_name > PERSON_USER_MAX))
+            return ERROR_INVALID_ID;
+    }
+    else
+    {
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF)
+            ;
+        return ERROR_INVALID_ID;
+    }
+
+    int ID_book;
+    printf("\nEnter ID book: ");
+    if (scanf("%d", &ID_book) == 1)
+    {
+        if ((ID_book < 0) || (ID_book > BOOK_CAN_STORE))
+            return ERROR_INVALID_ID;
+    }
+    else
+    {
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF)
+            ;
+        return ERROR_INVALID_ID;
+    }
+
+    for (int i = 0; i < manage->person_users; i++)
+    {
+        if (ID_name == manage->person_user[i].id)
+        {
             pos_per = i;
             break;
         }
 
-        if(i == manage->person_users )   return ERROR_USER_NOT_FOUND;
+        if (i == manage->person_users)
+            return ERROR_USER_NOT_FOUND;
     }
-   
 
-   for(int i= 0; i <= manage->Store_book ;i++)
-   {
-        if(manage->Book_at_library[i].id == ID_book)
+    for (int i = 0; i <= manage->Store_book; i++)
+    {
+        if (manage->Book_at_library[i].id == ID_book)
         {
             pos_book = i;
             break;
         }
-      
-   }
-   if (pos_per == -1) return ERROR_USER_NOT_FOUND;
-    if (pos_book == -1) return ERROR_BOOK_NOT_FOUND;
+    }
+    if (pos_per == -1)
+        return ERROR_USER_NOT_FOUND;
+    if (pos_book == -1)
+        return ERROR_BOOK_NOT_FOUND;
 
-     if(manage->Book_at_library[pos_book].status == Unavailable )
+    if (manage->Book_at_library[pos_book].status == Unavailable)
         return ERROR_BOOK_NOT_BORROWED;
     else
         manage->Book_at_library[pos_book].status = Unavailable;
 
-    manage->person_user[pos_per].nums_book ++; 
+    manage->person_user[pos_per].nums_book++;
 
-   return SUCCESS;
-    
+    return SUCCESS;
 }
-
 
 /*Handle Fuction*/
 void Add_that_book()
 {
     printf("\t Add book:\n ");
-    ErrorCode can_add;
-    can_add = Can_add_book();
-    printf("%s",Fault(can_add));  
+    Fault_display = Can_add_book();
 }
 void Remove_that_book()
 {
-    printf("Remove book: ");
-
-    ErrorCode can_remove;
-    can_remove = Can_remove_book();
-    printf("%s",Fault(can_remove));  
+    printf("Remove book: \n");
+    Fault_display = Can_remove_book();
 }
 void List_that_book()
 {
-    printf("List book: ");
-    if(manage->Store_book == 0)
-        printf("\n\tEmpty\n");
-    for(int i=0; i< manage->Store_book ;i++ )
+    printf("List book:\n ");
+    if (manage->Store_book == 0)
+        Fault_display = Empty;
+    for (int i = 0; i < manage->Store_book; i++)
     {
-        printf("\n%02d\t %20s\t %20s\t %02d ",manage->Book_at_library[i].id,manage->Book_at_library[i].title,manage->Book_at_library[i].author,manage->Book_at_library[i].status);
+        printf("\n%02d\t %20s\t %20s\t %02d ", manage->Book_at_library[i].id, manage->Book_at_library[i].title, manage->Book_at_library[i].author, manage->Book_at_library[i].status);
     }
-
-
 }
 void Add_user_for()
 {
-    printf("Add user: ");
-    ErrorCode can_add_user;
-    can_add_user = Can_add_user();
-    printf("%s",Fault(can_add_user));  
-
-
+    printf("Add user: \n");
+    Fault_display = Can_add_user();
 }
 void List_user_for()
 {
 
-    printf("List user : ");
-    if(manage->person_users== 0)
-        printf("\n\tEmpty\n");
-    for(int i=0; i< manage->person_users ;i++ )
+    printf("List user : \n");
+    if (manage->person_users == 0)
+        Fault_display = Empty;
+    for (int i = 0; i < manage->person_users; i++)
     {
-        printf("\n%02d\t %20s\t",manage->person_user[i].id,manage->person_user[i].name);
+        printf("\n%02d\t %20s\t", manage->person_user[i].id, manage->person_user[i].name);
     }
-
 }
 
 void Borrowed_that_book()
 {
-    printf("Borrowed book  ");
-    ErrorCode can_borrowed;
-    can_borrowed = Can_borrowed_book();
-    printf("%s",Fault(can_borrowed));  
-
-
+    printf("Borrowed book:\n  ");
+    Fault_display = Can_borrowed_book();
 }
 void Return_that_book()
 {
 
-    printf("Return book : ");
-    ErrorCode return_book;
-    return_book = Can_return_book();
-    printf("%s",Fault(return_book));  
+    printf("Return book : \n");
+    Fault_display = Can_return_book();
 }
 void List_borrow_that_book()
 {
-    printf("List_borrow book: ");
-     for(int i=0; i< manage->Store_book ;i++ )
+    printf("List_borrow book:\n ");
+    for (int i = 0; i < manage->Store_book; i++)
     {
-        if(manage->Book_at_library[i].status == Unavailable)
-            printf("\n%02d\t %20s\t %20s\t %02d ",manage->Book_at_library[i].id,manage->Book_at_library[i].title,manage->Book_at_library[i].author,manage->Book_at_library[i].status);
+        if (manage->Book_at_library[i].status == Unavailable)
+            printf("\n%02d\t %20s\t %20s\t %02d ", manage->Book_at_library[i].id, manage->Book_at_library[i].title, manage->Book_at_library[i].author, manage->Book_at_library[i].status);
     }
-    
-
 }
 void Exit_library()
 {
     printf("Close program \n Good bye !!");
 }
-

@@ -16,11 +16,8 @@ static int readMoisture(){
 }
 
 void Read_TEMP_MOISTURE(){
-    // read Temp and Moisture
-
+ 
     sensor.Temperature = readTemp();
     sensor.Moisture = readMoisture();
-
-    // display 
 
 }

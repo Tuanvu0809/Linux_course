@@ -5,6 +5,8 @@
     typedef struct{
         Player_state base;
         Music_player *context;
+
     }Playing_state;
+    Player_state (*playing)();
 
 #endif

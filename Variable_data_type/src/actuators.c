@@ -13,13 +13,11 @@ STATUS init_pump(){
 static void Pump_On_operator(){
     printf("Pump on \t");
     led = LED_WATERING;
-
 }
 
 static void Pump_OFF_operator(){
     printf("Pump off\t");
     led = LED_NORMAL;
-
 }
 
 void Pump_operator(){
