@@ -34,10 +34,7 @@ int main()
     {
         led_printf_index(i);
     }
-    // led_printf_index(0);
-    // led_printf_index(4);
-    // led_printf_index(9);
-
+    
     /*Set all pixel is green*/
     led_fill(0, 255, 0);
     test_led_all(Buffer, 0x0000FF00);
