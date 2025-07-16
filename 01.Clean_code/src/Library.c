@@ -339,8 +339,8 @@ static char *Display_status_of_book(Book_status status)
 /*Handle Fuction*/
 void Add_that_book()
 {
-    printf("\t Add book:\n ");
-    
+    printf("Add book:\n ");
+
     Fault_display = Can_add_book();
 }
 void Remove_that_book()

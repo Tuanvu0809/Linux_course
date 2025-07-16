@@ -3,8 +3,6 @@
 
 ErrorCode Fault_display;
 
-// Fault_display = SUCCESS;
-
 Choice_fuction action[] =
     {
         {Add_book, Add_that_book},
@@ -39,8 +37,8 @@ int main()
         return -1 ;
     }
     print_menu();
+    
     Choice Your_choice;
-
     do
     {
         Fault_display = SUCCESS;
