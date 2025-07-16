@@ -6,10 +6,9 @@
         #define MAX_LENGTH_NAME 80
         #define MAX_BOOK_CAN_BORROWED 10
         #define BOOK_CAN_STORE 50
-        #define PERSON_USER_MAX 30
-
-        void (*Function_use)(void);
-
+        #define PERSON_USER_MAX 100
+        
+        /*Enum*/
         typedef enum
         {
             Exit = 0,
@@ -84,7 +83,7 @@
         void print_menu();
         void Add_that_book();
         void Remove_that_book();
-        void List_that_book();
+        void List_all_book();
         void Add_user_for();
         void List_user_for();
         void Borrowed_that_book();

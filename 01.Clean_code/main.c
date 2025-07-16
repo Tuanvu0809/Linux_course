@@ -9,7 +9,7 @@ Choice_fuction action[] =
         {Exit, Exit_library},
         {Menu, print_menu},
         {Remove_book, Remove_that_book},
-        {List_book, List_that_book},
+        {List_book, List_all_book},
         {Borrowed_book, Borrowed_that_book},
         {Add_user, Add_user_for},
         {List_User, List_user_for},
@@ -47,6 +47,7 @@ int main()
         choose_fuction(Your_choice);
         printf("\n %s", Fault(Fault_display));
     } while (Your_choice != Exit);
+
 
     return 0;
 }

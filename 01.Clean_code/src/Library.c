@@ -187,8 +187,8 @@ static ErrorCode Can_add_user()
 static ErrorCode Can_return_book()
 {
     int ID_name;
-    int pos_per = -1;
-    int pos_book = -1;
+    int Position_person = -1;
+    int Position_book = -1;
 
     printf("\nEnter ID name: ");
     if (scanf("%d", &ID_name) == 1)
@@ -221,48 +221,50 @@ static ErrorCode Can_return_book()
     {
         if (ID_name == manage->person_user[i].id)
         {
-            pos_per = i;
+            Position_person = i;
             break;
         }
-        if (i == manage->person_users)
-            return ERROR_USER_NOT_FOUND;
+      
     }
+
+    if (Position_person == -1)
+        return ERROR_USER_NOT_FOUND;
 
     for (int i = 0; i <= manage->Store_book; i++)
     {
         if (manage->Book_at_library[i].id == ID_book)
         {
-            pos_book = i;
+            Position_book = i;
             break;
         }
     }
 
-    if (pos_per == -1)
+    if (Position_person == -1)
         return ERROR_USER_NOT_FOUND;
-    if (pos_book == -1)
+    if (Position_book == -1)
         return ERROR_BOOK_NOT_FOUND;
 
-    if (manage->Book_at_library[pos_book].status == Available)
+    if (manage->Book_at_library[Position_book].status == Available)
         return ERROR_BOOK_NOT_BORROWED;
     else
-        manage->Book_at_library[pos_book].status = Available;
+        manage->Book_at_library[Position_book].status = Available;
 
-    if (manage->person_user[pos_per].nums_book == 0)
+    if (manage->person_user[Position_person].nums_book == 0)
     {
         return Empty;
     }
     else
     {
-        manage->person_user[pos_per].nums_book--;
+        manage->person_user[Position_person].nums_book--;
     }
 
     return SUCCESS;
 }
-static ErrorCode Can_borrowed_book()
+static ErrorCode Can_borrow_book()
 {
     int ID_name;
-    int pos_per = -1;
-    int pos_book = -1;
+    int Position_person = -1;
+    int Position_book = -1;
 
     printf("\nEnter ID name: ");
     if (scanf("%d", &ID_name) == 1)
@@ -288,8 +290,7 @@ static ErrorCode Can_borrowed_book()
     else
     {
         int c;
-        while ((c = getchar()) != '\n' && c != EOF)
-            ;
+        while ((c = getchar()) != '\n' && c != EOF) ;
         return ERROR_INVALID_ID;
     }
 
@@ -297,32 +298,34 @@ static ErrorCode Can_borrowed_book()
     {
         if (ID_name == manage->person_user[i].id)
         {
-            pos_per = i;
+            Position_person = i;
             break;
         }
-        if (i == manage->person_users)
-            return ERROR_USER_NOT_FOUND;
+ 
     }
+
+    if (Position_person == -1)
+        return ERROR_USER_NOT_FOUND;
 
     for (int i = 0; i <= manage->Store_book; i++)
     {
         if (manage->Book_at_library[i].id == ID_book)
         {
-            pos_book = i;
+            Position_book = i;
             break;
         }
     }
-    if (pos_per == -1)
+    if (Position_person == -1)
         return ERROR_USER_NOT_FOUND;
-    if (pos_book == -1)
+    if (Position_book == -1)
         return ERROR_BOOK_NOT_FOUND;
 
-    if (manage->Book_at_library[pos_book].status == Unavailable)
+    if (manage->Book_at_library[Position_book].status == Unavailable)
         return ERROR_BOOK_NOT_BORROWED;
     else
-        manage->Book_at_library[pos_book].status = Unavailable;
+        manage->Book_at_library[Position_book].status = Unavailable;
 
-    manage->person_user[pos_per].nums_book++;
+    manage->person_user[Position_person].nums_book++;
 
     return SUCCESS;
 }
@@ -349,7 +352,7 @@ void Remove_that_book()
 
     Fault_display = Can_remove_book();
 }
-void List_that_book()
+void List_all_book()
 {
     printf("List book:\n ");
 
@@ -382,7 +385,7 @@ void Borrowed_that_book()
 {
     printf("Borrowed book:\n  ");
 
-    Fault_display = Can_borrowed_book();
+    Fault_display = Can_borrow_book();
 }
 void Return_that_book()
 {
@@ -397,10 +400,12 @@ void List_borrow_that_book()
     for (int i = 0; i < manage->Store_book; i++)
     {
         if (manage->Book_at_library[i].status == Unavailable)
-            printf("\n%02d\t %20s\t %20s\t %02d ", manage->Book_at_library[i].id, manage->Book_at_library[i].title, manage->Book_at_library[i].author, manage->Book_at_library[i].status);
+            printf("\n%02d\t %20s\t %20s\t %02s ", manage->Book_at_library[i].id, manage->Book_at_library[i].title, manage->Book_at_library[i].author, Display_status_of_book(manage->Book_at_library[i].status));
     }
 }
 void Exit_library()
 {
+    free(manage);
+
     printf("Close program \n Good bye !!");
 }
