@@ -32,21 +32,23 @@ void choose_fuction(Choice already_choice)
 
 int main()
 {
-
     /*Initialize Library*/
     if (Init_library() == -1)
     {
         printf("fail library\n");
+        return -1 ;
     }
     print_menu();
     Choice Your_choice;
 
     do
     {
+        Fault_display = SUCCESS;
         printf("\n Enter Your Choice :");
         scanf("%d", &Your_choice);
         choose_fuction(Your_choice);
-        printf("%s", Fault(Fault_display));
+        printf("\n %s", Fault(Fault_display));
     } while (Your_choice != Exit);
+
     return 0;
 }

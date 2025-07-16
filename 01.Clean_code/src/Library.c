@@ -11,10 +11,11 @@ int Init_library()
 
     manage = (Library *)malloc(sizeof(Library));
 
-    if (manage == NULL)
+    if (manage == NULL){
+        Fault_display = INIT_LIBRARY_FAIL;
         return -1;
-    else
-    {
+    }    
+    else{
         manage->Store_book = 0;
         manage->person_users = 0;
         printf("Library init success");
@@ -329,7 +330,16 @@ static ErrorCode Can_borrowed_book()
 
     return SUCCESS;
 }
-
+static char *Display_status_of_book(Book_status status)
+{
+    switch(status)
+    {
+        case Available:
+            return "Available";
+        case Unavailable:
+            return "Unavailable";
+    }
+}
 /*Handle Fuction*/
 void Add_that_book()
 {
@@ -348,7 +358,7 @@ void List_that_book()
         Fault_display = Empty;
     for (int i = 0; i < manage->Store_book; i++)
     {
-        printf("\n%02d\t %20s\t %20s\t %02d ", manage->Book_at_library[i].id, manage->Book_at_library[i].title, manage->Book_at_library[i].author, manage->Book_at_library[i].status);
+        printf("\n%02d\t %20s\t %20s\t %20s ", manage->Book_at_library[i].id, manage->Book_at_library[i].title, manage->Book_at_library[i].author, Display_status_of_book(manage->Book_at_library[i].status));
     }
 }
 void Add_user_for()
