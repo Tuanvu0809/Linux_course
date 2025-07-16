@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "..\inc\led_driver.h"
+#include "../inc/led_driver.h"
 /*array led and variable of quantity */
 static uint32_t *Led_arr = NULL;
 static size_t Led_quantity = 0;

@@ -6,10 +6,15 @@
 
 ## 1. Cấu trúc mã nguồn:
 
-- Main.c
-- src / led_driver.c
-- inc/ led_driver.h
-- test
+<pre><code>
+Operator_and_control_structrure 
+  ├──  Main.c
+  ├── src 
+    ├── led_driver.c
+  ├── inc
+    ├── led_driver.h
+  ├── test
+</code></pre>
 
 ## 2. Thư viện led_drver.h
 
@@ -50,10 +55,10 @@
             [8-bits] | [8-bits] | [8-bits] |[8-bits]
             [Not used] | [Red] | [Green] | [Blue]
 
-    - Giá trị size_t sẽ tự động có độ lớn phù hợp với kiến trúc hệ thống (32-bit hay 64-bit). Để chứa số Pixel mà người dùng cần khởi tạo
+    - Giá trị size_t sẽ tự động có độ lớn phù hợp với kiến trúc hệ thống (32-bit hay 64-bit). Để chứa số Pixel mà người dùng cần khởi tạo.
 
-      static uint32_t \*Led_arr = NULL;
-      static size_t Led_quantity = 0;
+        static uint32_t \*Led_arr = NULL;
+        static size_t Led_quantity = 0;
 
 - Hàm **Led_init**:
 
@@ -119,8 +124,7 @@
             Led_arr[i] = *calculate;
         }
     free(calculate);
-
-}
+    }
 
 - Tính toán giá trị R-G-B và gán giá trị đó cho toàn bộ pixel.
 
