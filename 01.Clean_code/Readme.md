@@ -187,23 +187,23 @@ Biến **Fault_display** được chia sẻ từ file **Main.c** để xuất ra
 
 **int Init_library()**.
 
-        int Init_library()
-        {
+            int Init_library()
+            {
 
-        manage = (Library *)malloc(sizeof(Library));
+            manage = (Library *)malloc(sizeof(Library));
 
-        if (manage == NULL){
-            Fault_display = INIT_LIBRARY_FAIL;
-            return -1;
-        }    
-        else{
-            manage->Store_book = 0;
-            manage->person_users = 0;
-            printf("Library init success");
-        }
+            if (manage == NULL){
+                Fault_display = INIT_LIBRARY_FAIL;
+                return -1;
+            }    
+            else{
+                manage->Store_book = 0;
+                manage->person_users = 0;
+                printf("Library init success");
+            }
 
-        return 0;
-        }
+            return 0;
+            }
 
 Gọi hàm Init_library() để cấp phát bộ nhớ và chuẩn bị dữ liệu.
 
