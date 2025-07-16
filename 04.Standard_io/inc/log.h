@@ -18,6 +18,5 @@
     void Log_close();
     void Logger_log_handle(Log_level set, const char *file, const int line, const char *avr ,...);
 
-
     #define log_message(level,...)  Logger_log_handle(level,__FILE__, __LINE__, __VA_ARGS__)
 #endif
