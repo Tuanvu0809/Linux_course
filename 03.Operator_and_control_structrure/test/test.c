@@ -7,7 +7,7 @@
 void test_led_all(const uint32_t* Buffer,uint32_t color )
 {
     bool check = true;
-     for(int i=0;i<led_get_pixel_count();i++)
+     for(int i=0;i<Led_get_pixel_count();i++)
     {
         if(Buffer[i]!= color )
         {
