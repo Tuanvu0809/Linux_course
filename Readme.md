@@ -26,6 +26,7 @@
 
 
 ***Note***: **Tất cả các bài tập trên đên có cấu trúc là**
+
     - inc : chứa các file thư viện **(.h)**.
     - src : chứa các mã nguồn cần dùng **(.c)**.
     - **main.c** : Chương trình chính.
