@@ -9,5 +9,4 @@
 
     Stop_state *new_Stop_state();
 
-
 #endif

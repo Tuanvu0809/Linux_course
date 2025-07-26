@@ -11,14 +11,12 @@ static void press_play_button(PlayerState *self)
 
 static void press_stop_button(PlayerState *self)
 {
-   
-    printf("[pause]--> Can't stop Music..\n");
+   printf("[pause]--> Can't stop Music..\n");
     
 }
 
 static void press_pause_button(PlayerState *self)
 {
-    
     printf("[pause]-->Pause Music ..\n");
 }
 static void set_change(PlayerState *self, MusicPlayer *player)
@@ -35,5 +33,4 @@ Pause_state  *new_Pause_state(){
     new->base.setContext = set_change;
 
     return new;
-
 }

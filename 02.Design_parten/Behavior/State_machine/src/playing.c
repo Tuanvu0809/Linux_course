@@ -34,5 +34,4 @@ Playing_state  *new_playing_state(){
     new->base.setContext = set_change;
 
     return new;
-
 }
