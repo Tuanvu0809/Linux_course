@@ -5,7 +5,6 @@
 #include "inc/pause.h"
 #include "inc/player.h"
 
-
 int main() {
 
     MusicPlayer *media = create_music_player((PlayerState *) new_Stop_state());
@@ -17,8 +16,6 @@ int main() {
     media->clickPlayButton(media);
     media->clickStopButton(media); 
     destroy_music_player(media);
-   // media->clickPlayButton(&media);
-
 
     return 0;
 }
