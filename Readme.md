@@ -5,11 +5,12 @@
 ### Bài 1 : Clean code (đã hoành thành và cập nhật)
 
 - Viết chương trình quản lí thư viện viết theo các quy tắc coding convention.
-### Bài 2: Design Parten
+### Bài 2: Design Parten (chưa có file Readme)
 
 - Cretional parten: 
     - Factory (đã hoàn thành và cập nhật).
     - Singlinton (chưa hoàn thành).
+    - Builder (đã hoàn thành).
 - Structral parten:
   - Facade (đã hoàn thành và cập nhật).
   - Decorate (đã hoàn thành và cập nhât).
@@ -27,10 +28,10 @@
 
 ***Note***: **Tất cả các bài tập trên đên có cấu trúc là**
 
-    - inc : chứa các file thư viện **(.h)**.
-    - src : chứa các mã nguồn cần dùng **(.c)**.
-    - **main.c** : Chương trình chính.
-    - **Makefile**: File thực thi.
-    - **Readme** : Mô tả dự án
-  
+  - inc : chứa các file thư viện **(.h)**.
+  - src : chứa các mã nguồn cần dùng **(.c)**.
+  - **main.c** : Chương trình chính.
+  - **Makefile**: File thực thi.
+  - **Readme** : Mô tả dự án
+
 
