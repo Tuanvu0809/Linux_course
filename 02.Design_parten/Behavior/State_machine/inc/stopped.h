@@ -1,23 +1,13 @@
-// #ifndef STOP_H
-// #define STOP_H
-//     #include "Musicplayer.h"
-//         #include <stdlib.h>
-
-//     typedef struct{
-//         Player_state base;
-//         Music_player *context;
-
-//     }Stop_state;
-//     Player_state *new_Stop_state();
-
-// #endif
-
-// inc/stopped_state.h
 #ifndef STOPPED_STATE_H
 #define STOPPED_STATE_H
+    #include "player.h"
+    #include "Musicplayer.h"
+    typedef struct{
+        PlayerState base;
+        MusicPlayer *content;
+    } Stop_state;
 
-#include "player.h"
+    Stop_state *new_Stop_state();
 
-PlayerState *new_stopped_state();
 
 #endif

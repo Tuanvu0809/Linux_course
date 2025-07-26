@@ -1,36 +1,24 @@
-// #include <stdio.h>
-// #include "inc/Musicplayer.h"
-// #include "inc/pause.h"
-// #include "inc/playing.h"
-// #include "inc/stopped.h"
-
-// int main()
-// {
-
-//     printf("Media music player: \n");
-   
-
-
-
-//     return 0;
-// }
-
-// main.c
 #include <stdio.h>
 #include "inc/Musicplayer.h"
 #include "inc/stopped.h"
+#include "inc/playing.h"
+#include "inc/pause.h"
+#include "inc/player.h"
+
 
 int main() {
-    MusicPlayer *player = create_music_player(new_stopped_state());
 
-    printf("=== Mô phỏng người dùng ===\n");
+    MusicPlayer *media = create_music_player((PlayerState *) new_Stop_state());
 
-    // player->clickPlayButton();   // Stopped -> Playing
-    // player->clickPauseButton();  // Playing -> Paused
-    // player->clickPlayButton();   // Paused -> Playing
-    // player->clickStopButton();   // Playing -> Stopped
-    // player->clickPauseButton();  // Stopped -> không làm gì
+    printf("Music Program..\n");
+    media->clickPlayButton(media);
+    media->clickStopButton(media);
+    media->clickPauseButton(media);
+    media->clickPlayButton(media);
+    media->clickStopButton(media); 
+    destroy_music_player(media);
+   // media->clickPlayButton(&media);
 
-    destroy_music_player(player);
+
     return 0;
 }

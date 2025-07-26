@@ -1,81 +1,55 @@
-// #include "../inc/Musicplayer.h"
-// #include <stdio.h>
-// #include <stdlib.h>
-
-// static void play_button(Music_player *Self)
-// {
-//     Self->current->play(Self->current);
-// }
-
-// static void stop_button(Music_player *Self)
-// {
-//     Self->current->stop(Self->current);
-// }
-
-// static void pause_button(Music_player *Self)
-// {
-//     Self->current->pause(Self->current);
-// }
-// static void Change_mode_function(Music_player *self, Player_state *newstate)
-// {
-//     if (self->current)
-//         free(self->current);
-//     self->current = newstate;
-//     self->current->set_content(self, self->current);
-// }
-
-// Music_player *creat_media(Player_state *init)
-// {
-//     Music_player *player = (Music_player *)malloc(sizeof(Music_player));
-
-  
-//     player->Click_play = play_button;
-//     player->Click_Pause = pause_button;
-//     player->Click_stop = stop_button;
-//     player->Change_mode = Change_mode_function;
-//     player->current = init;
-//     init->set_content(player, init);
-
-//     return player;
-// }
-
-// src/music_player.c
-#include <stdlib.h>
-#include <stdio.h>
 #include "../inc/Musicplayer.h"
+#include <stdio.h>
 
-static void changeState(MusicPlayer *self, PlayerState *newState) {
-    if (self->currentState)
-        free(self->currentState);
-    self->currentState = newState;
-    self->currentState->setContext(self->currentState, self);
+static void Click_play(MusicPlayer *current)
+{
+    printf("Click play button : ");
+    current->currentState->pressPlay(current->currentState);
 }
 
-static void clickPlayButton(MusicPlayer *self) {
-    self->currentState->pressPlay(self->currentState);
+static void Click_stop(MusicPlayer *current)
+{
+    printf("Click stop button : ");
+    current->currentState->pressStop(current->currentState);
 }
 
-static void clickPauseButton(MusicPlayer *self) {
-    self->currentState->pressPause(self->currentState);
+static void Click_pause(MusicPlayer *current)
+{
+    printf("Click Pause button : ");
+    current->currentState->pressPause(current->currentState);
 }
 
-static void clickStopButton(MusicPlayer *self) {
-    self->currentState->pressStop(self->currentState);
+static void change_content(MusicPlayer *current,PlayerState *newstate )
+{
+    if(current->currentState)
+        free(current->currentState);
+    current->currentState = newstate;
+    current->currentState->setContext(current->currentState,current);
 }
 
-MusicPlayer *create_music_player(PlayerState *initialState) {
-    MusicPlayer *player = malloc(sizeof(MusicPlayer));
-    player->changeState = changeState;
-    player->clickPlayButton = clickPlayButton;
-    player->clickPauseButton = clickPauseButton;
-    player->clickStopButton = clickStopButton;
-    player->currentState = initialState;
-    initialState->setContext(initialState, player);
-    return player;
+MusicPlayer *create_music_player(PlayerState *init)
+{   
+    MusicPlayer *creat_music = (MusicPlayer*) malloc(sizeof(MusicPlayer));
+  // if(creat_music == NULL ) return NULL;
+
+    creat_music->clickStopButton = Click_stop;
+    creat_music->clickPlayButton = Click_play;
+    creat_music->clickPauseButton = Click_pause;
+    creat_music->changeState = change_content;
+    creat_music->currentState = init;
+    init->setContext(init,creat_music);
+
+    return creat_music;
 }
 
-void destroy_music_player(MusicPlayer *player) {
-    if (player->currentState)
-        free(player->currentState);
-    free(player);
+void destroy_music_player(MusicPlayer *self)
+{
+    if(self == NULL ){
+        printf("Can't free.\n");
+        return ;
+    }
+
+    free(self);
+    printf("memory has been delete\n ");
 }
+
