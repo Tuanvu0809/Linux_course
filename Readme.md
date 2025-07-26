@@ -1,4 +1,4 @@
-# Các bài tập code C
+# Các bài tập code C (DevLinux)
 
 ## Đây là các thư mục bài tập code C
 
