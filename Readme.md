@@ -16,7 +16,7 @@
   - Decorate (đã hoàn thành và cập nhât).
 - Behaivor:
     - Publisher (đã hoàn thành và cập nhât).
-    - State machine(chưa hoàn thành).
+    - State machine(hoàn thành và cập nhật).
 
 ### Bài 3 : Operator and control structrure :
 - Viết chương trình điều khiển led pixel (đã hoàn thành và cập nhật).
