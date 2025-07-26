@@ -1,6 +1,6 @@
-[16-07-2025 10:55:54] [ERROR] [main.c:13] - Auto test
-[16-07-2025 10:55:54] [DEBUG] [main.c:14] - not seen
-[16-07-2025 10:55:54] [CRITICAL] [main.c:15] - hi_lo
-[16-07-2025 10:55:54] [ALERT] [main.c:16] - test arg ok excellent
-[16-07-2025 10:55:54] [ERROR] [main.c:20] - seen
-[16-07-2025 10:55:54] [EMERGENCY] [main.c:21] - Test happy
+[26-07-2025 12:13:20] [ERROR] [main.c:13] - Auto test
+[26-07-2025 12:13:20] [DEBUG] [main.c:14] - not seen
+[26-07-2025 12:13:20] [CRITICAL] [main.c:15] - hi_lo
+[26-07-2025 12:13:20] [ALERT] [main.c:16] - test arg ok excellent
+[26-07-2025 12:13:20] [ERROR] [main.c:20] - seen
+[26-07-2025 12:13:20] [EMERGENCY] [main.c:21] - Test happy
