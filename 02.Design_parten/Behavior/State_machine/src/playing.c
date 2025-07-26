@@ -3,21 +3,21 @@
 #include "../inc/pause.h"
 static void press_play_button(PlayerState *self)
 {
-    printf("[playing]--> already playing Music...\n");
+    printf("[Playing Mode]--> already playing Music...\n");
 
 }
 
 static void press_stop_button(PlayerState *self)
 {
     Playing_state *state = (Playing_state *) self;
-    printf("[playing]--> stop Music..\n");
+    printf("[Playing Mode]--> stop Music..\n");
     state->content->changeState(state->content,(PlayerState *) new_Stop_state());
 }
 
 static void press_pause_button(PlayerState *self)
 {
     Playing_state *state = (Playing_state *) self;
-    printf("[playing]--> Pause Music ..\n");
+    printf("[Playing Mode]--> Pause Music ..\n");
     state->content->changeState(state->content,(PlayerState *) new_Pause_state());
 }
 static void set_change(PlayerState *self, MusicPlayer *player)

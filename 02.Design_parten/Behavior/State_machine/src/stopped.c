@@ -4,19 +4,19 @@
 static void press_play_button(PlayerState *self)
 {
     Stop_state *state = (Stop_state *) self;
-    printf("[stopped]--> playing Music...\n");
+    printf("[Stopped Mode]--> playing Music...\n");
     state->content->changeState(state->content,(PlayerState *) new_playing_state());
 
 }
 
 static void press_stop_button(PlayerState *self)
 {
-    printf("[stopped]--> already stop Music..\n");
+    printf("[Stopped Mode]--> already stop Music..\n");
 }
 
 static void press_pause_button(PlayerState *self)
 {
-    printf("[stopped]--> Can't pause\n");
+    printf("[Stopped Mode]--> Can't pause\n");
 }   
 static void set_change(PlayerState *self, MusicPlayer *player)
 {

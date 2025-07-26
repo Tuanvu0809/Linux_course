@@ -30,7 +30,6 @@ static void change_content(MusicPlayer *current,PlayerState *newstate )
 MusicPlayer *create_music_player(PlayerState *init)
 {   
     MusicPlayer *creat_music = (MusicPlayer*) malloc(sizeof(MusicPlayer));
-  // if(creat_music == NULL ) return NULL;
 
     creat_music->clickStopButton = Click_stop;
     creat_music->clickPlayButton = Click_play;
