@@ -5,14 +5,14 @@
 ### Bài 1 : Clean code (đã hoành thành và cập nhật)
 
 - Viết chương trình quản lí thư viện viết theo các quy tắc coding convention.
-### Bài 2: Design Parten (chưa có file Readme)
+### Bài 2: Design Parten 
 
 - Cretional parten: 
     - Factory (đã hoàn thành và cập nhật).
     - Singlinton (chưa hoàn thành).
     - Builder (đã hoàn thành).
-- Structral parten:
-  - Facade (đã hoàn thành và cập nhật).
+- Structral parten: (chưa có file Readme).
+  - Facade (đã hoàn thành và cập nhật,).
   - Decorate (đã hoàn thành và cập nhât).
 - Behaivor:
     - Publisher (đã hoàn thành và cập nhât).
