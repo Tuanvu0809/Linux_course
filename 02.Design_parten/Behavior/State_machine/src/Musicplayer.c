@@ -1,8 +1,6 @@
 #include "../inc/Musicplayer.h"
 #include <stdio.h>
 
-
-
 static void Click_play(MusicPlayer *current)
 {
     printf("Click play button : ");

@@ -8,7 +8,7 @@
 int main() {
 
     MusicPlayer *media = create_music_player((PlayerState *) new_Stop_state());
-
+    
     if(media == NULL)
     {
         printf("Fail init media Music\n");
