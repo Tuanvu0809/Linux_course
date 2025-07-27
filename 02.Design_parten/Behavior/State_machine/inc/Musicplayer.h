@@ -9,7 +9,7 @@
         PlayerState *currentState;
         void (*changeState)(struct MusicPlayer *self, PlayerState *newState);
 
-        void (*clickPlayButton)(struct MusicPlayer *self);
+        void (*clickPlayButton)(struct MusicPlayer *self );
         void (*clickPauseButton)(struct MusicPlayer *self);
         void (*clickStopButton)(struct MusicPlayer *self);
     } MusicPlayer;
