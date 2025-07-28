@@ -1,6 +1,6 @@
 # Các bài tập code C (DevLinux)
 
-## Đây là các thư mục bài tập code C
+# Code_C_advanced.
 
 ### Bài 1 : Clean code (đã hoành thành và cập nhật)
 
@@ -34,4 +34,5 @@
   - **Makefile**: File thực thi.
   - **Readme** : Mô tả dự án
 
+## Project. 
 
