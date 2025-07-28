@@ -20,6 +20,8 @@ int main() {
     media->clickStopButton(media);
     media->clickPauseButton(media);
     media->clickPlayButton(media);
+    media->clickPauseButton(media);
+    media->clickPlayButton(media);
     media->clickStopButton(media); 
     destroy_music_player(media);
 
