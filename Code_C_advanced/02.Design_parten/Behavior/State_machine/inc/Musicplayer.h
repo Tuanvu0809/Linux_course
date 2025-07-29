@@ -9,12 +9,12 @@
         PlayerState *currentState;
         void (*changeState)(struct MusicPlayer *self, PlayerState *newState);
 
-        void (*clickPlayButton)(struct MusicPlayer *self );
-        void (*clickPauseButton)(struct MusicPlayer *self);
-        void (*clickStopButton)(struct MusicPlayer *self);
+        void (*clickPlayButton)();
+        void (*clickPauseButton)();
+        void (*clickStopButton)();
     } MusicPlayer;
 
     MusicPlayer *create_music_player(PlayerState *init);
-    void destroy_music_player(MusicPlayer *self);
+    void destroy_music_player();
 
 #endif

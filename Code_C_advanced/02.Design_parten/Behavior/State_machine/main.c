@@ -7,7 +7,7 @@
 
 int main() {
 
-    MusicPlayer *media = create_music_player((PlayerState *) new_Stop_state());
+    MusicPlayer const *media = create_music_player((PlayerState *) new_Stop_state());
     
     if(media == NULL)
     {
@@ -16,14 +16,14 @@ int main() {
     }
 
     printf("Music Program..\n");
-    media->clickPlayButton(media);
-    media->clickStopButton(media);
-    media->clickPauseButton(media);
-    media->clickPlayButton(media);
-    media->clickPauseButton(media);
-    media->clickPlayButton(media);
-    media->clickStopButton(media); 
-    destroy_music_player(media);
+    media->clickPlayButton();
+    media->clickStopButton();
+    media->clickPauseButton();
+    media->clickPlayButton();
+    media->clickPauseButton();
+    media->clickPlayButton();
+    media->clickStopButton(); 
+    destroy_music_player();
 
     return 0;
 }

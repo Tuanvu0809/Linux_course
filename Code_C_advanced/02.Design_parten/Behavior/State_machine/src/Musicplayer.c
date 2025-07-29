@@ -1,19 +1,21 @@
 #include "../inc/Musicplayer.h"
 #include <stdio.h>
 
-static void Click_play(MusicPlayer *current)
+static MusicPlayer *current;
+
+static void Click_play()
 {
     printf("Click play button : ");
     current->currentState->pressPlay(current->currentState);
 }
 
-static void Click_stop(MusicPlayer *current)
+static void Click_stop()
 {
     printf("Click stop button : ");
     current->currentState->pressStop(current->currentState);
 }
 
-static void Click_pause(MusicPlayer *current)
+static void Click_pause()
 {
     printf("Click Pause button : ");
     current->currentState->pressPause(current->currentState);
@@ -29,26 +31,26 @@ static void change_content(MusicPlayer *current,PlayerState *newstate )
 
 MusicPlayer *create_music_player(PlayerState *init)
 {   
-    MusicPlayer *creat_music = (MusicPlayer*) malloc(sizeof(MusicPlayer));
+    current = (MusicPlayer*) malloc(sizeof(MusicPlayer));
 
-    creat_music->clickStopButton = Click_stop;
-    creat_music->clickPlayButton = Click_play;
-    creat_music->clickPauseButton = Click_pause;
-    creat_music->changeState = change_content;
-    creat_music->currentState = init;
-    init->setContext(init,creat_music);
+    current->clickStopButton = Click_stop;
+    current->clickPlayButton = Click_play;
+    current->clickPauseButton = Click_pause;
+    current->changeState = change_content;
+    current->currentState = init;
+    init->setContext(init,current);
 
-    return creat_music;
+    return current;
 }
 
-void destroy_music_player(MusicPlayer *self)
+void destroy_music_player()
 {
-    if(self == NULL ){
+    if(current == NULL ){
         printf("Can't free.\n");
         return ;
     }
 
-    free(self);
+    free(current);
     printf("memory has been delete\n ");
 }
 
