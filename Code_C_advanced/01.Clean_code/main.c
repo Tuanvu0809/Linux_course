@@ -15,6 +15,7 @@ Choice_fuction action[] =
         {List_User, List_user_for},
         {List_Borrow_book, List_borrow_that_book},
         {Return_book, Return_that_book},
+        {List_all_user,Display_all_users},
 };
 void choose_fuction(Choice already_choice)
 {
@@ -45,7 +46,8 @@ int main()
         printf ("\n Enter Your Choice :");
         scanf("%d", &Your_choice);
         choose_fuction(Your_choice);
-        printf ("\n %s", Fault(Fault_display));
+        print_error();
+
     } while (Your_choice != Exit);
 
 

@@ -12,7 +12,7 @@ int Init_library()
     manage = (Library *)malloc(sizeof(Library));
 
     if (manage == NULL){
-        Fault_display = INIT_LIBRARY_FAIL;
+        Fault_display = ERROR_INIT_LIBRARY;
         return -1;
     }    
     else{
@@ -52,12 +52,16 @@ char *Fault(ErrorCode Fault)
     {
         case SUCCESS:
             return "Success\n";
+        case ERROR_INIT_LIBRARY:
+            return "Fail init library\n";
         case ERROR_INVALID_ID:
             return "Invalid ID\n";
         case ERROR_INVALID_NAME:
             return "Invalid name\n";
         case ERROR_LIBRARY_FULL:
             return "Library is full\n";
+        case ERROR_USER_FULL:
+            return "User full\n";
         case ERROR_BOOK_NOT_FOUND:
             return "Book not found\n";
         case ERROR_USER_NOT_FOUND:
@@ -72,6 +76,12 @@ char *Fault(ErrorCode Fault)
             return "Unknown error\n";
     }
 }
+
+void print_error()
+{
+    printf("\n %s", Fault(Fault_display));
+}
+
 static ErrorCode Can_add_book()
 {
     if (manage->Store_book >= BOOK_CAN_STORE)
@@ -408,4 +418,9 @@ void Exit_library()
     free(manage);
 
     printf("Close program \n Good bye !!");
+}
+void Display_all_users()
+{
+    printf("display user \n");
+
 }

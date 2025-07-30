@@ -17,6 +17,7 @@
             List_book,
             Add_user,
             List_User,
+            List_all_user,
             Borrowed_book,
             Return_book,
             List_Borrow_book,
@@ -26,7 +27,7 @@
         typedef enum
         {
             SUCCESS = 0,
-            INIT_LIBRARY_FAIL,
+            ERROR_INIT_LIBRARY,
             ERROR_INVALID_ID,
             ERROR_INVALID_NAME,
             ERROR_LIBRARY_FULL,
@@ -80,6 +81,7 @@
         Library *Libary_manage();
         char *Fault(ErrorCode Fault);
 
+        void print_error();
         void print_menu();
         void Add_that_book();
         void Remove_that_book();
@@ -90,5 +92,6 @@
         void Return_that_book();
         void List_borrow_that_book();
         void Exit_library();
+        void Display_all_users();
 
 #endif
