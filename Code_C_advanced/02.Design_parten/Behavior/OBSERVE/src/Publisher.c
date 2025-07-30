@@ -2,7 +2,7 @@
 #include "../inc/Subscriber.h"
 #include <stdio.h>
 #include <string.h>
-void subscriber_Fuction(Publisher *self, Subscribers *s)
+void subscriber_function(Publisher *self, Subscribers *s)
 {
     if (self->count < MAX_SUBSCRIBERS)
     {
@@ -10,7 +10,7 @@ void subscriber_Fuction(Publisher *self, Subscribers *s)
     }
 }
 
-void unSubscriber_Fuction(Publisher *self, Subscribers *s)
+void unSubscriber_function(Publisher *self, Subscribers *s)
 {
     int i, j;
     for (i = 0; i < self->count; i++)
@@ -27,7 +27,7 @@ void unSubscriber_Fuction(Publisher *self, Subscribers *s)
     }
 }
 
-void notifys_Fuction(Publisher *self, const char *event)
+void notifys_function(Publisher *self, const char *event)
 {
     for (int i = 0; i <= self->count; i++)
     {
@@ -42,7 +42,7 @@ void creat_publisher(Publisher *Publishers)
 {
     memset(Publishers, 0, sizeof(Publisher));
     Publishers->count = 0;
-    Publishers->sub = subscriber_Fuction;
-    Publishers->unsub = unSubscriber_Fuction;
-    Publishers->notify = notifys_Fuction;
+    Publishers->sub = subscriber_function;
+    Publishers->unsub = unSubscriber_function;
+    Publishers->notify = notifys_function;
 }
