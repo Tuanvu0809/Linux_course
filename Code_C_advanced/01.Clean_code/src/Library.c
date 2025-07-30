@@ -422,5 +422,8 @@ void Exit_library()
 void Display_all_users()
 {
     printf("display user \n");
-
+    for(int i=0; i< manage->person_users; i++)
+    {
+        printf("\n %d %s %d",manage->person_user[i].id,manage->person_user[i].name,manage->person_user[i].nums_book);
+    }
 }
