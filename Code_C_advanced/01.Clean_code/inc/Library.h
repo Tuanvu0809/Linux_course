@@ -81,7 +81,7 @@
         Library *Libary_manage();
         char *Fault(ErrorCode Fault);
 
-        void print_error();
+        void print_error(ErrorCode error);
         void print_menu();
         void Add_that_book();
         void Remove_that_book();

@@ -77,9 +77,9 @@ char *Fault(ErrorCode Fault)
     }
 }
 
-void print_error()
+void print_error(ErrorCode error)
 {
-    printf("\n %s", Fault(Fault_display));
+    printf("\n %s", Fault(error));
 }
 
 static ErrorCode Can_add_book()

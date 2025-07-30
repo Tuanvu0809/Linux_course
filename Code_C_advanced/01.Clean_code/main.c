@@ -46,7 +46,7 @@ int main()
         printf ("\n Enter Your Choice :");
         scanf("%d", &Your_choice);
         choose_fuction(Your_choice);
-        print_error();
+        print_error(Fault_display);
 
     } while (Your_choice != Exit);
 
