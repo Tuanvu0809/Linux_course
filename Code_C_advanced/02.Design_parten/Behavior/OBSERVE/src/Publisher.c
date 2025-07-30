@@ -12,12 +12,11 @@ void subscriber_function(Publisher *self, Subscribers *s)
 
 void unSubscriber_function(Publisher *self, Subscribers *s)
 {
-    int i, j;
-    for (i = 0; i < self->count; i++)
+    for (int i = 0; i < self->count; i++)
     {
         if (self->subscribers[i] == s)
         {
-            for (j = i; j <= self->count - 1; j++)
+            for (int j = i; j <= self->count - 1; j++)
             {
                 self->subscribers[j] = self->subscribers[j + 1];
             }
