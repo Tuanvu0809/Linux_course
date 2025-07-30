@@ -27,20 +27,20 @@
 
 ## Các chức năng:
 
-=====**HỆ THỐNG QUẢN LÝ THƯ VIỆN** =====
+    =====**HỆ THỐNG QUẢN LÝ THƯ VIỆN** =====
 
-1.  Thêm sách mới.
-2.  Xóa sách.
-3.  Hiển thị tất cả sách.
-4.  Thêm người dùng mới.
-5.  Xóa người dùng.
-6.  Hiển thị tất cả người dùng.
-7.  Mượn sách.
-8.  Trả sách.
-9.  Hiển thị sách đang được mượn.
-10. Hiển thị lại menu.
-11. Thoát.
-    
+    1.  Thêm sách mới.
+    2.  Xóa sách.
+    3.  Hiển thị tất cả sách.
+    4.  Thêm người dùng mới.
+    5.  Xóa người dùng.
+    6.  Hiển thị tất cả người dùng.
+    7.  Mượn sách.
+    8.  Trả sách.
+    9.  Hiển thị sách đang được mượn.
+    10. Hiển thị lại menu.
+    11. Thoát.
+        
 
 ## 📁 Cấu trúc dữ liệu chính.
 ### Enum.
@@ -165,7 +165,7 @@ Biến **Your_choice** để chứa lựa chọn của người dùng.
 Nhập lựa chọn từ người dùng.
 Gọi hàm choose_fuction() để thực hiện chức năng tương ứng.
 Lặp lại cho đến khi người dùng chọn **Exit**.
-#### b.Hàm choose_fuction()
+#### c. Hàm choose_fuction(). 
 
             void choose_fuction(Choice already_choice);
 
@@ -212,7 +212,7 @@ Thoát chương trình nếu khởi tạo thất bại.
 ### 2. Hiển thị menu
 
  **void print_menu()**.
-   
+
         void print_menu()
         {
             printf("\n===== LIBRARY MANAGEMENT SYSTEM =====\n");
@@ -232,5 +232,3 @@ Thoát chương trình nếu khởi tạo thất bại.
 In ra danh sách các lựa chọn mà người dùng có thể thao tác.
 
 ### 3. Các hàm xử lí logic (thêm, xóa, hiện thị).
-
-
