@@ -5,6 +5,6 @@ SRCS = main.c src/Publisher.c src/Publisher/door.c src/Publisher/smoke.c src/Sub
 
 $(TARGET): $(SRCS)
 	$(CC) -o $(TARGET) $(SRCS)
-
+git
 clean:
 	rm -rf $(TARGET)
