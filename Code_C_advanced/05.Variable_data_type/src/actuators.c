@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "..\inc\config.h"
-#include "..\inc\actuators.h"
+#include "../inc/config.h"
+#include "../inc/actuators.h"
 /*Extern variable*/
 extern LED_STATUS led;
 extern STATUS pump;

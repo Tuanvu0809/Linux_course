@@ -11,7 +11,7 @@ void test_led_all(const uint32_t* Buffer,uint32_t color )
     {
         if(Buffer[i]!= color )
         {
-            printf("Buffer[%d] = 0x%p \n",i,Buffer[i]);
+            printf("Buffer[%d] = 0x%08X \n",i,Buffer[i]);
             check = false; 
         }
     }

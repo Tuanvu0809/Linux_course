@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "inc/Led_driver.h"
+#include "inc/led_driver.h"
 #include "test/test.h"
 
 int main()

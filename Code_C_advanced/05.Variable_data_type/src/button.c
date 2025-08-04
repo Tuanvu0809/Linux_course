@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "..\inc\config.h"
-#include "..\inc\button.h"
+#include "../inc/config.h"
+#include "../inc/button.h"
 extern data sensor;
 extern STATUS pump;
 extern LED_STATUS led;

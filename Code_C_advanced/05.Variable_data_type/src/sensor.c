@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "..\inc\config.h"
-#include  "..\inc\sensor.h"
+#include "../inc/config.h"
+#include  "../inc/sensor.h"
 
 extern data sensor;
 static int readTemp()

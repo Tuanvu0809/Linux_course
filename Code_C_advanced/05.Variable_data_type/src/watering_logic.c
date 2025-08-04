@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "..\inc\config.h"
-#include "..\inc\watering_logic.h"
+#include "../inc/config.h"
+#include "../inc/watering_logic.h"
 
 #define MOISTER_MIN_FOR_AUTO 50
 #define MOISTER_MAX_FOR_AUTO 70

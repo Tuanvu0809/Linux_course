@@ -9,5 +9,5 @@ $(TARGET): $(SRCS)
 	$(CC) -o $(TARGET) $(SRCS)
 
 clean:
-	del $(TARGET).exe
+	rm -rf $(TARGET)
 

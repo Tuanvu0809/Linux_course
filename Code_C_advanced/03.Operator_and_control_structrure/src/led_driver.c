@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../inc/Led_driver.h"
+#include "../inc/led_driver.h"
 /*array Led and variable of quantity */
 static uint32_t *Led_arr = NULL;
 static size_t Led_quantity = 0;
@@ -71,5 +71,5 @@ void Led_printf_index(size_t index)
         if (Led_arr == NULL || (index >= Led_get_pixel_count() || index < 0))
                 return;
 
-        printf("Pixel  %2d = 0x%p\n", index, Led_arr[index]);
+        printf("Pixel  %2ld =  0x%08X\n", index, Led_arr[index]);
 }

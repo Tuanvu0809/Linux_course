@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "..\inc\config.h"
+#include "../inc/config.h"
 
 static void Turn_led_for_status(LED_STATUS led)
 {
