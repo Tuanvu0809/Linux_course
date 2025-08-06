@@ -6,14 +6,12 @@ int main()
 {
     printf("Program Manage :\n");
 
-    get_cpu_usage();
-    calculate_cpu_frequencies();
+    print_cpu_usages();
+    print_cpu_frequencies();
+    
+    print_top_cpu_processes();
     get_ram_usage();
     get_swap_usage();
     get_top_ram_processes();
-
-
-
-
     return 0;
 }

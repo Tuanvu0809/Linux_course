@@ -2,29 +2,65 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <dirent.h>
+#include <ctype.h>
 #include "../inc/CPU_parameter.h"
-void get_cpu_usage() {
+
+int read_core_stats(CPUCoreStat *cores, int *core_count) {
     FILE *fp = fopen("/proc/stat", "r");
-    if (!fp) return ;
+    if (!fp) return -1;
 
-    char line[256];
-    unsigned long long user, nice, system, idle, iowait, irq, softirq;
-    fgets(line, sizeof(line), fp);
+    char line[512];
+    int count = 0;
+
+    while (fgets(line, sizeof(line), fp)) {
+        if (strncmp(line, "cpu", 3) == 0 && (isdigit(line[3]) || line[3] == ' ')) {
+            sscanf(line, "cpu%*s %llu %llu %llu %llu %llu %llu %llu",
+                   &cores[count].user, &cores[count].nice, &cores[count].system,
+                   &cores[count].idle, &cores[count].iowait, &cores[count].irq,
+                   &cores[count].softirq);
+            count++;
+            if (count >= MAX_CORES) break;
+        } else {
+            break;
+        }
+    }
+
     fclose(fp);
-
-    sscanf(line, "cpu %llu %llu %llu %llu %llu %llu %llu",
-           &user, &nice, &system, &idle, &iowait, &irq, &softirq);
-
-    unsigned long long total_time = user + nice + system + idle + irq + softirq;
-
-    if (total_time == 0) return ;
-     printf("Cpu percent total :%f per ",(float)( 100.0f * (total_time - (idle + iowait) ) / total_time));
-
+    *core_count = count;
+    return 0;
 }
 
+// ✅ Tổng thể và từng core
+void print_cpu_usages() {
+
+    CPUCoreStat cores[MAX_CORES];
+
+    int count = 0;
+    unsigned long long total;
+
+    if( read_core_stats(cores,&count) == -1)
+    {
+        printf("fail \n");
+    }
+    for (int i=0; i< count; i++)
+    {
+        total = 0;
+        total = cores[i].user + cores[i].nice + cores[i].system + cores[i].idle + cores[i].iowait + cores[i].irq + cores[i].softirq;
+        if(i!=0){
+            printf("core %d = %f \n ", i-1,(float)( 100.0f * (total - (cores[i].idle + cores[i].iowait) ) / total) );
+        }
+        else {
+            printf("core all = %f \n ",(float)( 100.0f * (total - (cores[i].idle + cores[i].iowait) ) / total) );
+        }
+   
+    }
 
 
-void calculate_cpu_frequencies() {
+ 
+}
+
+void print_cpu_frequencies() {
     FILE *fp = fopen("/proc/cpuinfo", "r");
     if (!fp) {
         perror("Cannot open /proc/cpuinfo");
@@ -51,5 +87,78 @@ void calculate_cpu_frequencies() {
     fclose(fp);
 }
 
+
+
+static int get_top_cpu_processes(CPUProcess procs[], int top_n) {
+    DIR *dir = opendir("/proc");
+    if (!dir) return 0;
+
+    struct dirent *entry;
+    int count = 0;
+
+    while ((entry = readdir(dir)) != NULL) {
+        if (!isdigit(entry->d_name[0])) continue;
+
+        int pid = atoi(entry->d_name);
+        char path[64];
+        snprintf(path, sizeof(path), "/proc/%d/stat", pid);
+
+        FILE *fp = fopen(path, "r");
+        if (!fp) continue;
+
+        unsigned long utime = 0, stime = 0;
+        char comm[256];
+        fscanf(fp, "%*d (%[^)]) %*c %*s %*s %*s %*s %*s %*s %*s %*s %*s %*s %lu %lu",
+               comm, &utime, &stime);
+        fclose(fp);
+
+        float cpu = (utime + stime) / 100.0; 
+        if (cpu < 0.1f) continue;
+
+        if (count < top_n) {
+            procs[count].pid = pid;
+            strcpy(procs[count].name, comm);
+            procs[count].cpu_usage = cpu;
+            count++;
+        } else {
+       
+            int min_idx = 0;
+            for (int i = 1; i < top_n; i++) {
+                if (procs[i].cpu_usage < procs[min_idx].cpu_usage)
+                    min_idx = i;
+            }
+            if (cpu > procs[min_idx].cpu_usage) {
+                procs[min_idx].pid = pid;
+                strcpy(procs[min_idx].name, comm);
+                procs[min_idx].cpu_usage = cpu;
+            }
+        }
+    }
+
+    closedir(dir);
+
+    // Sắp xếp giảm dần
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = i + 1; j < count; j++) {
+            if (procs[i].cpu_usage < procs[j].cpu_usage) {
+                CPUProcess temp = procs[i];
+                procs[i] = procs[j];
+                procs[j] = temp;
+            }
+        }
+    }
+
+    return count;
+}
+
+void print_top_cpu_processes() {
+    CPUProcess processes[TOP_N];
+    int count = get_top_cpu_processes(processes, TOP_N);
+    printf("\nTop %d used CPU :\n", count);
+    for (int i = 0; i < count; i++) {
+        printf("%2d. PID: %d  %-20s  CPU: %.2f\n",
+               i + 1, processes[i].pid, processes[i].name, processes[i].cpu_usage);
+    }
+}
 
 
