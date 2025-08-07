@@ -2,8 +2,8 @@
 #define CPU_PARAMETER_H
 
  
-    #define MAX_CORES 64
-    #define TOP_N 5
+    #define MAX_CORES   64
+    #define TOP_N        5
     #define NAME_LEN    256
     #define LINE        512 
 
