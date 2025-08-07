@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include "inc/CPU_parameter.h"
 #include "inc/RAM.h"
+#include "inc/Storetage.h"
 
 int main()
 {
@@ -12,5 +13,7 @@ int main()
         get_ram_usage();
         get_swap_usage();
         get_top_ram_processes();
+        get_disk_usage("/");
+        //get_disk_io("sda");
     return 0;
 }
