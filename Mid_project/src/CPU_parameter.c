@@ -6,7 +6,7 @@
 #include <ctype.h>
 #include "../inc/CPU_parameter.h"
 
-int read_core_stats(CPUCoreStat *cores, int *core_count) {
+int read_core_stats(CPU_Core_Stat *cores, int *core_count) {
     FILE *fp = fopen("/proc/stat", "r");
     if (!fp) return -1;
 
@@ -14,16 +14,25 @@ int read_core_stats(CPUCoreStat *cores, int *core_count) {
     int count = 0;
 
     while (fgets(line, sizeof(line), fp)) {
-        if (strncmp(line, "cpu", 3) == 0 && (isdigit(line[3]) || line[3] == ' ')) {
-            sscanf(line, "cpu%*s %llu %llu %llu %llu %llu %llu %llu",
-                   &cores[count].user, &cores[count].nice, &cores[count].system,
-                   &cores[count].idle, &cores[count].iowait, &cores[count].irq,
-                   &cores[count].softirq);
-            count++;
-            if (count >= MAX_CORES) break;
-        } else {
-            break;
+            if (strncmp(line, "cpu", 3) == 0) {
+            if (line[3] == ' ') {
+              
+                sscanf(line, "cpu  %llu %llu %llu %llu %llu %llu %llu",
+                    &cores[0].user, &cores[0].nice, &cores[0].system,
+                    &cores[0].idle, &cores[0].iowait, &cores[0].irq,
+                    &cores[0].softirq);
+                count = 1; 
+            } else if (isdigit(line[3])) {
+                int id;
+                sscanf(line, "cpu%d %llu %llu %llu %llu %llu %llu %llu",
+                    &id,
+                    &cores[count].user, &cores[count].nice, &cores[count].system,
+                    &cores[count].idle, &cores[count].iowait, &cores[count].irq,
+                    &cores[count].softirq);
+                count++;
+            }
         }
+
     }
 
     fclose(fp);
@@ -31,10 +40,9 @@ int read_core_stats(CPUCoreStat *cores, int *core_count) {
     return 0;
 }
 
-// ✅ Tổng thể và từng core
-void print_cpu_usages() {
+void get_cpu_usages() {
 
-    CPUCoreStat cores[MAX_CORES];
+    CPU_Core_Stat cores[MAX_CORES];
 
     int count = 0;
     unsigned long long total;
@@ -48,10 +56,10 @@ void print_cpu_usages() {
         total = 0;
         total = cores[i].user + cores[i].nice + cores[i].system + cores[i].idle + cores[i].iowait + cores[i].irq + cores[i].softirq;
         if(i!=0){
-            printf("core %d = %f \n ", i-1,(float)( 100.0f * (total - (cores[i].idle + cores[i].iowait) ) / total) );
+           printf("core %d = %.2f %% \n ", i-1,(float)( 100.0f * (total - (cores[i].idle + cores[i].iowait) ) / total) );
         }
         else {
-            printf("core all = %f \n ",(float)( 100.0f * (total - (cores[i].idle + cores[i].iowait) ) / total) );
+            printf("core all = %.2f %% \n ",(float)( 100.0f * (total - (cores[i].idle + cores[i].iowait) ) / total) );
         }
    
     }
@@ -60,7 +68,7 @@ void print_cpu_usages() {
  
 }
 
-void print_cpu_frequencies() {
+void get_cpu_frequencies() {
     FILE *fp = fopen("/proc/cpuinfo", "r");
     if (!fp) {
         perror("Cannot open /proc/cpuinfo");
@@ -89,7 +97,7 @@ void print_cpu_frequencies() {
 
 
 
-static int get_top_cpu_processes(CPUProcess procs[], int top_n) {
+static int top_cpu_processes(CPU_Process procs[], int top_n) {
     DIR *dir = opendir("/proc");
     if (!dir) return 0;
 
@@ -141,7 +149,7 @@ static int get_top_cpu_processes(CPUProcess procs[], int top_n) {
     for (int i = 0; i < count - 1; i++) {
         for (int j = i + 1; j < count; j++) {
             if (procs[i].cpu_usage < procs[j].cpu_usage) {
-                CPUProcess temp = procs[i];
+                CPU_Process temp = procs[i];
                 procs[i] = procs[j];
                 procs[j] = temp;
             }
@@ -151,9 +159,9 @@ static int get_top_cpu_processes(CPUProcess procs[], int top_n) {
     return count;
 }
 
-void print_top_cpu_processes() {
-    CPUProcess processes[TOP_N];
-    int count = get_top_cpu_processes(processes, TOP_N);
+void get_top_cpu_processes() {
+    CPU_Process processes[TOP_N];
+    int count = top_cpu_processes(processes, TOP_N);
     printf("\nTop %d used CPU :\n", count);
     for (int i = 0; i < count; i++) {
         printf("%2d. PID: %d  %-20s  CPU: %.2f\n",

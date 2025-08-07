@@ -6,10 +6,9 @@ int main()
 {
     printf("Program Manage :\n");
 
-    print_cpu_usages();
-    print_cpu_frequencies();
-    
-    print_top_cpu_processes();
+    get_cpu_usages();
+    get_cpu_frequencies();
+    get_top_cpu_processes();
     get_ram_usage();
     get_swap_usage();
     get_top_ram_processes();

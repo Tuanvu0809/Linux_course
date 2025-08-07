@@ -8,20 +8,20 @@
     typedef struct {
         unsigned long long user, nice, system, idle, iowait, irq, softirq;
        // unsigned long long total, idle_all;
-    } CPUCoreStat;
+    } CPU_Core_Stat;
 
     typedef struct {
         int core_id;
         int frequency_khz;
-    } CPUFreq;
+    } CPU_Frequency;
 
     typedef struct {
         int pid;
         char name[256];
         float cpu_usage;
-    } CPUProcess;
+    } CPU_Process;
 
-    void print_cpu_usages() ;
-    void print_cpu_frequencies();
-    void print_top_cpu_processes();
+    void get_cpu_usages() ;
+    void get_cpu_frequencies();
+    void get_top_cpu_processes();
 #endif
