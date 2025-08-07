@@ -4,6 +4,8 @@
  
     #define MAX_CORES 64
     #define TOP_N 5
+    #define NAME_LEN    256
+    #define LINE        512 
 
     typedef struct {
         unsigned long long user, nice, system, idle, iowait, irq, softirq;
@@ -17,7 +19,7 @@
 
     typedef struct {
         int pid;
-        char name[256];
+        char name_pid[NAME_LEN];
         float cpu_usage;
     } CPU_Process;
 

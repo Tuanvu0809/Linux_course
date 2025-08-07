@@ -15,15 +15,15 @@ void get_ram_usage() {
         return;
     }
 
-    unsigned long mem_total = 0, mem_free = 0, buffers = 0, cached = 0;
+    unsigned long Memory_total = 0, Memory_free = 0, buffers = 0, cached = 0;
     char label[64];
 
     while (!feof(fp)) {
         fscanf(fp, "%s", label);
         if (strcmp(label, "MemTotal:") == 0)
-            fscanf(fp, "%lu", &mem_total);
+            fscanf(fp, "%lu", &Memory_total);
         else if (strcmp(label, "MemFree:") == 0)
-            fscanf(fp, "%lu", &mem_free);
+            fscanf(fp, "%lu", &Memory_free);
         else if (strcmp(label, "Buffers:") == 0)
             fscanf(fp, "%lu", &buffers);
         else if (strcmp(label, "Cached:") == 0)
@@ -31,12 +31,12 @@ void get_ram_usage() {
     }
     fclose(fp);
 
-    unsigned long used = mem_total - mem_free - buffers - cached;
+    unsigned long used = Memory_total - Memory_free - buffers - cached;
 
     printf(" RAM Usage:\n");
-    printf(" Total: %lu MB\n", mem_total / 1024);
+    printf(" Total: %lu MB\n", Memory_total / 1024);
     printf("Used : %lu MB\n", used / 1024);
-    printf("Free : %lu MB\n", mem_free / 1024);
+    printf("Free : %lu MB\n", Memory_free / 1024);
     printf("Cache : %lu MB\n",cached/1024);
 }
 
@@ -70,7 +70,7 @@ void get_swap_usage() {
 
 
 
-static int top_ram_processes(RAMProcess top_procs[], int top_n) {
+static int top_ram_processes(RAM_Process top_process[], int top_n) {
     DIR *dir = opendir("/proc");
     if (!dir) return 0;
 
@@ -102,20 +102,20 @@ static int top_ram_processes(RAMProcess top_procs[], int top_n) {
 
         if (vmrss > 0) {
             if (count < top_n) {
-                top_procs[count].pid = pid;
-                strcpy(top_procs[count].name, name);
-                top_procs[count].mem_kb = vmrss;
+                top_process[count].pid = pid;
+                strcpy(top_process[count].name, name);
+                top_process[count].Memory_kb = vmrss;
                 count++;
             } else {
                 int min_idx = 0;
                 for (int i = 1; i < top_n; i++) {
-                    if (top_procs[i].mem_kb < top_procs[min_idx].mem_kb)
+                    if (top_process[i].Memory_kb < top_process[min_idx].Memory_kb)
                         min_idx = i;
                 }
-                if (vmrss > top_procs[min_idx].mem_kb) {
-                    top_procs[min_idx].pid = pid;
-                    strcpy(top_procs[min_idx].name, name);
-                    top_procs[min_idx].mem_kb = vmrss;
+                if (vmrss > top_process[min_idx].Memory_kb) {
+                    top_process[min_idx].pid = pid;
+                    strcpy(top_process[min_idx].name, name);
+                    top_process[min_idx].Memory_kb = vmrss;
                 }
             }
         }
@@ -126,10 +126,10 @@ static int top_ram_processes(RAMProcess top_procs[], int top_n) {
     // Sắp xếp giảm dần
     for (int i = 0; i < count - 1; i++) {
         for (int j = i + 1; j < count; j++) {
-            if (top_procs[i].mem_kb < top_procs[j].mem_kb) {
-                RAMProcess tmp = top_procs[i];
-                top_procs[i] = top_procs[j];
-                top_procs[j] = tmp;
+            if (top_process[i].Memory_kb < top_process[j].Memory_kb) {
+                RAM_Process tmp = top_process[i];
+                top_process[i] = top_process[j];
+                top_process[j] = tmp;
             }
         }
     }
@@ -138,13 +138,13 @@ static int top_ram_processes(RAMProcess top_procs[], int top_n) {
 }
 
 void get_top_ram_processes() {
-    RAMProcess processes[TOP_N];
+    RAM_Process processes[TOP_N];
     int count = top_ram_processes(processes, TOP_N);
 
     printf("\n Top %d processes by RAM usage:\n", count);
     for (int i = 0; i < count; i++) {
         printf("%2d. PID: %-5d  %-20s  %6lu KB\n",
-               i + 1, processes[i].pid, processes[i].name, processes[i].mem_kb);
+               i + 1, processes[i].pid, processes[i].name, processes[i].Memory_kb);
     }
 }
 
