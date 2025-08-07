@@ -14,6 +14,6 @@ int main()
         get_swap_usage();
         get_top_ram_processes();
         get_disk_usage("/");
-        //get_disk_io("sda");
+        get_disk_io("sda");
     return 0;
 }

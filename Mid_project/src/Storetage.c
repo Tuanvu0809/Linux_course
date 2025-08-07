@@ -7,9 +7,6 @@
 #include <ctype.h>
 #include "../inc/Storetage.h"
 
-
-
-// === Function 1: Disk Usage ===
 void get_disk_usage (const char *path) {
     struct statvfs stat;
     if (statvfs(path, &stat) != 0) {
@@ -27,10 +24,8 @@ void get_disk_usage (const char *path) {
     printf("Free space : %lu MB\n", free / (1024 * 1024));
 }
 
-// === Function 2: Read/Write Speed & IOPS from /proc/diskstats ===
 
-
-int get_disk_stats(const char *device, Disk_Status *stats) {
+int static get_disk_stats(const char *device, Disk_Status *stats) {
     FILE *fp = fopen("/proc/diskstats", "r");
     if (!fp) return -1;
 
