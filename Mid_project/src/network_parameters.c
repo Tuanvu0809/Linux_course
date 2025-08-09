@@ -4,6 +4,11 @@
 #include <unistd.h>
 #include <stdint.h>
 #include <string.h>
+#include <sys/types.h>     
+#include <ifaddrs.h>      
+#include <arpa/inet.h>     
+#include <netinet/in.h>   
+#include <netdb.h> 
 
 /*Rx bytes*/
 static void rx_tx_bytes(uint64_t *rx , uint64_t *tx)
@@ -49,6 +54,33 @@ void get_dowload_upload_speed(int second)
     printf("Upload speed : %.3f  KB/s \n ", upload_speed );
 }
 
+void get_ip_addresses() 
+{
+    struct ifaddrs *ifaddr, *ifa;
+    if (getifaddrs(&ifaddr) == -1) {
+        perror("getifaddrs failed");
+        return;
+    }
+    printf("\n[IP Addresses]\n");
+    for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
+        if (!ifa->ifa_addr) continue;
+        int family = ifa->ifa_addr->sa_family;
+        char host[NI_MAXHOST];
 
+        if (family == AF_INET || family == AF_INET6) {
+            void *addr_ptr = NULL;
+            if (family == AF_INET) {
+                addr_ptr = &((struct sockaddr_in*)ifa->ifa_addr)->sin_addr;
+            } else {
+                addr_ptr = &((struct sockaddr_in6*)ifa->ifa_addr)->sin6_addr;
+            }
+            if (inet_ntop(family, addr_ptr, host, sizeof(host))) {
+                printf("  %-12s  %s (%s)\n",
+                       ifa->ifa_name, host, family == AF_INET ? "IPv4" : "IPv6");
+            }
+        }
+    }
+    freeifaddrs(ifaddr);
+}
 
    

@@ -8,14 +8,15 @@
 int main()
 {
         printf("Program Manage :\n");   
-        // get_cpu_usages(); 
-        // get_cpu_frequencies();
-        // get_top_cpu_processes();
-        // get_ram_usage();
-        // get_swap_usage();
-        // get_top_ram_processes();
-        // get_disk_usage("/");
-        // get_disk_io("sda");
+        get_cpu_usages(); 
+        get_cpu_frequencies();
+        get_top_cpu_processes();
+        get_ram_usage();
+        get_swap_usage();
+        get_top_ram_processes();
+        get_disk_usage("/");
+        get_disk_io("sda");
         get_dowload_upload_speed(1);
-    return 0;
+        get_ip_addresses();
+        return 0;
 }
