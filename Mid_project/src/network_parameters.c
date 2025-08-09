@@ -6,14 +6,13 @@
 #include <string.h>
 
 /*Rx bytes*/
-static uint64_t rx_bytes()
+static void rx_tx_bytes(uint64_t *rx , uint64_t *tx)
 {
-    uint64_t *rx = (uint64_t *) malloc(sizeof(uint64_t));
-
+ 
     FILE *fp = fopen("/proc/net/dev", "r");
      if (!fp) {
         perror("Failed to open /proc/net/dev");
-        return -1;
+        return ;
     }
 
     char line[512];
@@ -23,34 +22,9 @@ static uint64_t rx_bytes()
 
     } while (strncmp(line," ens33:",7) || (line== NULL));
 
-    sscanf(line," ens33: %lu",rx);
-
-
-    return *rx;
+    sscanf(line," ens33: %lu\t%*d\t%*d\t%*d\t%*d\t%*d\t%*d\t%*d\t%lu",rx,tx);
+    
 }
-
-/*tx bytes*/
-static uint64_t tx_bytes()
-{
-    uint64_t *tx = (uint64_t *) malloc(sizeof(uint64_t));
-
-    FILE *fp = fopen("/proc/net/dev", "r");
-     if (!fp) {
-        perror("Failed to open /proc/net/dev");
-        return -1;
-    }
-
-    char line[512];
-    do{
-        fgets(line,sizeof(line),fp);
-
-    } while (strncmp(line," ens33:",7) || (line== NULL));
-
-    sscanf(line," ens33: %*d\t%*d\t%*d\t%*d\t%*d\t%*d\t%*d\t%*d\t%lu",tx);
-
-    return *tx;
-}
-
 
 static double  speed(uint64_t speed_1, uint64_t speed_2, int second)
 {
@@ -64,11 +38,9 @@ void get_dowload_upload_speed(int second)
     double  upload_speed;
     double  dowload_speed;
 
-    rx1 = rx_bytes();
-    tx1 = tx_bytes();
+    rx_tx_bytes(&rx1,&tx1);
     sleep(second);
-    rx2 = rx_bytes();
-    tx2 = tx_bytes(); 
+    rx_tx_bytes(&rx2,&tx2);
 
     dowload_speed = speed(rx1,rx2,second);
     upload_speed = speed(tx1,tx2,second);
