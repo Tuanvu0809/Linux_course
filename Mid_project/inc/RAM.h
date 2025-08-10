@@ -3,6 +3,9 @@
 
     #define TOP_N 5
     #define NAME_LEN    256
+    #define READ_PROCESS             "/proc"
+    #define READ_PROCESS_STATUS     "/proc/%d/status"
+    #define READ_MEMORY_INFO        "/proc/meminfo"
 
     
     typedef struct {
@@ -11,8 +14,7 @@
         unsigned long Memory_kb;
     } RAM_Process;
 
-    void get_ram_usage();
-    void get_swap_usage();
-    void get_top_ram_processes();
+    void RAM_INFO_CHECK();
+
 
 #endif

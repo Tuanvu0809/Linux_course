@@ -14,7 +14,7 @@
 static void rx_tx_bytes(uint64_t *rx , uint64_t *tx)
 {
  
-    FILE *fp = fopen("/proc/net/dev", "r");
+    FILE *fp = fopen( Read_status_rx_tx_byte , "r");
      if (!fp) {
         perror("Failed to open /proc/net/dev");
         return ;
@@ -36,7 +36,7 @@ static double  speed(uint64_t speed_1, uint64_t speed_2, int second)
     return (double ) (speed_2 - speed_1) /(second * 1024 );
 }
 
-void get_dowload_upload_speed(int second)
+static void get_dowload_upload_speed(int second)
 {
     uint64_t rx1,rx2;
     uint64_t tx1,tx2;;
@@ -50,37 +50,53 @@ void get_dowload_upload_speed(int second)
     dowload_speed = speed(rx1,rx2,second);
     upload_speed = speed(tx1,tx2,second);
 
+    printf("\n[Dowload and upload Speed]\n");
     printf("Dowload speed : %.3f  KB/s \n ", dowload_speed );
     printf("Upload speed : %.3f  KB/s \n ", upload_speed );
 }
 
-void get_ip_addresses() 
+static void get_ip_addresses() 
 {
     struct ifaddrs *ifaddr, *ifa;
+
     if (getifaddrs(&ifaddr) == -1) {
-        perror("getifaddrs failed");
+        perror("Getifaddrs failed");
         return;
     }
+
     printf("\n[IP Addresses]\n");
     for (ifa = ifaddr; ifa != NULL; ifa = ifa->ifa_next) {
         if (!ifa->ifa_addr) continue;
+
         int family = ifa->ifa_addr->sa_family;
         char host[NI_MAXHOST];
 
         if (family == AF_INET || family == AF_INET6) {
             void *addr_ptr = NULL;
-            if (family == AF_INET) {
+
+            if (family == AF_INET) 
+            {
                 addr_ptr = &((struct sockaddr_in*)ifa->ifa_addr)->sin_addr;
-            } else {
+                
+            } else
+            {
                 addr_ptr = &((struct sockaddr_in6*)ifa->ifa_addr)->sin6_addr;
             }
-            if (inet_ntop(family, addr_ptr, host, sizeof(host))) {
-                printf("  %-12s  %s (%s)\n",
-                       ifa->ifa_name, host, family == AF_INET ? "IPv4" : "IPv6");
+            if (inet_ntop(family, addr_ptr, host, sizeof(host))) 
+            {
+                printf("  %-12s  %s (%s)\n", ifa->ifa_name, host, family == AF_INET ? "IPv4" : "IPv6");
             }
         }
     }
     freeifaddrs(ifaddr);
 }
 
-   
+void NETWORK_INFO_CHECK()
+{
+    printf("\nCheck Network\n");
+    int times;
+    printf("delta times: ");
+    scanf("%d",&times) ;
+    get_dowload_upload_speed(times);
+    get_ip_addresses();
+}

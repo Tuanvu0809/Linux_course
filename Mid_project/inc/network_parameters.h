@@ -1,12 +1,9 @@
 #ifndef NETWORK_H
 #define NETWORK_H
 
+    #define Read_status_rx_tx_byte  "/proc/net/dev"
 
-
-    void get_dowload_upload_speed(int second);
-    void get_ip_addresses(); 
-
-
+    void NETWORK_INFO_CHECK();
 
 #endif
 

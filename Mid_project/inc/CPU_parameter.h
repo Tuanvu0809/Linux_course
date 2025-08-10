@@ -6,10 +6,15 @@
     #define TOP_N        5
     #define NAME_LEN    256
     #define LINE        512 
+    #define READ_PROCESS   "/proc"
+    #define READ_PROCESS_STATUS     "/proc/%d/status"
+    #define READ_CORE_STAT  "/proc/stat"
+    #define READ_CPU_INFO   "/proc/cpuinfo"
+
 
     typedef struct {
         unsigned long long user, nice, system, idle, iowait, irq, softirq;
-       // unsigned long long total, idle_all;
+
     } CPU_Core_Stat;
 
     typedef struct {
@@ -23,7 +28,7 @@
         float cpu_usage;
     } CPU_Process;
 
-    void get_cpu_usages() ;
-    void get_cpu_frequencies();
-    void get_top_cpu_processes();
+ 
+    void CPU_INFO_CHECK();
+
 #endif

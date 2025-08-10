@@ -7,7 +7,7 @@
 #include "../inc/CPU_parameter.h"
 
 int read_core_stats(CPU_Core_Stat *cores, int *core_count) {
-    FILE *fp = fopen("/proc/stat", "r");
+    FILE *fp = fopen(READ_CORE_STAT, "r");
     if (!fp) return -1;
 
     char line[LINE];
@@ -42,7 +42,7 @@ int read_core_stats(CPU_Core_Stat *cores, int *core_count) {
     return 0;
 }
 
-void get_cpu_usages() {
+static void get_cpu_usages() {
 
     CPU_Core_Stat cores[MAX_CORES];
 
@@ -67,8 +67,8 @@ void get_cpu_usages() {
     }
 }
 
-void get_cpu_frequencies() {
-    FILE *fp = fopen("/proc/cpuinfo", "r");
+static void get_cpu_frequencies() {
+    FILE *fp = fopen(READ_CPU_INFO, "r");
     if (!fp) {
         perror("Cannot open /proc/cpuinfo");
         return;
@@ -97,7 +97,8 @@ void get_cpu_frequencies() {
 
 
 static int top_cpu_processes(CPU_Process *Process, int top_n) {
-    DIR *dir = opendir("/proc");
+    DIR *dir = opendir(READ_PROCESS);
+
     if (!dir) return 0;
 
     struct dirent *entry;
@@ -108,7 +109,7 @@ static int top_cpu_processes(CPU_Process *Process, int top_n) {
 
         int pid = atoi(entry->d_name);
         char path[64];
-        snprintf(path, sizeof(path), "/proc/%d/stat", pid);
+        snprintf(path, sizeof(path), READ_PROCESS_STATUS , pid);
 
         FILE *fp = fopen(path, "r");
         if (!fp) continue;
@@ -156,7 +157,7 @@ static int top_cpu_processes(CPU_Process *Process, int top_n) {
     return count;
 }
 
-void get_top_cpu_processes() {
+static void get_top_cpu_processes() {
     CPU_Process processes[TOP_N];
     int count = top_cpu_processes(processes, TOP_N);
     printf("\nTop %d used CPU :\n", count);
@@ -166,4 +167,11 @@ void get_top_cpu_processes() {
     }
 }
 
+void CPU_INFO_CHECK()
+{
+    printf("\n Check CPU \n");
+    get_cpu_usages(); 
+    get_cpu_frequencies();
+    get_top_cpu_processes();
 
+}

@@ -2,7 +2,7 @@
 #define STORETAGE_H
 
     #define SECTOR_SIZE 512
-
+    #define READ_DISK_STAT "/proc/diskstats"
     typedef struct {
         unsigned long reads;
         unsigned long read_sectors;
@@ -10,7 +10,6 @@
         unsigned long write_sectors;
     } Disk_Status;
 
-    void get_disk_usage(const char *path);
-    void get_disk_io(const char *device);
-
+    
+    void DISK_INFO_CHECK();
 #endif

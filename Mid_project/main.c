@@ -4,19 +4,22 @@
 #include "inc/RAM.h"
 #include "inc/Storetage.h"
 #include "inc/network_parameters.h"
+#include "inc/Handle_function.h"
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
 
 int main()
 {
-        printf("Program Manage :\n");   
-        get_cpu_usages(); 
-        get_cpu_frequencies();
-        get_top_cpu_processes();
-        get_ram_usage();
-        get_swap_usage();
-        get_top_ram_processes();
-        get_disk_usage("/");
-        get_disk_io("sda");
-        get_dowload_upload_speed(1);
-        get_ip_addresses();
-        return 0;
+    printf("Program Manage :\n");
+    Choice Your_choice;
+    do
+    {
+        printf("Enter your Choice: ");
+        scanf("%d", (int*)&Your_choice);
+        choose_fuction(Your_choice);
+
+    } while (Your_choice != EXIT);
+     
+    return 0;
 }
