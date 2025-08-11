@@ -4,11 +4,11 @@
     #include <string.h>
     
     typedef enum{
-        CPU_INFO = 0,
+        EXIT = 0,
         RAM_INFO ,
         DISK_INFO,
         NETWORK_INFO,
-        EXIT,
+        CPU_INFO,
     } Choice;
 
     typedef struct{
@@ -18,6 +18,8 @@
 
     
     void choose_fuction(Choice already_choice);
+    void Print_menu();
+
 
 
 #endif

@@ -7,77 +7,92 @@
 #include <string.h>
 #include <ctype.h>
 #include "../inc/RAM.h"
+/*Hàm tính ứng dụng ram nhiều nhất*/
+static int top_ram_processes(RAM_Process *top_process, int top_n) 
+{
+    /*Variable*/
+    struct dirent *entry; 
+    int count = 0;
+    int pid;
+    char status_path[64];
+    char line[NAME_LEN], name[NAME_LEN] = "";
+    unsigned long Ram_usage = 0;
+    int min_idx = 0;
 
- 
-static int top_ram_processes(RAM_Process top_process[], int top_n) {
+    /*Đọc các úng dụng đang sủ dụng*/
     DIR *dir = opendir(READ_PROCESS);
     if (!dir) return 0;
 
-    struct dirent *entry;
-    int count = 0;
-
-    while ((entry = readdir(dir))) {
+    while ((entry = readdir(dir))) 
+    {
         if (!isdigit(entry->d_name[0])) continue;
 
-        int pid = atoi(entry->d_name);
-        char status_path[64];
-        snprintf(status_path, sizeof(status_path), READ_PROCESS_STATUS , pid);
+        pid = atoi(entry->d_name);              // chuyển đổi pid từ kí tự sang số để tham chiếu 
+        snprintf(status_path, sizeof(status_path), READ_PROCESS_STATUS , pid); // đọc tiến trình PID theo pid vừa tìm
 
         FILE *fp = fopen(status_path, "r");
         if (!fp) continue;
 
-        char line[256], name[256] = "";
-        unsigned long vmrss = 0;
-
-        while (fgets(line, sizeof(line), fp)) {
+        while (fgets(line, sizeof(line), fp))
+        {
             if (strncmp(line, "Name:", 5) == 0)
-                sscanf(line, "Name: %s", name);
-            else if (strncmp(line, "VmRSS:", 6) == 0) {
-                sscanf(line, "VmRSS: %lu", &vmrss);  // RAM usage in KB
+            {
+                sscanf(line, "Name: %s", name);   // tên tiến trình
+            }    
+            else if (strncmp(line, "VmRSS:", 6) == 0) 
+            {
+                sscanf(line, "VmRSS: %lu", &Ram_usage);  // RAM usage in KB
                 break;
             }
         }
         fclose(fp);
 
-        if (vmrss > 0) {
-            if (count < top_n) {
+       
+        if (Ram_usage > 0) {
+            if (count < top_n)
+            {
                 top_process[count].pid = pid;
                 strcpy(top_process[count].name, name);
-                top_process[count].Memory_kb = vmrss;
+                top_process[count].Memory_kb = Ram_usage;
                 count++;
             } else {
-                int min_idx = 0;
-                for (int i = 1; i < top_n; i++) {
+            
+                for (int i = 1; i < top_n; i++) 
+                {
                     if (top_process[i].Memory_kb < top_process[min_idx].Memory_kb)
+                    {
                         min_idx = i;
+                    }    
                 }
-                if (vmrss > top_process[min_idx].Memory_kb) {
+                if (Ram_usage > top_process[min_idx].Memory_kb) 
+                {
                     top_process[min_idx].pid = pid;
                     strcpy(top_process[min_idx].name, name);
-                    top_process[min_idx].Memory_kb = vmrss;
+                    top_process[min_idx].Memory_kb = Ram_usage;
                 }
             }
         }
     }
 
-    closedir(dir);
-
-    // Sắp xếp giảm dần
+    closedir(dir); // đóng tiến trình
+     /*Sắp xếp 5 Pid chiếu nhiều ram nhất*/
     for (int i = 0; i < count - 1; i++) {
-        for (int j = i + 1; j < count; j++) {
-            if (top_process[i].Memory_kb < top_process[j].Memory_kb) {
-                RAM_Process tmp = top_process[i];
+        for (int j = i + 1; j < count; j++)
+        {
+            if (top_process[i].Memory_kb < top_process[j].Memory_kb) 
+            {
+                RAM_Process temporary = top_process[i];
                 top_process[i] = top_process[j];
-                top_process[j] = tmp;
+                top_process[j] = temporary;
             }
         }
     }
-
     return count;
 }
-
-
-static void get_ram_usage() {
+/*Hàm đọc giá trị ram sử dụng*/
+static void get_ram_usage()
+{
+    /*Đọc giá trị ram trong proc/meminfo */
     FILE *fp = fopen( READ_MEMORY_INFO , "r");
     if (!fp) {
         perror("Cannot open /proc/meminfo");
@@ -99,7 +114,7 @@ static void get_ram_usage() {
             fscanf(fp, "%lu", &cached);
     }
     fclose(fp);
-
+    /*tính toán ram đã sử dụng*/
     unsigned long used = Memory_total - Memory_free - buffers - cached;
 
     printf(" RAM Usage:\n");
@@ -108,17 +123,19 @@ static void get_ram_usage() {
     printf("Free : %lu MB\n", Memory_free / 1024);
     printf("Cache : %lu MB\n",cached/1024);
 }
+/*tính toán Swap Ram*/
+static void get_swap_usage()
+{
+    unsigned long swap_total = 0, swap_free = 0;
+    char label[64];
+    unsigned long used;
 
-static void get_swap_usage() {
     FILE *fp = fopen( READ_MEMORY_INFO , "r");
     if (!fp) {
         perror("Cannot open /proc/meminfo");
         return;
     }
-
-    unsigned long swap_total = 0, swap_free = 0;
-    char label[64];
-
+   
     while (!feof(fp)) {
         fscanf(fp, "%s", label);
         if (strcmp(label, "SwapTotal:") == 0)
@@ -128,24 +145,23 @@ static void get_swap_usage() {
     }
     fclose(fp);
 
-    unsigned long used = swap_total - swap_free;
+    used = swap_total - swap_free;
 
     printf("\nSwap Usage:\n");
-    printf("Total: %lu MB\n", swap_total / 1024);
+    printf(" Total: %lu MB\n", swap_total / 1024);
     printf(" Used : %lu MB\n", used / 1024);
     printf(" Free : %lu MB\n", swap_free / 1024);
 }
-
-static void get_top_ram_processes() {
+/*xếp hạng ứng dụng sử dung nhiều nhất ram  */
+static void get_top_ram_processes() 
+{
     RAM_Process processes[TOP_N];
     int count = top_ram_processes(processes, TOP_N);
 
     printf("\n Top %d processes by RAM usage:\n", count);
     for (int i = 0; i < count; i++) 
     {
-
         printf("%2d. PID: %-5d  %-20s  %6lu KB\n",i + 1, processes[i].pid, processes[i].name, processes[i].Memory_kb);
-   
     }
 }
 

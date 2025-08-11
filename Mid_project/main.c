@@ -15,11 +15,14 @@ int main()
     Choice Your_choice;
     do
     {
+        Print_menu();
         printf("Enter your Choice: ");
         scanf("%d", (int*)&Your_choice);
         choose_fuction(Your_choice);
 
     } while (Your_choice != EXIT);
+
+    printf("\n---end----\n");
      
     return 0;
 }
