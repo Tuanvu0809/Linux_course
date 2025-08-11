@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <unistd.h>
 #include "inc/CPU_parameter.h"
-#include "inc/RAM.h"
-#include "inc/Storetage.h"
-#include "inc/network_parameters.h"
+#include "inc/RAM_parameter.h"
+#include "inc/Disk_parameter.h"
+#include "inc/Network_parameters.h"
 #include "inc/Handle_function.h"
 #include <string.h>
 #include <stdlib.h>

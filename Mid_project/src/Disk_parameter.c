@@ -5,7 +5,7 @@
 #include <sys/statvfs.h>
 #include <dirent.h>
 #include <ctype.h>
-#include "../inc/Storetage.h"
+#include "../inc/Disk_parameter.h"
 
 static void get_disk_usage (const char *path) {
     struct statvfs stat;

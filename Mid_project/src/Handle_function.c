@@ -1,8 +1,8 @@
 #include "../inc/Handle_function.h"
 #include "../inc/CPU_parameter.h"
-#include "../inc/RAM.h"
-#include "../inc/Storetage.h"
-#include "../inc/network_parameters.h"
+#include "../inc/RAM_parameter.h"
+#include "../inc/Disk_parameter.h"
+#include "../inc/Network_parameters.h"
 #include <stdio.h>
 
 Check_Info Infomation[]=

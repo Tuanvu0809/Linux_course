@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "../inc/RAM.h"
+#include "../inc/RAM_parameter.h"
 /*Hàm tính ứng dụng ram nhiều nhất*/
 static int top_ram_processes(RAM_Process *top_process, int top_n) 
 {

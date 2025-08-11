@@ -1,4 +1,4 @@
-#include "../inc/network_parameters.h"
+#include "../inc/Network_parameters.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
