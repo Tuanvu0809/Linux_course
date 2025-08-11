@@ -164,7 +164,7 @@ static void get_top_ram_processes()
         printf("%2d. PID: %-5d  %-20s  %6lu KB\n",i + 1, processes[i].pid, processes[i].name, processes[i].Memory_kb);
     }
 }
-
+/*Check Ram */
 void RAM_INFO_CHECK()
 {
     printf("\n Check Ram\n");
