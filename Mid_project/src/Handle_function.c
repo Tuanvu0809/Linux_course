@@ -16,7 +16,7 @@ Check_Info Infomation[]=
 
 void choose_fuction(Choice already_choice)
 {
-    if(already_choice >= (sizeof(Infomation) / sizeof(Infomation[0])))
+    if(already_choice > (sizeof(Infomation) / sizeof(Infomation[0])))
     {
         printf(" Not handle please try again \n");
         return;

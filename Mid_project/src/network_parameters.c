@@ -94,9 +94,7 @@ static void get_ip_addresses()
 void NETWORK_INFO_CHECK()
 {
     printf("\nCheck Network\n");
-    int times;
-    printf("delta times: ");
-    scanf("%d",&times) ;
-    get_dowload_upload_speed(times);
+    
+    get_dowload_upload_speed(1);
     get_ip_addresses();
 }

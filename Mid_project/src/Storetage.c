@@ -81,15 +81,11 @@ void DISK_INFO_CHECK()
 {
     printf("\nCheck disk\n");
 
-    int times;
     char disk[10];
     printf("disk: ");
     scanf("%9s", disk);          
 
-    printf("delta times: ");
-    scanf(" %d", &times);        
-
     get_disk_usage("/");
-    get_disk_io(disk, times);
+    get_disk_io(disk, 1);
 
 }
