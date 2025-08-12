@@ -33,4 +33,4 @@
 - *Kiểm tra tần số chạy của từng core*
 - *Kiểm tra ứng dụng sủ dụng nhiều tài nguyên CPU nhất*
 ### e.Handle_function.c/Handle_function.h
-- *Tạo hàm để nhười dùng lựa chọn kiểm tra *
+- *Tạo hàm để nhười dùng lựa chọn kiểm tra*

@@ -1,5 +1,6 @@
 #ifndef CPU_PARAMETER_H
 #define CPU_PARAMETER_H
+    #include "Log.h"
 
  
     #define MAX_CORES   64
@@ -13,8 +14,13 @@
 
 
     typedef struct {
-        unsigned long long user, nice, system, idle, iowait, irq, softirq;
-
+        unsigned long long user;
+        unsigned long long nice;
+        unsigned long long system;
+        unsigned long long idle;
+        unsigned long long iowait;
+        unsigned long long irq;
+        unsigned long long softirq;
     } CPU_Core_Stat;
 
     typedef struct {

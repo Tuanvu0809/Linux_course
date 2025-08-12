@@ -1,5 +1,7 @@
 #ifndef RAM_H
 #define RAM_H
+  #include "Log.h"
+
     /*macro*/
     #define TOP_N 5
     #define NAME_LEN    256

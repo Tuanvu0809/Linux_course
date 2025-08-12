@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <ctype.h>
+#include <time.h>
 #include "../inc/CPU_parameter.h"
 
 int read_core_stats(CPU_Core_Stat *cores, int *core_count) {
@@ -41,31 +42,75 @@ int read_core_stats(CPU_Core_Stat *cores, int *core_count) {
     *core_count = count;
     return 0;
 }
+static unsigned long long total_target(CPU_Core_Stat cores)
+{
+    return cores.user + cores.nice + cores.system + cores.idle + cores.iowait + cores.irq + cores.softirq;
 
-static void get_cpu_usages() {
-
-    CPU_Core_Stat cores[MAX_CORES];
-
-    int count = 0;
-    unsigned long long total;
-
-    if( read_core_stats(cores,&count) == -1)
-    {
-        printf("fail \n");
-    }
-    for (int i=0; i< count; i++)
-    {
-        total = 0;
-        total = cores[i].user + cores[i].nice + cores[i].system + cores[i].idle + cores[i].iowait + cores[i].irq + cores[i].softirq;
-        if(i!=0){
-            printf("core %d = %.2f %% \n ", i-1,(float)( 100.0f * (total - (cores[i].idle + cores[i].iowait) ) / total) );
-        }
-        else {
-            printf("core all = %.2f %% \n ",(float)( 100.0f * (total - (cores[i].idle + cores[i].iowait) ) / total) );
-        }
-
-    }
 }
+
+static unsigned long long idle_target(CPU_Core_Stat cores)
+{
+    return cores.idle + cores.iowait;
+}
+
+static void get_cpu_usages(void) {
+    CPU_Core_Stat cores_before[MAX_CORES];
+    CPU_Core_Stat cores_after[MAX_CORES];
+    int count_1 = 0, count_2 = 0;
+
+    if (read_core_stats(cores_before, &count_1) == -1) {
+        printf("read_core_stats(before) failed\n");
+        return;
+    }
+    sleep(1);
+    if (read_core_stats(cores_after, &count_2) == -1) {
+        printf("read_core_stats(after) failed\n");
+        return;
+    }
+
+    int n = (count_1 < count_2) ? count_1 : count_2;
+
+    for (int i = 0; i < n; i++) {
+        unsigned long long t1 = total_target(cores_before[i]);
+        unsigned long long t2 = total_target(cores_after[i]);
+        unsigned long long i1 = idle_target(cores_before[i]);
+        unsigned long long i2 = idle_target(cores_after[i]);
+
+        if (t2 < t1 || i2 < i1) {
+            if (i == 0) printf("CPU total: N/A (counters reset)\n");
+            else        printf("Core %d : N/A (counters reset)\n", i - 1);
+            continue;
+        }
+
+        unsigned long long delta_total = t2 - t1;
+        unsigned long long delta_idle  = i2 - i1;
+
+        double percent = 0.0;
+        if (delta_total > 0) {
+            percent = (double)(delta_total - delta_idle) * 100.0 / (double)delta_total;
+            if (percent < 0.0) percent = 0.0;      
+            if (percent > 100.0) percent = 100.0;  
+        }
+
+        if (i == 0)
+        {
+            printf("CPU total: %.2f%%\n", percent);
+            if (percent > 80)
+            {
+                log_message(LOG_WARNING, "percent CPU all high %.2f%%\n ",percent);
+
+            }
+        }    
+        else
+        {
+            printf("Core %d  : %.2f%%\n", i - 1, percent);
+            log_message(LOG_WARNING, "percent CPU %d high %.2f%%\n ",i,percent);
+        }    
+    }
+
+
+}
+
 
 static void get_cpu_frequencies() {
     FILE *fp = fopen(READ_CPU_INFO, "r");

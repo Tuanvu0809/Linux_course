@@ -1,5 +1,7 @@
 #ifndef DISK_PARAMETER_H
 #define DISK_PARAMETER_H
+    #include "Log.h"
+
 
     #define SECTOR_SIZE 512
     #define READ_DISK_STAT "/proc/diskstats"

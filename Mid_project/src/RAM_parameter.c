@@ -27,8 +27,8 @@ static int top_ram_processes(RAM_Process *top_process, int top_n)
     {
         if (!isdigit(entry->d_name[0])) continue;
 
-        pid = atoi(entry->d_name);              // chuyển đổi pid từ kí tự sang số để tham chiếu 
-        snprintf(status_path, sizeof(status_path), READ_PROCESS_STATUS , pid); // đọc tiến trình PID theo pid vừa tìm
+        pid = atoi(entry->d_name);           
+        snprintf(status_path, sizeof(status_path), READ_PROCESS_STATUS , pid); 
 
         FILE *fp = fopen(status_path, "r");
         if (!fp) continue;
@@ -37,11 +37,11 @@ static int top_ram_processes(RAM_Process *top_process, int top_n)
         {
             if (strncmp(line, "Name:", 5) == 0)
             {
-                sscanf(line, "Name: %s", name);   // tên tiến trình
+                sscanf(line, "Name: %s", name);   
             }    
             else if (strncmp(line, "VmRSS:", 6) == 0) 
             {
-                sscanf(line, "VmRSS: %lu", &Ram_usage);  // RAM usage in KB
+                sscanf(line, "VmRSS: %lu", &Ram_usage);  
                 break;
             }
         }
@@ -122,6 +122,8 @@ static void get_ram_usage()
     printf("Used : %lu MB\n", used / 1024);
     printf("Free : %lu MB\n", Memory_free / 1024);
     printf("Cache : %lu MB\n",cached/1024);
+
+    
 }
 /*tính toán Swap Ram*/
 static void get_swap_usage()

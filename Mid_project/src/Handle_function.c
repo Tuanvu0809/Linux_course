@@ -34,10 +34,10 @@ void choose_fuction(Choice already_choice)
 void Print_menu()
 {
     printf("\n------------------------\n");
-    printf("0. Exit\n");
+    printf("0.Check CPU\n");
     printf("1. Check Ram\n");
     printf("2. Check Storetage\n");
     printf("3. Check Network\n");
-    printf("4. Check CPU\n");
+    printf("4. Exit\n");
     printf("\n------------------------\n");
 }

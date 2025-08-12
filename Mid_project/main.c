@@ -5,6 +5,7 @@
 #include "inc/Disk_parameter.h"
 #include "inc/Network_parameters.h"
 #include "inc/Handle_function.h"
+#include "inc/Log.h"
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -13,6 +14,9 @@ int main()
 {
     printf("Program Manage :\n");
     Choice Your_choice;
+
+    Log_init(LOG_DEBUG,"file/console.txt" );
+
     do
     {
         Print_menu();
