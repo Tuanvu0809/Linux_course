@@ -5,7 +5,7 @@
 
     /*Enum status log*/
         typedef enum{
-            LOG_EMERGENCY,
+            LOG_EMERGENCY = 0,
             LOG_ALERT,
             LOG_CRITICAL,
             LOG_ERROR,
@@ -20,6 +20,8 @@
     void Set_log_level(Log_level Set);
     void Log_close();
     void Logger_log_handle(Log_level level, const char *fmt, ...);
+    double percent_calculate(unsigned long long index , unsigned long long total);
+
 
     #define log_message(level,...)  Logger_log_handle(level, __VA_ARGS__)
 #endif

@@ -122,7 +122,18 @@ static void get_ram_usage()
     printf("Used : %lu MB\n", used / 1024);
     printf("Free : %lu MB\n", Memory_free / 1024);
     printf("Cache : %lu MB\n",cached/1024);
+    
+    printf("percent Ram %.2f %%\n",percent_calculate(used,Memory_total));
+    printf("percent Cache %.2f %%\n",percent_calculate(cached,Memory_total));
 
+
+    if(percent_calculate(used,Memory_total)>= 80 ){
+        Logger_log_handle(LOG_WARNING , "RAM Nerly full");
+    }
+    
+    if(percent_calculate(cached,Memory_total)>= 60){
+        Logger_log_handle(LOG_WARNING , "RAM Nerly full");
+    }
     
 }
 /*tính toán Swap Ram*/
@@ -153,6 +164,11 @@ static void get_swap_usage()
     printf(" Total: %lu MB\n", swap_total / 1024);
     printf(" Used : %lu MB\n", used / 1024);
     printf(" Free : %lu MB\n", swap_free / 1024);
+
+     printf("percent swap Ram %.2f %%\n",percent_calculate(used,swap_total));
+    if(percent_calculate(used,swap_total)>= 80){
+        Logger_log_handle(LOG_WARNING , "Swap RAM heavy");
+    }
 }
 /*xếp hạng ứng dụng sử dung nhiều nhất ram  */
 static void get_top_ram_processes() 

@@ -33,4 +33,34 @@
 - *Kiểm tra tần số chạy của từng core*
 - *Kiểm tra ứng dụng sủ dụng nhiều tài nguyên CPU nhất*
 ### e.Handle_function.c/Handle_function.h
-- *Tạo hàm để nhười dùng lựa chọn kiểm tra*
+- *Tạo hàm để người dùng lựa chọn kiểm tra*
+### f. Logger.c/ Logger.h
+- *Ghi lại những cảnh báo*
+- *Tất cả các cảnh báo đều được ghi mới trong file/console.txt*
+## 3.Chương trình chính:
+
+- Khởi tạo file cảnh báo console.txt.
+- In ra menu ở console và cho người dùng nhập lựa chọn để kiểm tra máy ảo Ubutu. 
+
+    MENU
+    
+            ------------------------
+           0.Check CPU
+           1. Check Ram
+           2. Check Storetage
+           3. Check Network
+           4. Exit
+            ------------------------
+- Nhập các số từ 0 -4 để kiểm tra các Parameter.
+
+## 4. Chạy chương trình
+- Sử dụng Makefile build chương trình.
+
+        make
+- Chạy chương trình. 
+    
+        ./Mid_project
+
+- Xóa Target
+
+        make clean

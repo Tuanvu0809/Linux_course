@@ -87,7 +87,7 @@ static void get_cpu_usages(void) {
 
         double percent = 0.0;
         if (delta_total > 0) {
-            percent = (double)(delta_total - delta_idle) * 100.0 / (double)delta_total;
+            percent = percent_calculate(delta_total- delta_idle,delta_total);
             if (percent < 0.0) percent = 0.0;      
             if (percent > 100.0) percent = 100.0;  
         }
@@ -104,7 +104,10 @@ static void get_cpu_usages(void) {
         else
         {
             printf("Core %d  : %.2f%%\n", i - 1, percent);
-            log_message(LOG_WARNING, "percent CPU %d high %.2f%%\n ",i,percent);
+            if (percent > 80)
+            {
+                log_message(LOG_WARNING, "percent CPU %d high %.2f%%\n ",i,percent);
+            }
         }    
     }
 

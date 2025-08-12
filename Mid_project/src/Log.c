@@ -65,7 +65,7 @@ void Log_close()
 
 void Logger_log_handle(Log_level level, const char *fmt, ...)
 {
-    if (level < current) return;
+    if (level > current) return;  //debug 7 warnh 4
 
     /* Timestamp */
     time_t now = time(NULL);
@@ -107,3 +107,8 @@ void Logger_log_handle(Log_level level, const char *fmt, ...)
     fflush(out);
 
 }
+
+double percent_calculate(unsigned long long index , unsigned long long total)
+{
+    return (double) index * 100 /(double) total;
+} 

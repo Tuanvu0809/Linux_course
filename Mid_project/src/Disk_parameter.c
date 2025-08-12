@@ -22,6 +22,11 @@ static void get_disk_usage (const char *path) {
     printf("Total space: %lu MB\n", total / (1024 * 1024));
     printf("Used space : %lu MB\n", used / (1024 * 1024));
     printf("Free space : %lu MB\n", free / (1024 * 1024));
+
+    printf("percent used %.2f %%\n",percent_calculate(used,total));
+    if(percent_calculate(used,total)>= 80){
+        Logger_log_handle(LOG_WARNING , "Disk Nerly full");
+    }
 }
 
 
