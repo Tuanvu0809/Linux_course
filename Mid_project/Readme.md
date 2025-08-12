@@ -1,16 +1,20 @@
 # Middle Project
 # <Chương trình quản lí máy ảo ubutu>
 
-## 1. cấu truc thư mục
+## 1. cấu truc thư 
+    file
+        console.txt
     inc
         CPU_parameter.h
         Handle_function.h
+        Log.h
         network_parameter.h
         RAM.h
         Storetage.h
     src
         CPU_parameter.c
         Handle_function.c
+        log.c
         network_parameter.c
         RAM.c
         Storetage.c
