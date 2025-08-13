@@ -2,7 +2,8 @@
 #define HANDLE_FUCTION
 
     #include <string.h>
-    
+        /*macro*/
+    /*Enum and struct*/
     typedef enum{
         CPU_INFO= 0,
         RAM_INFO ,
@@ -16,11 +17,9 @@
         void (*INFO)();
     } Check_Info;
 
-    
+        /*Function user can use*/
     void choose_fuction(Choice already_choice);
     void Print_menu();
     void get_valid_choice(Choice *choice, int max);
-
-
 
 #endif

@@ -6,7 +6,7 @@
 #include <dirent.h>
 #include <ctype.h>
 #include "../inc/Disk_parameter.h"
-
+/*Tính toán dung lượng tổng của ổ đĩa*/
 static void get_disk_usage (const char *path) {
     struct statvfs stat;
     if (statvfs(path, &stat) != 0) {
@@ -28,8 +28,7 @@ static void get_disk_usage (const char *path) {
         Logger_log_handle(LOG_WARNING , "Disk Nerly full");
     }
 }
-
-
+/*IOPS*/
 int static get_disk_stats(const char *device, Disk_Status *stats) {
     FILE *fp = fopen(READ_DISK_STAT, "r");
     if (!fp) return -1;
@@ -40,22 +39,23 @@ int static get_disk_stats(const char *device, Disk_Status *stats) {
            
         if (strcmp(dev, device) == 0) {
          
-            sscanf(line, "%*d\t%*d %*s %lu %*u %lu %lu %*u %lu",
-                   &stats->reads, &stats->read_sectors,
-                   &stats->writes, &stats->write_sectors);
-
-             fclose(fp);       
+            sscanf(line, "%*d\t%*d %*s %lu %*u %lu %lu %*u %lu",&stats->reads, &stats->read_sectors,&stats->writes, &stats->write_sectors);
+            fclose(fp);       
             return 0;
-  
         }
     }
     fclose(fp);
     return -1;
 }
-
+/*iops*/
 static void get_disk_io(const char *device, int second) 
 {
     Disk_Status stats1, stats2;
+    unsigned long delta_reads;
+    unsigned long delta_read_sectors;
+    unsigned long delta_writes;
+    unsigned long delta_write_sectors;
+    double read_MB, write_MB;
 
     if (get_disk_stats(device, &stats1) == -1) {
         printf("Cannot read disk stats for %s\n", device);
@@ -69,13 +69,13 @@ static void get_disk_io(const char *device, int second)
         return;
     }
 
-    unsigned long delta_reads = stats2.reads - stats1.reads;
-    unsigned long delta_read_sectors = stats2.read_sectors - stats1.read_sectors;
-    unsigned long delta_writes = stats2.writes - stats1.writes;
-    unsigned long delta_write_sectors = stats2.write_sectors - stats1.write_sectors;
+    delta_reads = stats2.reads - stats1.reads;
+    delta_read_sectors = stats2.read_sectors - stats1.read_sectors;
+    delta_writes = stats2.writes - stats1.writes;
+    delta_write_sectors = stats2.write_sectors - stats1.write_sectors;
 
-    float read_MB = delta_read_sectors * SECTOR_SIZE / (second *1024.0 * 1024.0);
-    float write_MB = delta_write_sectors * SECTOR_SIZE / (second * 1024.0 * 1024.0);
+    read_MB = delta_read_sectors * SECTOR_SIZE / (second *1024.0 * 1024.0);
+    write_MB = delta_write_sectors * SECTOR_SIZE / (second * 1024.0 * 1024.0);
 
     printf("\n[Disk I/O Statistics - %s]\n", device);
     printf("Read speed : %.2f MB/s (%lu IOPS)\n", read_MB, delta_reads);
@@ -91,6 +91,6 @@ void DISK_INFO_CHECK()
     scanf("%9s", disk);          
 
     get_disk_usage("/");
-    get_disk_io(disk, 1);
+    get_disk_io(disk, TIME_CALCULATE);
 
 }

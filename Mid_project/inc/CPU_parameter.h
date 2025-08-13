@@ -1,18 +1,17 @@
 #ifndef CPU_PARAMETER_H
 #define CPU_PARAMETER_H
     #include "Log.h"
-
- 
+    /*macro*/
     #define MAX_CORES   64
     #define TOP_N        5
     #define NAME_LEN    256
     #define LINE        512 
     #define READ_PROCESS   "/proc"
-    #define READ_PROCESS_STATUS     "/proc/%d/status"
+    #define READ_PROCESS_STATUS_CPU     "/proc/%d/stat"
     #define READ_CORE_STAT  "/proc/stat"
     #define READ_CPU_INFO   "/proc/cpuinfo"
 
-
+    /*Struct*/    
     typedef struct {
         unsigned long long user;
         unsigned long long nice;
@@ -34,7 +33,7 @@
         float cpu_usage;
     } CPU_Process;
 
- 
+    /*Function user can use*/
     void CPU_INFO_CHECK();
 
 #endif

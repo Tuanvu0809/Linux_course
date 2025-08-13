@@ -7,7 +7,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "../inc/RAM_parameter.h"
-/*Hàm tính ứng dụng ram nhiều nhất*/
+/*Function to calculate the most RAM-consuming application*/
 static int top_ram_processes(RAM_Process *top_process, int top_n) 
 {
     /*Variable*/
@@ -19,7 +19,6 @@ static int top_ram_processes(RAM_Process *top_process, int top_n)
     unsigned long Ram_usage = 0;
     int min_idx = 0;
 
-    /*Đọc các úng dụng đang sủ dụng*/
     DIR *dir = opendir(READ_PROCESS);
     if (!dir) return 0;
 
@@ -28,7 +27,7 @@ static int top_ram_processes(RAM_Process *top_process, int top_n)
         if (!isdigit(entry->d_name[0])) continue;
 
         pid = atoi(entry->d_name);           
-        snprintf(status_path, sizeof(status_path), READ_PROCESS_STATUS , pid); 
+        snprintf(status_path, sizeof(status_path), READ_PROCESS_STATUS_RAM , pid); 
 
         FILE *fp = fopen(status_path, "r");
         if (!fp) continue;
@@ -74,8 +73,8 @@ static int top_ram_processes(RAM_Process *top_process, int top_n)
         }
     }
 
-    closedir(dir); // đóng tiến trình
-     /*Sắp xếp 5 Pid chiếu nhiều ram nhất*/
+    closedir(dir); 
+/*Sort the 5 Pids that use the most RAM*/
     for (int i = 0; i < count - 1; i++) {
         for (int j = i + 1; j < count; j++)
         {
@@ -89,10 +88,9 @@ static int top_ram_processes(RAM_Process *top_process, int top_n)
     }
     return count;
 }
-/*Hàm đọc giá trị ram sử dụng*/
+/*Function to read used ram value*/
 static void get_ram_usage()
 {
-    /*Đọc giá trị ram trong proc/meminfo */
     FILE *fp = fopen( READ_MEMORY_INFO , "r");
     if (!fp) {
         perror("Cannot open /proc/meminfo");
@@ -136,7 +134,7 @@ static void get_ram_usage()
     }
     
 }
-/*tính toán Swap Ram*/
+/*Calculate Swap Ram*/
 static void get_swap_usage()
 {
     unsigned long swap_total = 0, swap_free = 0;
@@ -170,7 +168,7 @@ static void get_swap_usage()
         Logger_log_handle(LOG_WARNING , "Swap RAM heavy");
     }
 }
-/*xếp hạng ứng dụng sử dung nhiều nhất ram  */
+/*rank the applications that use the most RAM */
 static void get_top_ram_processes() 
 {
     RAM_Process processes[TOP_N];

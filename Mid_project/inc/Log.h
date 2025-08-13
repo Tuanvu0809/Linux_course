@@ -1,7 +1,7 @@
 #ifndef LOG_H
 #define LOG_H
-
-    //#define log_message(level,...)  Logger_log_handle(level,__FILE__, __LINE__, 
+    /*Macro*/
+    #define TIME_CALCULATE  1  //second
 
     /*Enum status log*/
         typedef enum{

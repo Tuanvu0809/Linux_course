@@ -10,10 +10,9 @@
 #include <netinet/in.h>   
 #include <netdb.h> 
 
-/*Rx bytes*/
-static void rx_tx_bytes(uint64_t *rx , uint64_t *tx)
+/*Rx Tx bytes*/
+static void rx_tx_bytes(Network_speed *Check)
 {
- 
     FILE *fp = fopen( Read_status_rx_tx_byte , "r");
      if (!fp) {
         perror("Failed to open /proc/net/dev");
@@ -27,34 +26,34 @@ static void rx_tx_bytes(uint64_t *rx , uint64_t *tx)
 
     } while (strncmp(line," ens33:",7) || (line== NULL));
 
-    sscanf(line," ens33: %lu\t%*d\t%*d\t%*d\t%*d\t%*d\t%*d\t%*d\t%lu",rx,tx);
-    
+    sscanf(line," ens33: %llu\t%*d\t%*d\t%*d\t%*d\t%*d\t%*d\t%*d\t%llu",&Check->RX_byte,&Check->TX_byte);
+    fclose(fp);
 }
-
-static double  speed(uint64_t speed_1, uint64_t speed_2, int second)
+/*calculate speed*/
+static double  speed(  unsigned long long speed_1,   unsigned long long speed_2, int second)
 {
     return (double ) (speed_2 - speed_1) /(second * 1024 );
 }
-
+/*Calculate speed dowload and upload*/
 static void get_dowload_upload_speed(int second)
 {
-    uint64_t rx1,rx2;
-    uint64_t tx1,tx2;;
+    Network_speed previous;
+    Network_speed after ;
     double  upload_speed;
     double  dowload_speed;
 
-    rx_tx_bytes(&rx1,&tx1);
+    rx_tx_bytes(&previous);
     sleep(second);
-    rx_tx_bytes(&rx2,&tx2);
+    rx_tx_bytes(&after);
 
-    dowload_speed = speed(rx1,rx2,second);
-    upload_speed = speed(tx1,tx2,second);
+    dowload_speed = speed(previous.RX_byte,after.RX_byte,second);
+    upload_speed = speed(previous.TX_byte,after.TX_byte,second);
 
     printf("\n[Dowload and upload Speed]\n");
     printf("Dowload speed : %.3f  KB/s \n ", dowload_speed );
     printf("Upload speed : %.3f  KB/s \n ", upload_speed );
 }
-
+/*Get IP*/
 static void get_ip_addresses() 
 {
     struct ifaddrs *ifaddr, *ifa;
@@ -95,6 +94,6 @@ void NETWORK_INFO_CHECK()
 {
     printf("\nCheck Network\n");
     
-    get_dowload_upload_speed(1);
+    get_dowload_upload_speed(TIME_CALCULATE);
     get_ip_addresses();
 }

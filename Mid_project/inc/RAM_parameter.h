@@ -6,7 +6,7 @@
     #define TOP_N 5
     #define NAME_LEN    256
     #define READ_PROCESS             "/proc"
-    #define READ_PROCESS_STATUS     "/proc/%d/status"
+    #define READ_PROCESS_STATUS_RAM     "/proc/%d/status"
     #define READ_MEMORY_INFO        "/proc/meminfo"
     
     /*Struct*/    
