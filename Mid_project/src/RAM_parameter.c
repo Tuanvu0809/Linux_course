@@ -74,7 +74,7 @@ static int top_ram_processes(RAM_Process *top_process, int top_n)
     }
 
     closedir(dir); 
-/*Sort the 5 Pids that use the most RAM*/
+    /*Sort the 5 Pids that use the most RAM*/
     for (int i = 0; i < count - 1; i++) {
         for (int j = i + 1; j < count; j++)
         {
@@ -112,11 +112,11 @@ static void get_ram_usage()
             fscanf(fp, "%lu", &cached);
     }
     fclose(fp);
-    /*tính toán ram đã sử dụng*/
+    /*Calculate ram */
     unsigned long used = Memory_total - Memory_free - buffers - cached;
 
-    printf(" RAM Usage:\n");
-    printf(" Total: %lu MB\n", Memory_total / 1024);
+    printf("RAM Usage:\n");
+    printf("Total: %lu MB\n", Memory_total / 1024);
     printf("Used : %lu MB\n", used / 1024);
     printf("Free : %lu MB\n", Memory_free / 1024);
     printf("Cache : %lu MB\n",cached/1024);
@@ -159,9 +159,9 @@ static void get_swap_usage()
     used = swap_total - swap_free;
 
     printf("\nSwap Usage:\n");
-    printf(" Total: %lu MB\n", swap_total / 1024);
-    printf(" Used : %lu MB\n", used / 1024);
-    printf(" Free : %lu MB\n", swap_free / 1024);
+    printf("Total: %lu MB\n", swap_total / 1024);
+    printf("Used : %lu MB\n", used / 1024);
+    printf("Free : %lu MB\n", swap_free / 1024);
 
      printf("percent swap Ram %.2f %%\n",percent_calculate(used,swap_total));
     if(percent_calculate(used,swap_total)>= 80){
