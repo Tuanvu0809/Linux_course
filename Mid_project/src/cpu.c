@@ -55,8 +55,7 @@ static cpu_core_infomation *cpu_core_init()
     int core = cpu_manange_core->core_count ;
 
     for (int i = 0; i < core; i++) {
-        memset(&cpu_manange_core->system_core_before[i], 0, sizeof(cpu_usage_parameter));
-        memset(&cpu_manange_core->system_core_after[i], 0, sizeof(cpu_usage_parameter));
+        memset(&cpu_manange_core->system_core[i], 0, sizeof(cpu_usage_parameter));
         memset(&cpu_manange_core->percent_core[i], 0, sizeof(double));
     }
     for (int i=0; i<= TOP_5_CPU_PROCESS; i++)
@@ -141,9 +140,8 @@ static int cpu_core_stats_read(cpu_usage_parameter *core)
 
 void cpu_transmit_parameter()
 {
-    unsigned long long delta_total;
-    unsigned long long delta_idle; 
-    unsigned long long target_total_before, target_total_after,target_idle_before ,target_idle_after;
+  
+    unsigned long long target_total,target_idle;
 
     cpu_manange_core= cpu_core_init();
     if(  cpu_frequencies_read()== -1)
@@ -152,50 +150,22 @@ void cpu_transmit_parameter()
         return;
     }
 
-    if(cpu_core_stats_read(cpu_manange_core->system_core_before) == -1)
+    if(cpu_core_stats_read(cpu_manange_core->system_core) == -1)
     {
-        printf("cpu core stat read(before) failed\n");
+        printf("cpu core stat read failed\n");
         return;
     }
 
-    sleep(TIME_CALCULATE_ONE_SERCOND);
-
-    if (cpu_core_stats_read(cpu_manange_core->system_core_after) == -1)
+    for (int i = 0; i < cpu_manange_core->core_count; i++) 
     {
-        printf("cpu core stats read(after) failed\n");
-        return;
 
-    }
-   
-    for (int i = 0; i < cpu_manange_core->core_count; i++) {
+        target_total= total_target(cpu_manange_core->system_core[i]);
+        target_idle = idle_target(cpu_manange_core->system_core[i]);
+       
+        cpu_manange_core->percent_core[i] = percent_calculate(target_total- target_idle,target_total);
+        if (cpu_manange_core->percent_core[i]< 0.0) cpu_manange_core->percent_core[i]= 0.0;      
+        if (cpu_manange_core->percent_core[i]> 100.0) cpu_manange_core->percent_core[i]= 100.0;  
 
-        target_total_before = total_target(cpu_manange_core->system_core_before[i]);
-        target_total_after = total_target(cpu_manange_core->system_core_after[i]);
-        target_idle_before = idle_target(cpu_manange_core->system_core_before[i]);
-        target_idle_after = idle_target(cpu_manange_core->system_core_after[i]);
-
-        if (target_total_after < target_total_before || target_idle_after < target_idle_before)
-        {
-            if (i == 0)
-            {
-                printf("CPU total: N/A (counters reset)\n");
-            }
-            else  
-            {
-                printf("Core %d : N/A (counters reset)\n  ", i - 1);
-            }      
-            continue;
-        }
-
-        delta_total = target_total_after - target_total_before;
-        delta_idle  = target_idle_after - target_idle_before;
-
-        if (delta_total > 0) 
-        {
-            cpu_manange_core->percent_core[i] = percent_calculate(delta_total- delta_idle,delta_total);
-            if (cpu_manange_core->percent_core[i]< 0.0) cpu_manange_core->percent_core[i]= 0.0;      
-            if (cpu_manange_core->percent_core[i]> 100.0) cpu_manange_core->percent_core[i]= 100.0;  
-        }
 
     }
     cpu_manange_core->temperature = cpu_temperature();

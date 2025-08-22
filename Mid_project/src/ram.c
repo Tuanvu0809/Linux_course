@@ -7,14 +7,14 @@
 #include <string.h>
 #include <ctype.h>
 #include "../inc/ram.h"
-extern ram_usage_parameter *ram_manage ;
-static ram_usage_parameter *ram_usage_init()
+extern ram_usage_information *ram_manage ;
+static ram_usage_information *ram_usage_init()
 {
     if(ram_manage != NULL)
     {
         return ram_manage;
     }
-    ram_manage = malloc(sizeof(ram_usage_parameter));
+    ram_manage = malloc(sizeof(ram_usage_information));
     if(ram_manage == NULL)
     {
         perror("malloc failed\n");

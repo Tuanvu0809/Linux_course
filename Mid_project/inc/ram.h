@@ -26,7 +26,7 @@ typedef struct {
     unsigned long swap_free;
     unsigned long swap_used;
     ram_process_parameter processes[TOP_5_CPU_PROCESS];
-} ram_usage_parameter;
+} ram_usage_information;
 
 
 void ram_infomation_display();

@@ -33,8 +33,8 @@ typedef struct {
 } cpu_process_parameter;
 
 typedef struct{
-    cpu_usage_parameter system_core_before[MAX_CORES];
-    cpu_usage_parameter system_core_after[MAX_CORES];
+    cpu_usage_parameter system_core[MAX_CORES];
+  //  cpu_usage_parameter system_core_after[MAX_CORES];
     cpu_process_parameter  processes[TOP_5_CPU_PROCESS];
     double percent_core[MAX_CORES];
     double frequency;
