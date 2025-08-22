@@ -44,7 +44,7 @@ typedef struct{
 
 
 /*Function user can use*/
-void CPU_INFO_CHECK();
+void cpu_infomation_display();
 void cpu_manage_free();
 
 #endif

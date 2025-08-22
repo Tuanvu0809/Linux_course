@@ -26,7 +26,7 @@ static unsigned long long idle_target( cpu_usage_parameter cores)
     return cores.idle + cores.iowait;
 }
 
-static void update_core_count()
+static void cpu_core_count_update()
 {
     if (cpu_manange_core == NULL) return;
    cpu_manange_core->core_count = sysconf(_SC_NPROCESSORS_ONLN) + 1;
@@ -51,7 +51,7 @@ static cpu_core_infomation *cpu_core_init()
         return NULL;
     }
 
-    update_core_count();
+    cpu_core_count_update();
     int core = cpu_manange_core->core_count ;
 
     for (int i = 0; i < core; i++) {
@@ -139,7 +139,7 @@ static int cpu_core_stats_read(cpu_usage_parameter *core)
     return 0;
 }
 
-void Cpu_transmit_parameter()
+void cpu_transmit_parameter()
 {
     unsigned long long delta_total;
     unsigned long long delta_idle; 
@@ -203,7 +203,7 @@ void Cpu_transmit_parameter()
 }
 
 
-static int top_cpu_processes(cpu_process_parameter *Process, int top_n) {
+static int cpu_process_use_most(cpu_process_parameter *Process, int top_n) {
     DIR *dir = opendir(READ_PROCESS); 
     int min_idx;
     int pid;
@@ -268,17 +268,11 @@ static int top_cpu_processes(cpu_process_parameter *Process, int top_n) {
 
     return count;
 }
-/*Print out the processes using multiple cpu*/
-void get_top_cpu_processes()
-{
 
-  
-  
-}
-void CPU_INFO_CHECK()
+void cpu_infomation_display()
 {
-    Cpu_transmit_parameter();
-    int count = top_cpu_processes(cpu_manange_core->processes, TOP_5_CPU_PROCESS);
+    cpu_transmit_parameter();
+    int count = cpu_process_use_most(cpu_manange_core->processes, TOP_5_CPU_PROCESS);
         
     printf("===CPU Usage=====\n");
     printf("CPU TOTAL USASGE: %.2f %%\t Frequencies: %.2f MHZ \t Temperature: %d \n", 
@@ -295,7 +289,7 @@ void CPU_INFO_CHECK()
     {
         printf("%2d. PID: %d  %-20s CPU %.2f %%\n", i + 1, cpu_manange_core->processes[i].pid, cpu_manange_core->processes[i].process_name, cpu_manange_core->processes[i].cpu_usage);
     }
-    printf("\n============\n");
+    
 
 }
 void cpu_manage_free()
@@ -303,6 +297,7 @@ void cpu_manage_free()
     if(cpu_manange_core == NULL)
         return;
     free(cpu_manange_core);
-    printf("\nfree manage sucess\n");
+    printf("\nfree manage cpu core sucess\n");
+    printf("\n============\n");
 }
 

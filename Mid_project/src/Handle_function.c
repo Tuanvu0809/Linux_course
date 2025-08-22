@@ -7,7 +7,7 @@
 
 Check_Info Infomation[]=
 {
-        { CPU_INFO ,CPU_INFO_CHECK },
+        { CPU_INFO ,cpu_infomation_display },
         { RAM_INFO ,RAM_INFO_CHECK},
         {DISK_INFO, DISK_INFO_CHECK},
         {NETWORK_INFO,NETWORK_INFO_CHECK},
