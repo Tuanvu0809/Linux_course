@@ -70,7 +70,7 @@ static int cpu_frequencies_read()
 {
     if (cpu_manange_core == NULL) return -1;
 
-    FILE* file = fopen("/proc/cpuinfo", "r");
+    FILE* file = fopen("/proc/cpuinfo", "r"); 
     if (!file) return -1;
     
     char line[256];

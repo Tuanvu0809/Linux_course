@@ -13,8 +13,8 @@
 cpu_core_infomation *cpu_manange_core = NULL;
 ram_usage_information *ram_manage = NULL;
 disk_information *disk_manage = NULL;
-//cpu_process_parameter   *cpu_manage_process = NULL;
 
+/*main*/
 int main()
 {
     printf("Program Manage :\n");
