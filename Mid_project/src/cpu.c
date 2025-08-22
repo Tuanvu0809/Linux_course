@@ -8,7 +8,6 @@
 #include "../inc/cpu.h"
 
 extern cpu_core_infomation *cpu_manange_core;
-// extern cpu_process_parameter   *cpu_manage_process ;
 
 /*caculate*/
 double percent_calculate(unsigned long long index , unsigned long long total)
@@ -67,28 +66,6 @@ static cpu_core_infomation *cpu_core_init()
     return cpu_manange_core;
 
 }   
-/*
-static cpu_process_parameter *cpu_process_parameter_init()
-{
-    if(cpu_manage_process != NULL)
-    {
-        return cpu_manage_process;
-    }
-
-    cpu_manage_process = malloc(sizeof(cpu_process_parameter));
-
-    if(cpu_manage_process == NULL)
-    {
-        perror("malloc failed\n");
-        return NULL;
-    }
-
-    memset(&cpu_manage_process->pid,0,sizeof(int));
-    memset(&cpu_manage_process->cpu_usage,0,sizeof(float));
-    memset(&cpu_manage_process->process_name,0,sizeof(cpu_manage_process->process_name));
-
-    return cpu_manage_process;
-}*/
 
 static int cpu_frequencies_read() 
 {
