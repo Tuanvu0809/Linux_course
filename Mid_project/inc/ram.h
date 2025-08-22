@@ -16,9 +16,7 @@ typedef struct {
     unsigned long Memory;
 } ram_process_parameter;
 
-
 typedef struct {
-
     unsigned long memory_total;
     unsigned long memory_free;
     unsigned long memory_used;
@@ -28,13 +26,10 @@ typedef struct {
     unsigned long swap_free;
     unsigned long swap_used;
     ram_process_parameter processes[TOP_5_CPU_PROCESS];
-
 } ram_usage_parameter;
 
 
 void ram_infomation_display();
 void ram_manage_free();
-
-
 
 #endif

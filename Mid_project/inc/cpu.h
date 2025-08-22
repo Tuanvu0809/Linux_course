@@ -42,7 +42,6 @@ typedef struct{
     int core_count;
 } cpu_core_infomation;
 
-
 /*Function user can use*/
 void cpu_infomation_display();
 void cpu_manage_free();
