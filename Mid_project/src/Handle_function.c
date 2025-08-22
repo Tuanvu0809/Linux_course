@@ -1,5 +1,5 @@
 #include "../inc/Handle_function.h"
-#include "../inc/CPU_parameter.h"
+#include "../inc/cpu.h"
 #include "../inc/RAM_parameter.h"
 #include "../inc/Disk_parameter.h"
 #include "../inc/Network_parameters.h"

@@ -5,7 +5,7 @@
     file
         console.txt
     inc
-        CPU_parameter.h
+        cpu.h
         Handle_function.h
         Log.h
         network_parameter.h
@@ -32,7 +32,7 @@
 ### c.Network_parameters.h/ Network_parameters.c
 - *Tính toán tốc độ băng thông* (trong 1s)
 - *Kiểm tra địa chỉ IP của máy ảo*
-### d. CPU_parameter.h / CPU_parameter.c
+### d. cpu.h / CPU_parameter.c
 - *Kiểm tra phần trăm sử dụng tổng thể và của từng core*
 - *Kiểm tra tần số chạy của từng core*
 - *Kiểm tra ứng dụng sủ dụng nhiều tài nguyên CPU nhất*
