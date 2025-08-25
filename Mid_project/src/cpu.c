@@ -7,7 +7,7 @@
 #include <time.h>
 #include "../inc/cpu.h"
 
-extern cpu_core_infomation *cpu_manange_core;
+cpu_core_instance *cpu_manange_core;
 
 /*caculate*/
 double percent_calculate(unsigned long long index , unsigned long long total)
@@ -31,20 +31,20 @@ static void cpu_core_count_update()
     if (cpu_manange_core == NULL) return;
    cpu_manange_core->core_count = sysconf(_SC_NPROCESSORS_ONLN) + 1;
 }
-static int cpu_temperature()
+static int cpu_temperature_read()
 {
     srand(time(NULL));
     return rand() %100 +1;
 }
 
-static cpu_core_infomation *cpu_core_init()
+static cpu_core_instance *cpu_core_init()
 {
     if(cpu_manange_core != NULL)
     {
         return cpu_manange_core;
     }
 
-    cpu_manange_core = malloc(sizeof(cpu_core_infomation));
+    cpu_manange_core = malloc(sizeof(cpu_core_instance));
 
     if (cpu_manange_core == NULL) {
         perror("malloc failed\n");// bỏ log mess
@@ -138,17 +138,10 @@ static int cpu_core_stats_read(cpu_usage_parameter *core)
     return 0;
 }
 
-void cpu_transmit_parameter()
+void cpu_core_read()
 {
   
     unsigned long long target_total,target_idle;
-
-    cpu_manange_core= cpu_core_init();
-    if(  cpu_frequencies_read()== -1)
-    {
-        printf("Read frequencies fails");
-        return;
-    }
 
     if(cpu_core_stats_read(cpu_manange_core->system_core) == -1)
     {
@@ -168,12 +161,12 @@ void cpu_transmit_parameter()
 
 
     }
-    cpu_manange_core->temperature = cpu_temperature();
+
 
 }
 
 
-static int cpu_process_use_most(cpu_process_parameter *Process, int top_n) {
+static int cpu_process_use_most_read(cpu_process_parameter *Process, int top_n) {
     DIR *dir = opendir(READ_PROCESS); 
     int min_idx;
     int pid;
@@ -239,35 +232,73 @@ static int cpu_process_use_most(cpu_process_parameter *Process, int top_n) {
     return count;
 }
 
-void cpu_infomation_display()
+void cpu_instance()
 {
-    cpu_transmit_parameter();
-    int count = cpu_process_use_most(cpu_manange_core->processes, TOP_5_CPU_PROCESS);
+    
+    
+
+  
+
         
+      
+
+}
+void cpu_core()
+{
+    cpu_core_read();
+
     printf("===CPU Usage=====\n");
-    printf("CPU TOTAL USASGE: %.2f %%\t Frequencies: %.2f MHZ \t Temperature: %d \n", 
-        cpu_manange_core->percent_core[0], cpu_manange_core->frequency,cpu_manange_core->temperature);
+    printf("CPU TOTAL USASGE: %.2f %%\n",cpu_manange_core->percent_core[0]);
   
     for(int i=1; i< cpu_manange_core->core_count -1 ;i++)
     {
         printf("CPU CORE %d : %.2f %%\n", i, cpu_manange_core->percent_core[i]);
     }
 
-      printf("\nTop %d used CPU :\n", count);
-
+}
+void cpu_frequencies()
+{
+      if( cpu_frequencies_read()== -1)
+    {
+        printf("Read frequencies fails");
+        return;
+    }
+    printf("CPU frequency: %.2f MHZ\n",cpu_manange_core->frequency);
+}
+void cpu_temperature()
+{
+    
+    cpu_manange_core->temperature = cpu_temperature_read();
+    printf("CPU temperature : %d", cpu_manange_core->temperature);
+}
+void cpu_process_use_most()
+{ 
+    int count = cpu_process_use_most_read(cpu_manange_core->processes, TOP_5_CPU_PROCESS); 
+    printf("\nTop %d used CPU :\n", count);
     for (int i = 0; i < count; i++) 
     {
         printf("%2d. PID: %d  %-20s CPU %.2f %%\n", i + 1, cpu_manange_core->processes[i].pid, cpu_manange_core->processes[i].process_name, cpu_manange_core->processes[i].cpu_usage);
     }
-    
-
 }
-void cpu_manage_free()
+// void cpu_manage_free()
+// {
+//     if(cpu_manange_core == NULL)
+//         return;
+//     free(cpu_manange_core);
+//     printf("\nfree manage cpu core sucess\n");
+//     printf("\n============\n");
+// }
+
+cpu_manage *cpu_manage_creat()
 {
-    if(cpu_manange_core == NULL)
-        return;
-    free(cpu_manange_core);
-    printf("\nfree manage cpu core sucess\n");
-    printf("\n============\n");
-}
+    cpu_manage *Creat = malloc(sizeof(cpu_manage));
+    cpu_manange_core= cpu_core_init();
+    Creat->data = cpu_manange_core;
+    Creat->core_display = cpu_core;
+    Creat->frequency_display = cpu_frequencies;
+    Creat->temperature_display = cpu_temperature;
+    Creat->process_usage_cpu_most_display = cpu_process_use_most;
+  //  Creat->free_cpu_data = cpu_manage_free;
+    return Creat;
 
+}

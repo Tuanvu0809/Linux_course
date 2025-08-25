@@ -34,16 +34,25 @@ typedef struct {
 
 typedef struct{
     cpu_usage_parameter system_core[MAX_CORES];
-  //  cpu_usage_parameter system_core_after[MAX_CORES];
     cpu_process_parameter  processes[TOP_5_CPU_PROCESS];
     double percent_core[MAX_CORES];
     double frequency;
     int temperature;
     int core_count;
-} cpu_core_infomation;
+} cpu_core_instance;
 
-/*Function user can use*/
-void cpu_infomation_display();
-void cpu_manage_free();
+typedef struct{
+    cpu_core_instance *data;
+    void (*core_display)();
+    void (*frequency_display)();
+    void (*temperature_display)();
+    void (*process_usage_cpu_most_display)();
+    // void (*free_cpu_data)();
+} cpu_manage;
+
+//void cpu_instance_display();
+cpu_manage *cpu_manage_creat();
+
+
 
 #endif

@@ -26,10 +26,14 @@ typedef struct {
     unsigned long swap_free;
     unsigned long swap_used;
     ram_process_parameter processes[TOP_5_CPU_PROCESS];
-} ram_usage_information;
+} ram_usage_instance;
 
+typedef struct{
+    ram_usage_instance *data;
+    void (*ram_memory_display)();
+    void (*process_usage_ram_most_display)();
+} ram_manange;
 
-void ram_infomation_display();
-void ram_manage_free();
+ram_manange *ram_manage_creat();
 
 #endif

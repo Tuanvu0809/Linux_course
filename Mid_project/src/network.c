@@ -1,4 +1,4 @@
-#include "../inc/Network_parameters.h"
+#include "../inc/network.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -10,8 +10,33 @@
 #include <netinet/in.h>   
 #include <netdb.h> 
 
+ network_instance *network_speed_manage;
+
+static network_instance *network_init()
+{
+    if(network_speed_manage != NULL)
+    {
+        return network_speed_manage;
+    }
+
+    network_speed_manage = malloc(sizeof(network_instance));
+
+    if(network_speed_manage == NULL)
+    {
+        perror("malloc failed\n");// bỏ log mess
+        return NULL;
+    }
+
+    memset(&network_speed_manage->upload_speed , 0, sizeof(double));
+    memset(&network_speed_manage->dowload_speed , 0, sizeof(double));
+
+    return network_speed_manage;
+
+}
+
+
 /*Rx Tx bytes*/
-static void rx_tx_bytes(Network_speed *Check)
+static void network_instance_read(network_parameter *Check)
 {
     FILE *fp = fopen( Read_status_rx_tx_byte , "r");
      if (!fp) {
@@ -35,26 +60,21 @@ static double  speed(  unsigned long long speed_1,   unsigned long long speed_2,
     return (double ) (speed_2 - speed_1) /(second * 1024 );
 }
 /*Calculate speed dowload and upload*/
-static void get_dowload_upload_speed(int second)
+static void network_parameter_read(int second)
 {
-    Network_speed previous;
-    Network_speed after ;
-    double  upload_speed;
-    double  dowload_speed;
-
-    rx_tx_bytes(&previous);
+    network_parameter previous;
+    network_parameter after ;
+   
+    network_instance_read(&previous);
     sleep(second);
-    rx_tx_bytes(&after);
+    network_instance_read(&after);
 
-    dowload_speed = speed(previous.RX_byte,after.RX_byte,second);
-    upload_speed = speed(previous.TX_byte,after.TX_byte,second);
+    network_speed_manage->dowload_speed = speed(previous.RX_byte,after.RX_byte,second);
+    network_speed_manage->upload_speed = speed(previous.TX_byte,after.TX_byte,second);
 
-    printf("\n[Dowload and upload Speed]\n");
-    printf("Dowload speed : %.3f  KB/s \n ", dowload_speed );
-    printf("Upload speed : %.3f  KB/s \n ", upload_speed );
 }
 /*Get IP*/
-static void get_ip_addresses() 
+static void network_ip_address_read() 
 {
     struct ifaddrs *ifaddr, *ifa;
 
@@ -90,10 +110,35 @@ static void get_ip_addresses()
     freeifaddrs(ifaddr);
 }
 
-void NETWORK_INFO_CHECK()
+void network_instance_display()
 {
     printf("\nCheck Network\n");
+    network_parameter_read(TIME_CALCULATE_ONE_SERCOND);
     
-    get_dowload_upload_speed(TIME_CALCULATE);
-    get_ip_addresses();
+    printf("\n[Dowload and upload Speed]\n");
+    printf("Dowload speed : %.3f  KB/s \n ", network_speed_manage->dowload_speed );
+    printf("Upload speed : %.3f  KB/s \n ",network_speed_manage->upload_speed );
+    
+}
+
+network_mananage *network_manage_creat()
+{
+    network_mananage *Creat = malloc(sizeof(network_mananage));
+    network_speed_manage= network_init();
+    Creat->data = network_speed_manage;
+    Creat->network_speed_display = network_instance_display;
+    Creat->network_ip_display = network_ip_address_read;
+
+    return Creat;
+
+}
+
+
+void network_speed_manage_free()
+{
+    if(network_speed_manage == NULL)
+        return;
+    free(network_speed_manage);
+    printf("\nfree manage network sucess\n");
+    printf("\n============\n");
 }
