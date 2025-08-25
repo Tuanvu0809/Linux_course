@@ -7,7 +7,7 @@
 #include <time.h>
 #include "../inc/cpu.h"
 
-cpu_core_instance *cpu_manange_core;
+static cpu_core_instance *cpu_manange_core;
 
 /*caculate*/
 double percent_calculate(unsigned long long index , unsigned long long total)
@@ -140,7 +140,6 @@ static int cpu_core_stats_read(cpu_usage_parameter *core)
 
 void cpu_core_read()
 {
-  
     unsigned long long target_total,target_idle;
 
     if(cpu_core_stats_read(cpu_manange_core->system_core) == -1)
@@ -159,12 +158,9 @@ void cpu_core_read()
         if (cpu_manange_core->percent_core[i]< 0.0) cpu_manange_core->percent_core[i]= 0.0;      
         if (cpu_manange_core->percent_core[i]> 100.0) cpu_manange_core->percent_core[i]= 100.0;  
 
-
     }
 
-
 }
-
 
 static int cpu_process_use_most_read(cpu_process_parameter *Process, int top_n) {
     DIR *dir = opendir(READ_PROCESS); 
@@ -232,17 +228,6 @@ static int cpu_process_use_most_read(cpu_process_parameter *Process, int top_n) 
     return count;
 }
 
-void cpu_instance()
-{
-    
-    
-
-  
-
-        
-      
-
-}
 void cpu_core()
 {
     cpu_core_read();
@@ -267,9 +252,8 @@ void cpu_frequencies()
 }
 void cpu_temperature()
 {
-    
     cpu_manange_core->temperature = cpu_temperature_read();
-    printf("CPU temperature : %d", cpu_manange_core->temperature);
+    printf("CPU temperature : %d \n", cpu_manange_core->temperature);
 }
 void cpu_process_use_most()
 { 
@@ -280,14 +264,6 @@ void cpu_process_use_most()
         printf("%2d. PID: %d  %-20s CPU %.2f %%\n", i + 1, cpu_manange_core->processes[i].pid, cpu_manange_core->processes[i].process_name, cpu_manange_core->processes[i].cpu_usage);
     }
 }
-// void cpu_manage_free()
-// {
-//     if(cpu_manange_core == NULL)
-//         return;
-//     free(cpu_manange_core);
-//     printf("\nfree manage cpu core sucess\n");
-//     printf("\n============\n");
-// }
 
 cpu_manage *cpu_manage_creat()
 {
@@ -298,7 +274,6 @@ cpu_manage *cpu_manage_creat()
     Creat->frequency_display = cpu_frequencies;
     Creat->temperature_display = cpu_temperature;
     Creat->process_usage_cpu_most_display = cpu_process_use_most;
-  //  Creat->free_cpu_data = cpu_manage_free;
-    return Creat;
 
+    return Creat;
 }

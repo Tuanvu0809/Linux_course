@@ -16,5 +16,10 @@ int main()
     printf("\n----------------------------\n");
     rank_parameter(Ubutu);    
 
+    free(Ubutu->cpu);
+    free(Ubutu->ram);
+    free(Ubutu->disk);
+    free(Ubutu->network);
+
     return 0;
 }

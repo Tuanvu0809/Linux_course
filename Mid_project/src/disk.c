@@ -6,7 +6,7 @@
 #include <dirent.h>
 #include <ctype.h>
 #include "../inc/disk.h"
-disk_instance *disk_memory_manage ;
+static disk_instance *disk_memory_manage ;
 
 static disk_instance *disk_init()
 {
@@ -19,8 +19,6 @@ static disk_instance *disk_init()
     memset(&disk_memory_manage->total, 0, sizeof(unsigned long));
     memset(&disk_memory_manage->free, 0, sizeof(unsigned long));
     memset(&disk_memory_manage->used, 0, sizeof(unsigned long));
-
-
 
     return disk_memory_manage;
 }
@@ -36,7 +34,6 @@ static void disk_usage_read (const char *path) {
     disk_memory_manage->used = disk_memory_manage->total- disk_memory_manage->free;
 }
 
-
 void disk_display_read()
 {
     printf("\nCheck disk\n");
@@ -49,6 +46,7 @@ void disk_display_read()
     printf("Free space : %lu MB\n", disk_memory_manage->free / (1024 * 1024));
  
 }
+
 disk_manage *disk_manage_creat()
 {
     disk_manage *Creat = malloc(sizeof(disk_manage));
@@ -56,13 +54,4 @@ disk_manage *disk_manage_creat()
     Creat->data = disk_memory_manage;
     Creat->disk_display = disk_display_read;
     return Creat;
-}
-
-void disk_memory_manage_free()
-{
-    if(disk_memory_manage == NULL)
-        return;
-    free(disk_memory_manage);
-    printf("\nfree manage disk sucess\n");
-    printf("\n============\n");
 }

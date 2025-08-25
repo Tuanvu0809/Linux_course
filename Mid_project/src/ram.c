@@ -7,7 +7,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "../inc/ram.h"
-ram_usage_instance *ram_manage_memory ;
+static ram_usage_instance *ram_manage_memory ;
 static ram_usage_instance *ram_usage_init()
 {
     if(ram_manage_memory != NULL)

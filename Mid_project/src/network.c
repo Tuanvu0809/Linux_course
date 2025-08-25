@@ -10,7 +10,7 @@
 #include <netinet/in.h>   
 #include <netdb.h> 
 
- network_instance *network_speed_manage;
+static network_instance *network_speed_manage;
 
 static network_instance *network_init()
 {
@@ -132,7 +132,6 @@ network_mananage *network_manage_creat()
     return Creat;
 
 }
-
 
 void network_speed_manage_free()
 {
