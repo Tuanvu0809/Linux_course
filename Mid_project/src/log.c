@@ -1,4 +1,5 @@
-#include "../inc/Log.h"
+#include "../inc/log.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -6,10 +7,10 @@
 #include <stdarg.h>
 
 static FILE *Handle_log = NULL;
-static Log_level current = LOG_DEBUG;
+static log_level current = LOG_DEBUG;
 
-/*Log level message*/
-static const char *message_log(Log_level current_level)
+/*log level message*/
+static const char *message_log(log_level current_level)
 {
     switch (current_level)
     {
@@ -33,8 +34,8 @@ static const char *message_log(Log_level current_level)
             return "Error";
     }
 }
-/*Init Log */
-void Log_init(Log_level current_level, const char *File)
+/*Init log */
+void log_init(log_level current_level, const char *File)
 {
     current = current_level;
     if (File)
@@ -49,12 +50,12 @@ void Log_init(Log_level current_level, const char *File)
 }
 
 /*set log*/
-void Set_log_level(Log_level Set)
+void Set_log_level(log_level Set)
 {
     current = Set;
 }
 /*close file*/
-void Log_close()
+void log_close()
 {
     if (Handle_log)
     {
@@ -63,7 +64,7 @@ void Log_close()
     }
 }
 
-void Logger_log_handle(Log_level level, const char *fmt, ...)
+void logger_log_handle(log_level level, const char *fmt, ...)
 {
     if (level > current) return;  //debug 7 warnh 4
 
@@ -107,8 +108,3 @@ void Logger_log_handle(Log_level level, const char *fmt, ...)
     fflush(out);
 
 }
-
-double percent_calculate(unsigned long long index , unsigned long long total)
-{
-    return (double) index * 100 /(double) total;
-} 

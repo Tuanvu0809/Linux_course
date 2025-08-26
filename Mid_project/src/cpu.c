@@ -7,29 +7,28 @@
 #include <time.h>
 #include "../inc/cpu.h"
 
-static cpu_core_instance *cpu_manange_core;
+static cpu_core_instance_t *cpu_manage_core;
 
 /*caculate*/
-double percent_calculate(unsigned long long index , unsigned long long total)
+double core_percent_calculate(unsigned long long index , unsigned long long total)
 {
     return (double) index * 100 /(double) total;
 } 
 
-static unsigned long long total_target(cpu_usage_parameter cores)
+static unsigned long long core_total_target_calculate(cpu_usage_parameter_t cores)
 {
     return cores.user + cores.nice + cores.system + cores.idle + cores.iowait + cores.irq + cores.softirq;
-
 }
 
-static unsigned long long idle_target( cpu_usage_parameter cores)
+static unsigned long long core_idle_target_calculate( cpu_usage_parameter_t cores)
 {
     return cores.idle + cores.iowait;
 }
 
 static void cpu_core_count_update()
 {
-    if (cpu_manange_core == NULL) return;
-   cpu_manange_core->core_count = sysconf(_SC_NPROCESSORS_ONLN) + 1;
+    if (cpu_manage_core == NULL) return;
+   cpu_manage_core->core_count = sysconf(_SC_NPROCESSORS_ONLN) + 1;
 }
 static int cpu_temperature_read()
 {
@@ -37,38 +36,38 @@ static int cpu_temperature_read()
     return rand() %100 +1;
 }
 
-static cpu_core_instance *cpu_core_init()
+static cpu_core_instance_t *cpu_core_init()
 {
-    if(cpu_manange_core != NULL)
+    if(cpu_manage_core != NULL)
     {
-        return cpu_manange_core;
+        return cpu_manage_core;
     }
 
-    cpu_manange_core = malloc(sizeof(cpu_core_instance));
+    cpu_manage_core = malloc(sizeof(cpu_core_instance_t));
 
-    if (cpu_manange_core == NULL) {
-        perror("malloc failed\n");// bỏ log mess
+    if (cpu_manage_core == NULL) {
+        perror("malloc failed\n");
         return NULL;
     }
 
     cpu_core_count_update();
-    int core = cpu_manange_core->core_count ;
+    int core = cpu_manage_core->core_count ;
 
     for (int i = 0; i < core; i++) {
-        memset(&cpu_manange_core->system_core[i], 0, sizeof(cpu_usage_parameter));
-        memset(&cpu_manange_core->percent_core[i], 0, sizeof(double));
+        memset(&cpu_manage_core->system_core[i], 0, sizeof(cpu_usage_parameter_t));
+        memset(&cpu_manage_core->percent_core[i], 0, sizeof(double));
     }
-    for (int i=0; i<= TOP_5_CPU_PROCESS; i++)
+    for (int i=0; i<= TOP_PROCESS; i++)
     {
-        memset(&cpu_manange_core->processes[i],0,sizeof(cpu_process_parameter));
+        memset(&cpu_manage_core->processes[i],0,sizeof(cpu_process_parameter_t));
     }
-    return cpu_manange_core;
+    return cpu_manage_core;
 
 }   
 
 static int cpu_frequencies_read() 
 {
-    if (cpu_manange_core == NULL) return -1;
+    if (cpu_manage_core == NULL) return -1;
 
     FILE* file = fopen("/proc/cpuinfo", "r"); 
     if (!file) return -1;
@@ -88,21 +87,21 @@ static int cpu_frequencies_read()
     fclose(file);
     if (core_count > 0)
     {
-        cpu_manange_core->frequency = total_freq / core_count;
+        cpu_manage_core->frequency = total_freq / core_count;
     }
 
     return 0;
 
 }
 
-static int cpu_core_stats_read(cpu_usage_parameter *core)
+static int cpu_core_stats_read(cpu_usage_parameter_t *core)
 {
     FILE *fp = fopen(READ_CORE_STAT, "r");
     if (!fp) return -1;
 
     char line[LINE_LEN];
   
-    for(int i=0; i<cpu_manange_core->core_count; i++)
+    for(int i=0; i<cpu_manage_core->core_count; i++)
     {
         fgets(line, sizeof(line), fp);
         if (strncmp(line, "cpu", 3) == 0) 
@@ -142,28 +141,28 @@ void cpu_core_read()
 {
     unsigned long long target_total,target_idle;
 
-    if(cpu_core_stats_read(cpu_manange_core->system_core) == -1)
+    if(cpu_core_stats_read(cpu_manage_core->system_core) == -1)
     {
         printf("cpu core stat read failed\n");
         return;
     }
 
-    for (int i = 0; i < cpu_manange_core->core_count; i++) 
+    for (int i = 0; i < cpu_manage_core->core_count; i++) 
     {
 
-        target_total= total_target(cpu_manange_core->system_core[i]);
-        target_idle = idle_target(cpu_manange_core->system_core[i]);
+        target_total= core_total_target_calculate(cpu_manage_core->system_core[i]);
+        target_idle = core_idle_target_calculate(cpu_manage_core->system_core[i]);
        
-        cpu_manange_core->percent_core[i] = percent_calculate(target_total- target_idle,target_total);
-        if (cpu_manange_core->percent_core[i]< 0.0) cpu_manange_core->percent_core[i]= 0.0;      
-        if (cpu_manange_core->percent_core[i]> 100.0) cpu_manange_core->percent_core[i]= 100.0;  
+        cpu_manage_core->percent_core[i] = core_percent_calculate(target_total- target_idle,target_total);
+        if (cpu_manage_core->percent_core[i]< 0.0) cpu_manage_core->percent_core[i]= 0.0;      
+        if (cpu_manage_core->percent_core[i]> 100.0) cpu_manage_core->percent_core[i]= 100.0;  
 
     }
 
 }
 
-static int cpu_process_use_most_read(cpu_process_parameter *Process, int top_n) {
-    DIR *dir = opendir(READ_PROCESS); 
+static int cpu_process_use_most_read(cpu_process_parameter_t *Process, int top_n) {
+    DIR *dir = opendir(READ_PROCESS_DIR); 
     int min_idx;
     int pid;
     double cpu;
@@ -218,7 +217,7 @@ static int cpu_process_use_most_read(cpu_process_parameter *Process, int top_n) 
     for (int i = 0; i < count - 1; i++) {
         for (int j = i + 1; j < count; j++) {
             if (Process[i].cpu_usage < Process[j].cpu_usage) {
-                cpu_process_parameter temporary = Process[i];
+                cpu_process_parameter_t temporary = Process[i];
                 Process[i] = Process[j];
                 Process[j] = temporary;
             }
@@ -233,11 +232,11 @@ void cpu_core()
     cpu_core_read();
 
     printf("===CPU Usage=====\n");
-    printf("CPU TOTAL USASGE: %.2f %%\n",cpu_manange_core->percent_core[0]);
+    printf("CPU TOTAL USASGE: %.2f %%\n",cpu_manage_core->percent_core[0]);
   
-    for(int i=1; i< cpu_manange_core->core_count -1 ;i++)
+    for(int i=1; i< cpu_manage_core->core_count -1 ;i++)
     {
-        printf("CPU CORE %d : %.2f %%\n", i, cpu_manange_core->percent_core[i]);
+        printf("CPU CORE %d : %.2f %%\n", i, cpu_manage_core->percent_core[i]);
     }
 
 }
@@ -248,28 +247,28 @@ void cpu_frequencies()
         printf("Read frequencies fails");
         return;
     }
-    printf("CPU frequency: %.2f MHZ\n",cpu_manange_core->frequency);
+    printf("CPU frequency: %.2f MHZ\n",cpu_manage_core->frequency);
 }
 void cpu_temperature()
 {
-    cpu_manange_core->temperature = cpu_temperature_read();
-    printf("CPU temperature : %d \n", cpu_manange_core->temperature);
+    cpu_manage_core->temperature = cpu_temperature_read();
+    printf("CPU temperature : %d \n", cpu_manage_core->temperature);
 }
 void cpu_process_use_most()
 { 
-    int count = cpu_process_use_most_read(cpu_manange_core->processes, TOP_5_CPU_PROCESS); 
+    int count = cpu_process_use_most_read(cpu_manage_core->processes, TOP_PROCESS); 
     printf("\nTop %d used CPU :\n", count);
     for (int i = 0; i < count; i++) 
     {
-        printf("%2d. PID: %d  %-20s CPU %.2f %%\n", i + 1, cpu_manange_core->processes[i].pid, cpu_manange_core->processes[i].process_name, cpu_manange_core->processes[i].cpu_usage);
+        printf("%2d. PID: %d  %-20s CPU %.2f %%\n", i + 1, cpu_manage_core->processes[i].pid, cpu_manage_core->processes[i].process_name, cpu_manage_core->processes[i].cpu_usage);
     }
 }
 
-cpu_manage *cpu_manage_creat()
+cpu_manage_t *cpu_manage_creat()
 {
-    cpu_manage *Creat = malloc(sizeof(cpu_manage));
-    cpu_manange_core= cpu_core_init();
-    Creat->data = cpu_manange_core;
+    cpu_manage_t *Creat = malloc(sizeof(cpu_manage_t));
+    cpu_manage_core= cpu_core_init();
+    Creat->data = cpu_manage_core;
     Creat->core_display = cpu_core;
     Creat->frequency_display = cpu_frequencies;
     Creat->temperature_display = cpu_temperature;

@@ -5,18 +5,18 @@
 #include "ram.h"
 #include "disk.h"
 #include "network.h"
-#include "Log.h"
 
-typedef struct{
-    cpu_manage *cpu;
-    ram_manange *ram;
-    disk_manage *disk;
-    network_mananage *network;
-} Mananger;
-Mananger *creat_manager();
+typedef struct {
+    cpu_manage_t *cpu;
+    ram_manage_t *ram;
+    disk_manage_t *disk;
+    network_mananage_t *network;
+} Manager;
 
-void display_parameter(Mananger *computer);
-void rank_parameter(Mananger *computer);
+Manager *creat_manager();
+
+void display_parameter(Manager *computer);
+void rank_parameter(Manager *computer);
 
 
 #endif

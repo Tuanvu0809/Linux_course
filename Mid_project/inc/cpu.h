@@ -1,19 +1,19 @@
 #ifndef CPU_H
 #define CPU_H
-#include "Log.h"
+#include "log.h"
 
-#define MAX_CORES                       64
-#define MAX_PROCESSES                    5
-#define NAME_LEN                        256
-#define LINE_LEN                        512 
-#define NUM_VALUE                       7
-#define TIME_CALCULATE_ONE_SERCOND      1
-#define TOP_5_CPU_PROCESS               5
+#define MAX_CORES                           64
+#define MAX_PROCESSES                       5
+#define NAME_LEN                            256
+#define LINE_LEN                            512 
+#define NUM_VALUE                           7
+#define TIME_CALCULATE_ONE_SECOND           1
+#define TOP_PROCESS                         5
 
-#define READ_PROCESS                    "/proc"
-#define READ_PROCESS_STATUS_CPU         "/proc/%d/stat"
-#define READ_CORE_STAT                   "/proc/stat"
-#define READ_CPU_INFO                    "/proc/cpuinfo"
+#define READ_PROCESS_DIR                    "/proc"
+#define READ_PROCESS_STATUS_CPU             "/proc/%d/stat"
+#define READ_CORE_STAT                      "/proc/stat"
+#define READ_CPU_INFO                       "/proc/cpuinfo"
 
 typedef struct {
     unsigned  short int user;
@@ -24,35 +24,32 @@ typedef struct {
     unsigned  short int irq;
     unsigned  short int softirq;
     
-} cpu_usage_parameter;
+} cpu_usage_parameter_t;
 
 typedef struct {
     int pid;
     char process_name[NAME_LEN];
     float cpu_usage;
-} cpu_process_parameter;
+} cpu_process_parameter_t;
 
 typedef struct{
-    cpu_usage_parameter system_core[MAX_CORES];
-    cpu_process_parameter  processes[TOP_5_CPU_PROCESS];
+    cpu_usage_parameter_t system_core[MAX_CORES];
+    cpu_process_parameter_t  processes[TOP_PROCESS];
     double percent_core[MAX_CORES];
     double frequency;
     int temperature;
     int core_count;
-} cpu_core_instance;
+} cpu_core_instance_t;
 
 typedef struct{
-    cpu_core_instance *data;
+    cpu_core_instance_t *data;
     void (*core_display)();
     void (*frequency_display)();
     void (*temperature_display)();
     void (*process_usage_cpu_most_display)();
-    // void (*free_cpu_data)();
-} cpu_manage;
 
-//void cpu_instance_display();
-cpu_manage *cpu_manage_creat();
+} cpu_manage_t;
 
-
+cpu_manage_t *cpu_manage_creat();
 
 #endif

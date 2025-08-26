@@ -7,14 +7,14 @@
 #include <string.h>
 #include <ctype.h>
 #include "../inc/ram.h"
-static ram_usage_instance *ram_manage_memory ;
-static ram_usage_instance *ram_usage_init()
+static ram_usage_instance_t *ram_manage_memory ;
+static ram_usage_instance_t *ram_usage_init()
 {
     if(ram_manage_memory != NULL)
     {
         return ram_manage_memory;
     }
-    ram_manage_memory = malloc(sizeof(ram_usage_instance));
+    ram_manage_memory = malloc(sizeof(ram_usage_instance_t));
     if(ram_manage_memory == NULL)
     {
         perror("malloc failed\n");
@@ -31,7 +31,7 @@ static ram_usage_instance *ram_usage_init()
 
     return ram_manage_memory;
 }
-static int ram_process_use_most_read(ram_process_parameter *process, int top_n) 
+static int ram_process_use_most_read(ram_process_parameter_t *process, int top_n) 
 {
     struct dirent *entry; 
     int count = 0;
@@ -41,7 +41,7 @@ static int ram_process_use_most_read(ram_process_parameter *process, int top_n)
     unsigned long Ram_usage = 0;
     int min_idx = 0;
 
-    DIR *dir = opendir(READ_PROCESS);
+    DIR *dir = opendir(READ_PROCESS_DIR);
     if (!dir) return 0;
 
     while ((entry = readdir(dir))) 
@@ -77,20 +77,19 @@ static int ram_process_use_most_read(ram_process_parameter *process, int top_n)
                 process[count].Memory = Ram_usage;
                 count++;
             } else {
-            
                 for (int i = 1; i < top_n; i++) 
-                {
-                    if (process[i].Memory < process[min_idx].Memory)
                     {
-                        min_idx = i;
-                    }    
-                }
+                        if (process[i].Memory < process[min_idx].Memory)
+                        {
+                            min_idx = i;
+                        }    
+                    }
                 if (Ram_usage > process[min_idx].Memory) 
-                {
-                    process[min_idx].pid = pid;
-                    strcpy(process[min_idx].process_name, name);
-                    process[min_idx].Memory = Ram_usage;
-                }
+                    {
+                        process[min_idx].pid = pid;
+                        strcpy(process[min_idx].process_name, name);
+                        process[min_idx].Memory = Ram_usage;
+                    }
             }
         }
     }
@@ -108,7 +107,8 @@ static int ram_usage_read()
     char label[64];
     ram_manage_memory = ram_usage_init();
 
-    while (!feof(fp)) {
+    while (!feof(fp))
+    {
         fscanf(fp, "%s", label);
         if (strcmp(label, "MemTotal:") == 0)
             fscanf(fp, "%lu", &ram_manage_memory->memory_total);
@@ -150,10 +150,9 @@ void ram_display()
 
 }
 
-
 void ram_process_use_most()
 {
-    int count = ram_process_use_most_read(ram_manage_memory->processes, TOP_5_CPU_PROCESS);
+    int count = ram_process_use_most_read(ram_manage_memory->processes, TOP_PROCESS);
     printf("Top %d apps that use the most RAM\n",count);
     for (int i = 0; i < count; i++) 
     {
@@ -162,9 +161,9 @@ void ram_process_use_most()
 
 }
 
-ram_manange *ram_manage_creat()
+ram_manage_t *ram_manage_creat()
 {
-    ram_manange *Creat = malloc(sizeof(ram_manange));
+    ram_manage_t *Creat = malloc(sizeof(ram_manage_t));
     ram_manage_memory = ram_usage_init() ;
     Creat->data = ram_manage_memory;
     Creat->ram_memory_display = ram_display;
@@ -172,11 +171,3 @@ ram_manange *ram_manage_creat()
     return Creat;
 }
 
-// void ram_manage_memory_free()
-// {
-//     if(ram_manage_memory == NULL)
-//         return;
-//     free(ram_manage_memory);
-//     printf("success free ram \n");
-//     printf("\n============\n");
-// }

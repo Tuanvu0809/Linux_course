@@ -1,26 +1,26 @@
 #ifndef DISK_H
 #define DISK_H
-#include "Log.h"
+#include "log.h"
 
 /*macro*/
-#define SECTOR_SIZE 512
-#define READ_DISK_STAT "/proc/diskstats"
-#define TIME_CALCULATE_ONE_SERCOND      1
-#define PATH_FOLDER             "/"
+#define SECTOR_SIZE                         512
+#define READ_DISK_STAT                      "/proc/diskstats"
+#define TIME_CALCULATE_ONE_SECOND           1
+#define PATH_FOLDER                         "/"
 
 typedef struct{
     unsigned long total;
     unsigned long free;
     unsigned long used;
-}  disk_instance;
+}  disk_instance_t;
 
 typedef struct {
-    disk_instance *data;
+    disk_instance_t *data;
     void (*disk_display)();
   
-} disk_manage;
+} disk_manage_t;
 
-disk_manage *disk_manage_creat();
+disk_manage_t *disk_manage_creat();
 
 
 #endif

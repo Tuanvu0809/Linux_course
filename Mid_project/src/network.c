@@ -10,16 +10,16 @@
 #include <netinet/in.h>   
 #include <netdb.h> 
 
-static network_instance *network_speed_manage;
+static network_instance_t *network_speed_manage;
 
-static network_instance *network_init()
+static network_instance_t *network_init()
 {
     if(network_speed_manage != NULL)
     {
         return network_speed_manage;
     }
 
-    network_speed_manage = malloc(sizeof(network_instance));
+    network_speed_manage = malloc(sizeof(network_instance_t));
 
     if(network_speed_manage == NULL)
     {
@@ -36,7 +36,7 @@ static network_instance *network_init()
 
 
 /*Rx Tx bytes*/
-static void network_instance_read(network_parameter *Check)
+static void network_instance_read(network_parameter_t *Check)
 {
     FILE *fp = fopen( Read_status_rx_tx_byte , "r");
      if (!fp) {
@@ -62,8 +62,8 @@ static double  speed(  unsigned long long speed_1,   unsigned long long speed_2,
 /*Calculate speed dowload and upload*/
 static void network_parameter_read(int second)
 {
-    network_parameter previous;
-    network_parameter after ;
+    network_parameter_t previous;
+    network_parameter_t after ;
    
     network_instance_read(&previous);
     sleep(second);
@@ -113,7 +113,7 @@ static void network_ip_address_read()
 void network_instance_display()
 {
     printf("\nCheck Network\n");
-    network_parameter_read(TIME_CALCULATE_ONE_SERCOND);
+    network_parameter_read(TIME_CALCULATE_ONE_SECOND);
     
     printf("\n[Dowload and upload Speed]\n");
     printf("Dowload speed : %.3f  KB/s \n ", network_speed_manage->dowload_speed );
@@ -121,9 +121,9 @@ void network_instance_display()
     
 }
 
-network_mananage *network_manage_creat()
+network_mananage_t *network_manage_creat()
 {
-    network_mananage *Creat = malloc(sizeof(network_mananage));
+    network_mananage_t *Creat = malloc(sizeof(network_mananage_t));
     network_speed_manage= network_init();
     Creat->data = network_speed_manage;
     Creat->network_speed_display = network_instance_display;

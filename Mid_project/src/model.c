@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include "../inc/model.h"
 
-Mananger *creat_manager()
+Manager *creat_manager()
 {
-    Mananger *Creat = malloc(sizeof(Mananger));
+    Manager *Creat = malloc(sizeof(Manager));
     Creat->cpu = cpu_manage_creat();
     Creat->ram = ram_manage_creat();
     Creat->disk = disk_manage_creat();
@@ -13,7 +13,7 @@ Mananger *creat_manager()
     return Creat;
 }
 
-void display_parameter(Mananger *computer)
+void display_parameter(Manager *computer)
 {
     computer->cpu->core_display();
     computer->cpu->frequency_display();
@@ -23,13 +23,9 @@ void display_parameter(Mananger *computer)
     computer->network->network_ip_display();
 
 }
-void rank_parameter(Mananger *computer)
+void rank_parameter(Manager *computer)
 {
     computer->cpu->process_usage_cpu_most_display();
     computer->ram->process_usage_ram_most_display();
     computer->network->network_speed_display();
-
-
-    
-
 }
