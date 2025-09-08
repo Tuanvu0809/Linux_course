@@ -1,4 +1,4 @@
-#include "../inc/network.h"
+#include "../inc/network_monitor.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>

@@ -5,9 +5,9 @@
 #include <dirent.h>
 #include <ctype.h>
 #include <time.h>
-#include "../inc/cpu.h"
+#include "../inc/cpu_monitor.h"
 
-static cpu_core_instance_t *cpu_manage_core;
+static cpu_snapshot_t *cpu_manage_core;
 
 /*caculate*/
 double core_percent_calculate(unsigned long long index , unsigned long long total)
@@ -15,12 +15,12 @@ double core_percent_calculate(unsigned long long index , unsigned long long tota
     return (double) index * 100 /(double) total;
 } 
 
-static unsigned long long core_total_target_calculate(cpu_usage_parameter_t cores)
+static unsigned long long core_total_target_calculate(cpu_core_time_t cores)
 {
     return cores.user + cores.nice + cores.system + cores.idle + cores.iowait + cores.irq + cores.softirq;
 }
 
-static unsigned long long core_idle_target_calculate( cpu_usage_parameter_t cores)
+static unsigned long long core_idle_target_calculate( cpu_core_time_t cores)
 {
     return cores.idle + cores.iowait;
 }
@@ -36,14 +36,14 @@ static int cpu_temperature_read()
     return rand() %100 +1;
 }
 
-static cpu_core_instance_t *cpu_core_init()
+static cpu_snapshot_t *cpu_core_init()
 {
     if(cpu_manage_core != NULL)
     {
         return cpu_manage_core;
     }
 
-    cpu_manage_core = malloc(sizeof(cpu_core_instance_t));
+    cpu_manage_core = malloc(sizeof(cpu_snapshot_t));
 
     if (cpu_manage_core == NULL) {
         perror("malloc failed\n");
@@ -54,7 +54,7 @@ static cpu_core_instance_t *cpu_core_init()
     int core = cpu_manage_core->core_count ;
 
     for (int i = 0; i < core; i++) {
-        memset(&cpu_manage_core->system_core[i], 0, sizeof(cpu_usage_parameter_t));
+        memset(&cpu_manage_core->system_core[i], 0, sizeof(cpu_core_time_t));
         memset(&cpu_manage_core->percent_core[i], 0, sizeof(double));
     }
     for (int i=0; i<= TOP_PROCESS; i++)
@@ -94,7 +94,7 @@ static int cpu_frequencies_read()
 
 }
 
-static int cpu_core_stats_read(cpu_usage_parameter_t *core)
+static int cpu_core_stats_read(cpu_core_time_t *core)
 {
     FILE *fp = fopen(READ_CORE_STAT, "r");
     if (!fp) return -1;
@@ -188,6 +188,7 @@ static int cpu_process_use_most_read(cpu_process_parameter_t *Process, int top_n
         fclose(fp);
 
         cpu = (utime + stime) / 100.0; 
+        
         if (cpu < 0.1f) continue;
 
         if (count < top_n)
@@ -195,6 +196,7 @@ static int cpu_process_use_most_read(cpu_process_parameter_t *Process, int top_n
             Process[count].pid = pid;
             strcpy(Process[count].process_name, Name_of_pid);
             Process[count].cpu_usage = cpu;
+
             count++;
         } else 
         {
@@ -202,7 +204,7 @@ static int cpu_process_use_most_read(cpu_process_parameter_t *Process, int top_n
             min_idx = 0;
             for (int i = 1; i < top_n; i++) {
                 if (Process[i].cpu_usage < Process[min_idx].cpu_usage)
-                    min_idx = i;
+                    min_idx = i; 
             }
             if (cpu > Process[min_idx].cpu_usage) {
                 Process[min_idx].pid = pid;
@@ -264,9 +266,9 @@ void cpu_process_use_most()
     }
 }
 
-cpu_manage_t *cpu_manage_creat()
+cpu_manager_t *cpu_manage_creat()
 {
-    cpu_manage_t *Creat = malloc(sizeof(cpu_manage_t));
+    cpu_manager_t *Creat = malloc(sizeof(cpu_manager_t));
     cpu_manage_core= cpu_core_init();
     Creat->data = cpu_manage_core;
     Creat->core_display = cpu_core;

@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-#include "../inc/ram.h"
+#include "../inc/ram_monitor.h"
 static ram_usage_instance_t *ram_manage_memory ;
 static ram_usage_instance_t *ram_usage_init()
 {

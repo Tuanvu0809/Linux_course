@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -g
 TARGET = Mid_project
-SRCS = main.c src/cpu.c src/ram.c src/disk.c src/network.c  src/model.c src/log.c
+SRCS = main.c src/cpu_monitor.c src/ram_monitor.c src/disk_monitor.c src/network_monitor.c  src/model.c src/log.c
 
 all: $(TARGET)
 $(TARGET): $(SRC)

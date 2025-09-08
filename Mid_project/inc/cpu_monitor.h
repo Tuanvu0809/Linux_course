@@ -24,32 +24,34 @@ typedef struct {
     unsigned  short int irq;
     unsigned  short int softirq;
     
-} cpu_usage_parameter_t;
+} cpu_core_time_t;
 
 typedef struct {
     int pid;
     char process_name[NAME_LEN];
     float cpu_usage;
+    unsigned short int utimes;
+    unsigned short int stimes;
 } cpu_process_parameter_t;
 
 typedef struct{
-    cpu_usage_parameter_t system_core[MAX_CORES];
+    cpu_core_time_t system_core[MAX_CORES];
     cpu_process_parameter_t  processes[TOP_PROCESS];
     double percent_core[MAX_CORES];
     double frequency;
     int temperature;
     int core_count;
-} cpu_core_instance_t;
+} cpu_snapshot_t;
 
 typedef struct{
-    cpu_core_instance_t *data;
+    cpu_snapshot_t *data;
     void (*core_display)();
     void (*frequency_display)();
     void (*temperature_display)();
     void (*process_usage_cpu_most_display)();
 
-} cpu_manage_t;
+} cpu_manager_t;
 
-cpu_manage_t *cpu_manage_creat();
+cpu_manager_t *cpu_manage_creat();
 
 #endif

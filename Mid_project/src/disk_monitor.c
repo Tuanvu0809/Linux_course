@@ -5,7 +5,7 @@
 #include <sys/statvfs.h>
 #include <dirent.h>
 #include <ctype.h>
-#include "../inc/disk.h"
+#include "../inc/disk_monitor.h"
 static disk_instance_t *disk_memory_manage ;
 
 static disk_instance_t *disk_init()
