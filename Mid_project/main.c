@@ -15,7 +15,7 @@ int main()
     Manager *Ubutu = creat_manager();
     display_parameter(Ubutu);
     printf("\n----------------------------\n");
-    rank_parameter(Ubutu);    
+    sort_parameter(Ubutu);    
     log_close();
 
     free(Ubutu->cpu);

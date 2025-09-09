@@ -28,7 +28,7 @@ static network_instance_t *network_init()
     }
 
     memset(&network_speed_manage->upload_speed , 0, sizeof(double));
-    memset(&network_speed_manage->dowload_speed , 0, sizeof(double));
+    memset(&network_speed_manage->download_speed , 0, sizeof(double));
 
     return network_speed_manage;
 
@@ -38,7 +38,7 @@ static network_instance_t *network_init()
 /*Rx Tx bytes*/
 static void network_instance_read(network_parameter_t *Check)
 {
-    FILE *fp = fopen( Read_status_rx_tx_byte , "r");
+    FILE *fp = fopen( PROC_NETWORK_STAT , "r");
      if (!fp) {
         perror("Failed to open /proc/net/dev");
         return ;
@@ -69,7 +69,7 @@ static void network_parameter_read(int second)
     sleep(second);
     network_instance_read(&after);
 
-    network_speed_manage->dowload_speed = speed(previous.RX_byte,after.RX_byte,second);
+    network_speed_manage->download_speed = speed(previous.RX_byte,after.RX_byte,second);
     network_speed_manage->upload_speed = speed(previous.TX_byte,after.TX_byte,second);
 
 }
@@ -113,17 +113,17 @@ static void network_ip_address_read()
 void network_instance_display()
 {
     printf("\nCheck Network\n");
-    network_parameter_read(TIME_CALCULATE_ONE_SECOND);
+    network_parameter_read(NETWORK_MONITOR_SAMPLE_INTERVAL_S);
     
     printf("\n[Dowload and upload Speed]\n");
-    printf("Dowload speed : %.3f  KB/s \n ", network_speed_manage->dowload_speed );
+    printf("Dowload speed : %.3f  KB/s \n ", network_speed_manage->download_speed );
     printf("Upload speed : %.3f  KB/s \n ",network_speed_manage->upload_speed );
     
 }
 
-network_mananage_t *network_manage_creat()
+network_mananager_t *network_manage_creat()
 {
-    network_mananage_t *Creat = malloc(sizeof(network_mananage_t));
+    network_mananager_t *Creat = malloc(sizeof(network_mananager_t));
     network_speed_manage= network_init();
     Creat->data = network_speed_manage;
     Creat->network_speed_display = network_instance_display;

@@ -32,8 +32,8 @@ typedef struct{
     ram_usage_instance_t *data;
     void (*ram_memory_display)();
     void (*process_usage_ram_most_display)();
-} ram_manage_t;
+}  ram_manager_t;
 
-ram_manage_t *ram_manage_creat();
+ ram_manager_t *ram_manage_creat();
 
 #endif

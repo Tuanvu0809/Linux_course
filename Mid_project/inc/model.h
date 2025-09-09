@@ -8,15 +8,15 @@
 
 typedef struct {
     cpu_manager_t *cpu;
-    ram_manage_t *ram;
-    disk_manage_t *disk;
-    network_mananage_t *network;
+    ram_manager_t *ram;
+    disk_manager_t *disk;
+     network_mananager_t *network;
 } Manager;
 
 Manager *creat_manager();
 
 void display_parameter(Manager *computer);
-void rank_parameter(Manager *computer);
+void sort_parameter(Manager *computer);
 
 
 #endif

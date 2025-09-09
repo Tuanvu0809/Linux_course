@@ -6,15 +6,15 @@
 #include <dirent.h>
 #include <ctype.h>
 #include "../inc/disk_monitor.h"
-static disk_instance_t *disk_memory_manage ;
+static  disk_snap_t *disk_memory_manage ;
 
-static disk_instance_t *disk_init()
+static  disk_snap_t *disk_init()
 {
     if(disk_memory_manage != NULL)
     {
         return disk_memory_manage;
     }
-    disk_memory_manage = malloc(sizeof(disk_instance_t));
+    disk_memory_manage = malloc(sizeof( disk_snap_t));
 
     memset(&disk_memory_manage->total, 0, sizeof(unsigned long));
     memset(&disk_memory_manage->free, 0, sizeof(unsigned long));
@@ -47,9 +47,9 @@ void disk_display_read()
  
 }
 
-disk_manage_t *disk_manage_creat()
+ disk_manager_t *disk_manage_creat()
 {
-    disk_manage_t *Creat = malloc(sizeof(disk_manage_t));
+     disk_manager_t *Creat = malloc(sizeof( disk_manager_t));
     disk_memory_manage= disk_init();
     Creat->data = disk_memory_manage;
     Creat->disk_display = disk_display_read;

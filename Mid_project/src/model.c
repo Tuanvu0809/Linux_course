@@ -15,6 +15,7 @@ Manager *creat_manager()
 
 void display_parameter(Manager *computer)
 {
+    printf("parameter store \n");
     computer->cpu->core_display();
     computer->cpu->frequency_display();
     computer->cpu->temperature_display();
@@ -23,8 +24,9 @@ void display_parameter(Manager *computer)
     computer->network->network_ip_display();
 
 }
-void rank_parameter(Manager *computer)
+void sort_parameter(Manager *computer)
 {
+        printf("parameter sorrt \n");
     computer->cpu->process_usage_cpu_most_display();
     computer->ram->process_usage_ram_most_display();
     computer->network->network_speed_display();

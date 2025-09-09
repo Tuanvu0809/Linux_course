@@ -2,18 +2,18 @@
 #define CPU_H
 #include "log.h"
 
-#define MAX_CORES                           64
-#define MAX_PROCESSES                       5
-#define NAME_LEN                            256
-#define LINE_LEN                            512 
-#define NUM_VALUE                           7
-#define TIME_CALCULATE_ONE_SECOND           1
-#define TOP_PROCESS                         5
+#define CPU_MAX_CORES                           64
+#define CPU_MAX_PROCESSES                       5
+#define CPU_NAME_LEN                            256
+#define CPU_LINE_LEN                            512 
+#define NUM_VALUE                               7
+#define CPU_MONITOR_SAMPLE_INTERVAL_S            1
+#define CPU_TOP_PROCESS                         5
 
-#define READ_PROCESS_DIR                    "/proc"
-#define READ_PROCESS_STATUS_CPU             "/proc/%d/stat"
-#define READ_CORE_STAT                      "/proc/stat"
-#define READ_CPU_INFO                       "/proc/cpuinfo"
+static const char *const PROC_STAT_PATH = "/proc" ;
+static const char *const PROC_PROCESS_PATH_=   "/proc/%d/stat";
+static const char *const PROC_CORE_STAT_PATH =   "/proc/stat";
+static const char *const PROC_CPU_INFO_PATH = "/proc/cpuinfo";
 
 typedef struct {
     unsigned  short int user;
@@ -24,27 +24,27 @@ typedef struct {
     unsigned  short int irq;
     unsigned  short int softirq;
     
-} cpu_core_time_t;
+} cpu_snap_t;
 
 typedef struct {
     int pid;
-    char process_name[NAME_LEN];
-    float cpu_usage;
+    char process_name[CPU_NAME_LEN];
     unsigned short int utimes;
     unsigned short int stimes;
 } cpu_process_parameter_t;
 
 typedef struct{
-    cpu_core_time_t system_core[MAX_CORES];
-    cpu_process_parameter_t  processes[TOP_PROCESS];
-    double percent_core[MAX_CORES];
+    cpu_snap_t previous_snapshot[CPU_MAX_CORES];
+    cpu_snap_t current_snapshot[CPU_MAX_CORES];
+    cpu_process_parameter_t  processes[CPU_TOP_PROCESS];
+    double percent_core[CPU_MAX_CORES];
     double frequency;
     int temperature;
     int core_count;
-} cpu_snapshot_t;
+}  cpu_monitor_t;
 
 typedef struct{
-    cpu_snapshot_t *data;
+    cpu_monitor_t *data;
     void (*core_display)();
     void (*frequency_display)();
     void (*temperature_display)();

@@ -6,8 +6,9 @@
 #include <netinet/in.h>   
 #include <netdb.h> 
 
-#define Read_status_rx_tx_byte          "/proc/net/dev"
-#define TIME_CALCULATE_ONE_SECOND        1
+#define NETWORK_MONITOR_SAMPLE_INTERVAL_S        1
+
+static const char *const PROC_NETWORK_STAT = "/proc/net/dev";
 
 /*struct*/
 typedef struct{
@@ -17,15 +18,15 @@ typedef struct{
 
 typedef struct{
     double  upload_speed;
-    double  dowload_speed;
+    double  download_speed;
 } network_instance_t;
 
 typedef struct{
     network_instance_t *data;
     void (*network_speed_display)();
     void (*network_ip_display )();
-} network_mananage_t;
+}  network_mananager_t;
 
-network_mananage_t *network_manage_creat();
+ network_mananager_t *network_manage_creat();
 #endif
 
