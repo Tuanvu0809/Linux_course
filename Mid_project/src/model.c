@@ -22,12 +22,11 @@ void display_parameter(Manager *computer)
     computer->ram->ram_memory_display();
     computer->disk->disk_display();
     computer->network->network_ip_display();
-
-}
-void sort_parameter(Manager *computer)
-{
         printf("parameter sorrt \n");
     computer->cpu->process_usage_cpu_most_display();
     computer->ram->process_usage_ram_most_display();
     computer->network->network_speed_display();
+
 }
+
+    

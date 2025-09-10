@@ -54,12 +54,12 @@ static void network_instance_read(network_parameter_t *Check)
     sscanf(line," ens33: %llu\t%*d\t%*d\t%*d\t%*d\t%*d\t%*d\t%*d\t%llu",&Check->RX_byte,&Check->TX_byte);
     fclose(fp);
 }
-/*calculate speed*/
+
 static double  speed(  unsigned long long speed_1,   unsigned long long speed_2, int second)
 {
     return (double ) (speed_2 - speed_1) /(second * 1024 );
 }
-/*Calculate speed dowload and upload*/
+
 static void network_parameter_read(int second)
 {
     network_parameter_t previous;
@@ -117,8 +117,7 @@ void network_instance_display()
     
     printf("\n[Dowload and upload Speed]\n");
     printf("Dowload speed : %.3f  KB/s \n ", network_speed_manage->download_speed );
-    printf("Upload speed : %.3f  KB/s \n ",network_speed_manage->upload_speed );
-    
+    printf("Upload speed : %.3f  KB/s \n ",network_speed_manage->upload_speed ); 
 }
 
 network_mananager_t *network_manage_creat()
@@ -130,7 +129,6 @@ network_mananager_t *network_manage_creat()
     Creat->network_ip_display = network_ip_address_read;
 
     return Creat;
-
 }
 
 void network_speed_manage_free()

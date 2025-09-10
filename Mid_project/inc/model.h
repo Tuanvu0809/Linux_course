@@ -10,13 +10,13 @@ typedef struct {
     cpu_manager_t *cpu;
     ram_manager_t *ram;
     disk_manager_t *disk;
-     network_mananager_t *network;
+    network_mananager_t *network;
 } Manager;
 
 Manager *creat_manager();
 
 void display_parameter(Manager *computer);
-void sort_parameter(Manager *computer);
+
 
 
 #endif

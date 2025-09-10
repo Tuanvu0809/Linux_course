@@ -8,10 +8,12 @@
 #include <ctype.h>
 #include "../inc/ram_monitor.h"
 static ram_usage_instance_t *ram_manager_memory ;
+
 static double ram_percent_calculate(unsigned long long index , unsigned long long total)
 {
     return (double) index * 100 /(double) total;
 } 
+
 static ram_usage_instance_t *ram_usage_init()
 {
     if(ram_manager_memory != NULL)
@@ -35,6 +37,7 @@ static ram_usage_instance_t *ram_usage_init()
 
     return ram_manager_memory;
 }
+
 static int ram_process_use_most_read(ram_process_parameter_t *process, int top_n) 
 {
     struct dirent *entry; 
@@ -100,7 +103,6 @@ static int ram_process_use_most_read(ram_process_parameter_t *process, int top_n
     return count;
 }    
 
-/*Function to calculate the most RAM-consuming application*/
 static int ram_usage_read()
 {
     FILE *fp = fopen( READ_MEMORY_INFO , "r");

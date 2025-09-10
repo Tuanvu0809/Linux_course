@@ -5,40 +5,36 @@
     file
         console.txt
     inc
-        cpu.h
-        Handle_function.h
-        Log.h
-        network_parameter.h
-        RAM.h
-        Storetage.h
+        cpu_monitor.h
+        log.h
+        network_monitor.h
+        ram_monitor.h
+        disk_monitor.h
     src
-        CPU_parameter.c
-        Handle_function.c
+        cpu_monitor.c
         log.c
-        network_parameter.c
-        RAM.c
-        Storetage.c
+        network_monitor.c
+        ram_monitor.c
+        disk_monitor.c
     main.c
     Makefile
     Readme.h
 ## 2. Các file mã nguồn        
-### a. RAM_parameter.h/ RAM_parameter.c
+### a.         ram_monitor.c
 - *Tính toán ra lượng Ram sử dụng*
 - *Tính toán Swap Ram*    
 - *Kiểm tra xem những ứng dùng xài lượng ram cao*
-### b. Disk_parameter.h/ Disk_parameter.c
+### b.        disk_monitor.c
 - *Tính toán dung lượng đĩa* 
 - *Tính toán dung lượng đĩa i/o* (trong 1s)
-### c.Network_parameters.h/ Network_parameters.c
+### c.        network_monitor.c
 - *Tính toán tốc độ băng thông* (trong 1s)
 - *Kiểm tra địa chỉ IP của máy ảo*
-### d. cpu.h / CPU_parameter.c
+### d.         cpu_monitor.c
 - *Kiểm tra phần trăm sử dụng tổng thể và của từng core*
 - *Kiểm tra tần số chạy của từng core*
 - *Kiểm tra ứng dụng sủ dụng nhiều tài nguyên CPU nhất*
-### e.Handle_function.c/Handle_function.h
-- *Tạo hàm để người dùng lựa chọn kiểm tra*
-### f. Logger.c/ Logger.h
+### e.          log.c
 - *Ghi lại những cảnh báo*
 - *Tất cả các cảnh báo đều được ghi mới trong file/console.txt*
 ## 3.Chương trình chính:

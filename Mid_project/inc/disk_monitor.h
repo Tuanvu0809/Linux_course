@@ -2,11 +2,9 @@
 #define DISK_H
 #include "log.h"
 
-/*macro*/
 #define DISK_SECTOR_SIZE                512
-// #define READ_DISK_STAT                      "/proc/diskstats"
 #define DISK_MONITOR_SAMPLE_INTERVAL_S           1
-// #define PATH_FOLDER                         "/"
+
 static const char *const PROC_STAT_DISK =  "/proc/diskstats";
 static const char *const PATH_FOLDER = "/";
 typedef struct{

@@ -6,7 +6,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 
-/*main*/
 int main()
 {
     printf("Program Manage :\n");
@@ -14,8 +13,6 @@ int main()
     log_init(LOG_NOTICE,"file/console.txt");
     Manager *Ubutu = creat_manager();
     display_parameter(Ubutu);
-    printf("\n----------------------------\n");
-    sort_parameter(Ubutu);    
     log_close();
 
     free(Ubutu->cpu);

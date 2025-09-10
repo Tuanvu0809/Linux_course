@@ -76,8 +76,10 @@ static int cpu_frequencies_read()
     char line[256];
     double total_freq = 0;
     int core_count = 0;
-    while (fgets(line, sizeof(line), file)) {
-        if (strstr(line, "cpu MHz")) {
+    while (fgets(line, sizeof(line), file)) 
+    {
+        if (strstr(line, "cpu MHz"))
+        {
             double freq;
             if (sscanf(line, "cpu MHz\t: %lf", &freq) == 1) {
                 total_freq += freq;
@@ -85,6 +87,7 @@ static int cpu_frequencies_read()
             }
         }
     }
+
     fclose(file);
     if (core_count > 0)
     {
@@ -92,7 +95,6 @@ static int cpu_frequencies_read()
     }
 
     return 0;
-
 }
 
 static int cpu_core_stats_read(cpu_snap_t *core)
@@ -156,12 +158,14 @@ void cpu_core_read()
     }
 
 }
+
 static double cpu_usage_caculate(cpu_process_parameter_t process)
 {
     return (double) (process.utimes +process.stimes) / sysconf(_SC_CLK_TCK);
 }
 
-static int cpu_process_use_most_read(cpu_process_parameter_t *Process, int top_n) {
+static int cpu_process_use_most_read(cpu_process_parameter_t *Process, int top_n) 
+{
     DIR *dir = opendir(PROC_STAT_PATH); 
     int min_idx;
     int pid;
@@ -233,30 +237,27 @@ static int cpu_process_use_most_read(cpu_process_parameter_t *Process, int top_n
     return count;
 }
 
-
 void cpu_core_display()
 {
     cpu_core_read();
     unsigned long long target_total,target_idle;
     double percent_core;
-    
 
     printf("===CPU Usage=====\n");
-   // printf("CPU TOTAL USASGE: %.2f %%\n",cpu_manage_core->percent_core[0]);
-
   
     for(int i= 0 ; i< cpu_manage_core->core_count ;i++)
     {
-    target_total= 0;
-    target_idle = 0;
-    percent_core = 0;
-                
-    target_total = core_total_target_calculate(cpu_manage_core->previous_snapshot[i]) +  core_total_target_calculate(cpu_manage_core->current_snapshot[i]) ;
-    target_idle =core_idle_target_calculate(cpu_manage_core->previous_snapshot[i]) +  core_idle_target_calculate(cpu_manage_core->current_snapshot[i]);    
-    
-    percent_core = core_percent_calculate(target_idle,target_total);
 
-    printf("CPU CORE %d : %.2f %%\n", i,percent_core);
+        target_total= 0;
+        target_idle = 0;
+        percent_core = 0;
+                    
+        target_total = core_total_target_calculate(cpu_manage_core->previous_snapshot[i]) +  core_total_target_calculate(cpu_manage_core->current_snapshot[i]) ;
+        target_idle =core_idle_target_calculate(cpu_manage_core->previous_snapshot[i]) +  core_idle_target_calculate(cpu_manage_core->current_snapshot[i]);    
+        
+        percent_core = core_percent_calculate(target_idle,target_total);
+
+        printf("CPU CORE %d : %.2f %%\n", i,percent_core);
 
         if(percent_core > 95 )
         {
@@ -278,7 +279,7 @@ void cpu_temperature_display()
 {
     cpu_manage_core->temperature = cpu_temperature_read();
     printf("CPU temperature : %d \n", cpu_manage_core->temperature);
-     if(cpu_manage_core->temperature > 80)
+    if(cpu_manage_core->temperature > 80)
     {
         log_message(LOG_WARNING , "CPU HIGH TEMPERATURE");
     }
