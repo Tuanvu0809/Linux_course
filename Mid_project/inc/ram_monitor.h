@@ -2,13 +2,12 @@
 #define RAM_H
 #include "log.h"
 
-/*macro*/
-#define TOP_PROCESS                          5
-#define NAME_LEN                            256
-#define READ_PROCESS_DIR                    "/proc"
-#define READ_PROCESS_STATUS_RAM             "/proc/%d/status"
-#define READ_MEMORY_INFO                    "/proc/meminfo"
+#define TOP_5_PROCESS_USE_RAM_MOST                          5
+#define MAX_NAME_PROCESS_LEN                            256
 
+static const char *const PROC_RAM_DIR =  "/proc";
+static const char *const PROC_RAM_PROCESS_DIR = "/proc/%d/status";
+static const char *const PROC_MEMEMORY_INFO =  "/proc/meminfo";
 /*Struct*/   
 typedef struct {
     int pid;

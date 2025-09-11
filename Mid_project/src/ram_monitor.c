@@ -44,11 +44,11 @@ static int ram_process_use_most_read(ram_process_parameter_t *process, int top_n
     int count = 0;
     int pid;
     char status_path[64];
-    char line[NAME_LEN], name[NAME_LEN] = "";
+    char line[MAX_NAME_PROCESS_LEN], name[MAX_NAME_PROCESS_LEN] = "";
     unsigned long Ram_usage = 0;
     int min_idx = 0;
 
-    DIR *dir = opendir(READ_PROCESS_DIR);
+    DIR *dir = opendir(PROC_RAM_DIR);
     if (!dir) return 0;
 
     while ((entry = readdir(dir))) 
@@ -56,7 +56,7 @@ static int ram_process_use_most_read(ram_process_parameter_t *process, int top_n
         if (!isdigit(entry->d_name[0])) continue;
 
         pid = atoi(entry->d_name);           
-        snprintf(status_path, sizeof(status_path), READ_PROCESS_STATUS_RAM , pid); 
+        snprintf(status_path, sizeof(status_path), PROC_RAM_PROCESS_DIR , pid); 
 
         FILE *fp = fopen(status_path, "r");
         if (!fp) continue;
@@ -105,7 +105,7 @@ static int ram_process_use_most_read(ram_process_parameter_t *process, int top_n
 
 static int ram_usage_read()
 {
-    FILE *fp = fopen( READ_MEMORY_INFO , "r");
+    FILE *fp = fopen( PROC_MEMEMORY_INFO , "r");
     if (!fp) {
         perror("Cannot open /proc/meminfo");
         return -1 ;
@@ -171,8 +171,8 @@ void ram_display()
     {
         log_message(LOG_ALERT,"ram high");
     }
-/**/
-     if(percent_usage > 50 && percent_usage <80 )
+
+    if(percent_usage > 50 && percent_usage <80 )
     {
         log_message(LOG_NOTICE, "ram medium");
     }
@@ -188,13 +188,12 @@ void ram_display()
 
 void ram_process_use_most()
 {
-    int count = ram_process_use_most_read(ram_manager_memory->processes, TOP_PROCESS);
+    int count = ram_process_use_most_read(ram_manager_memory->processes, TOP_5_PROCESS_USE_RAM_MOST);
     printf("Top %d apps that use the most RAM\n",count);
     for (int i = 0; i < count; i++) 
     {
         printf("%2d. PID: %-5d  %-20s  %6lu KB\n",i + 1, ram_manager_memory->processes[i].pid, ram_manager_memory->processes[i].process_name, ram_manager_memory->processes[i].Memory);
     }
-
 }
 
 ram_manager_t *ram_manage_creat()

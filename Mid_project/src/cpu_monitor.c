@@ -9,7 +9,6 @@
 
 static cpu_monitor_t *cpu_manage_core;
 
-/*caculate*/
 double core_percent_calculate(unsigned long long index , unsigned long long total)
 {
     return (double) index * 100 /(double) total;
@@ -76,6 +75,7 @@ static int cpu_frequencies_read()
     char line[256];
     double total_freq = 0;
     int core_count = 0;
+    
     while (fgets(line, sizeof(line), file)) 
     {
         if (strstr(line, "cpu MHz"))
