@@ -1,4 +1,4 @@
-# Các bài tập code C (DevLinux)
+# Các bài tập code C 
 
 # Code_C_advanced.
 
@@ -35,4 +35,5 @@
   - **Readme** : Mô tả dự án
 
 ## Project. 
-
+  **Chương trình quản lí máy ảo Ubutu**
+  
