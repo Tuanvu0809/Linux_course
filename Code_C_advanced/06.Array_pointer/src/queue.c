@@ -39,7 +39,6 @@ void print_task_queue(void)
     } while(head != NULL);
 
     printf("\n");
-
 }
 
 void queue_add_task(const char* description)
