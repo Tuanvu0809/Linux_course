@@ -22,7 +22,8 @@ int Task_queue_init()
 }
 void print_task_queue(void)
 {
-    printf("Print task\n");
+    printf("-------Print task----------\n");
+    printf("Task remain: ");
     if(task == NULL)
     {
         printf("empty \n");
@@ -31,7 +32,7 @@ void print_task_queue(void)
     
     TaskNode_t *head = malloc(sizeof(TaskNode_t));
     head = task;
-     printf("Task remain\n");
+     
     do {
         printf(" %s ->", head->task_description);
         head = (head->next);
@@ -43,7 +44,6 @@ void print_task_queue(void)
 
 void queue_add_task(const char* description)
 {
-   printf("Do this task\n");
     static int init = 0;
     
     if (task == NULL)
@@ -89,6 +89,11 @@ void queue_add_task(const char* description)
 void queue_get_next_task(void)
 {
     TaskNode_t *handle;
+    if(task == NULL)
+    {
+        printf("-*-Empty task-*-\n");
+        return;
+    }
     handle = task;
     printf("handle task: %s\n ", handle->task_description);
     task = handle->next;

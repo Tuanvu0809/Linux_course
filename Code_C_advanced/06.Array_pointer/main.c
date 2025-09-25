@@ -18,7 +18,10 @@ int main()
     print_task_queue();
     
     queue_get_next_task();
+
     print_task_queue();
+    queue_get_next_task();
+    
     printf("end of program\n");
     return 0;
 }
