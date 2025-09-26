@@ -6,10 +6,10 @@ typedef struct TaskNode{
     struct TaskNode* next;
 } TaskNode_t;
 
-int Task_queue_init();
-void print_task_queue(void);
-void queue_add_task(const char* description);
-void queue_get_next_task(void);
+int Task_queue_init(TaskNode_t **task);
+void print_task_queue(TaskNode_t *task);
+void queue_add_task(TaskNode_t **task,const char* description);
+void queue_get_next_task(TaskNode_t **task);
 
 
 #endif
